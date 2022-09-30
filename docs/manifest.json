@@ -1,11 +1,11 @@
 {
     "name": "PWA App",
 
-    "version": "1.0.1",
-    "description": "1.0.0",
+    "version": "1.0.2",
+    "description": "Daily App",
     
     "short_name": "PWA",
-    "start_url": "index.html",
+    "start_url": "https://nickazakov.github.io/the-daily-app",
     "icons": [
         
     ],
