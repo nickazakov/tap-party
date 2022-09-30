@@ -1,0 +1,16 @@
+{
+    "name": "PWA App",
+
+    "version": "1.0.1",
+    "description": "1.0.0",
+    
+    "short_name": "PWA",
+    "start_url": "index.html",
+    "icons": [
+        
+    ],
+    "background_color": "#FFFFFF",
+    "theme_color": "#000000",
+    "display": "fullscreen",
+    "orientation": "portrait"
+}

@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(255, 203, 244);
+}
+
+/* --------------- */
+/* WELCOME CONTENT */
+/* --------------- */
+
+#welcome-content {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#username-input {
+    /* Input Design */
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    caret-color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+}
+
+#username-input:hover {
+    border: 3px dashed white;
+    background-color: rgb(58, 107, 199);
+}
+
+#enter-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+}
+
+#enter-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+input::placeholder {
+    opacity: .5;
+    color: white;
+}
+
+/* ------------ */
+/* HOME CONTENT */
+/* ------------ */
+
+#home-content {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#play-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+}
+
+#play-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+#lboard-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(236, 196, 62);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+}
+
+#lboard-button:hover {
+    background-color: rgb(206, 170, 54);
+}
