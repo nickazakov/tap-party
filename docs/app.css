@@ -185,6 +185,9 @@ input::placeholder {
     justify-content: center;
     flex-direction: column;
     z-index: 4;
+
+    display: flex;
+    justify-content: center;
 }
 
 #board {
@@ -194,6 +197,39 @@ input::placeholder {
     border-radius: 20px;
     margin-bottom: 20px;
     box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
+}
+
+#scores-container {
+    padding: 20px 0px 20px 0px;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#username-entry {
+    flex: 50%;
+    text-align: left;
+    padding: 10px 0px 10px 0px;
+    margin-bottom: 10px;
+
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#score-entry {
+    flex: 50%;
+    text-align: center;
+    background-color: rgb(255, 206, 115);
+    border-radius: 15px;
+    padding: 10px 0px 10px 0px;
+    margin-bottom: 10px;
+
+    font-weight: bold;
+    font-size: 17px;
 }
 
 #local-username {

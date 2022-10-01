@@ -16,22 +16,37 @@ const db = firebaseApp.firestore();
 
 const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
-    db.collection("leaderboard").doc(user).set({ score: currentScore });
-    /*.add({
-        username: user,
-        score: currentScore
-    })
-    .then((docRef) => {
-        console.log("Doc written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-        console.log("Error adding doc: ", error);
-    })*/
+    db.collection("leaderboard")
+    .doc(user)
+    .set({ 
+        score: currentScore 
+    });
 }
 
 const loadScores = () => {
     db.collection("leaderboard")
-    .read
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data().score);
+            username = doc.id;
+            oldScore = doc.data().score;
+
+            temp = document.createElement('div');
+            temp.setAttribute("id", "username-entry");
+            tempT = document.createTextNode(username);
+            temp.appendChild(tempT);
+            document.getElementById("scores-container").appendChild(temp);
+
+            tempS = document.createElement('div');
+            tempS.setAttribute("id", "score-entry");
+            tempST = document.createTextNode(oldScore);
+            tempS.appendChild(tempST);
+            document.getElementById("scores-container").appendChild(tempS);
+
+        });
+    })
 }
 
 // -----------------------
@@ -318,6 +333,7 @@ function game () {
         menu.style.display = "block";
 
         // SAVE SCORE TO FIREBASE LEADERBOARD
+        saveScore();
     }
 
     function retry() {
@@ -343,7 +359,6 @@ function game () {
         gameAssets.style.display = "none";
         background.style.display = "block";
         menu.style.display = "none";
-        saveScore();
     }
 
     document.getElementById('retry-button').onclick = function() {
