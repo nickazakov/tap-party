@@ -14,23 +14,28 @@
     <title>PWA App</title>
 </head>
 <body>
-    <div class="bg-container">
+    <!--<div class="bg-container">
         <div class="bg-scroll"></div>
     </div>
 
-    <!--<content id="welcome-content">
+    <content id="welcome-content">
         <input id="username-input" type="text" placeholder="Marilyn Monrock">
-        <button id="enter-button">Remember me!</button>
-    </content>-->
+        <button id="enter-button" onclick="remember()">Remember me!</button>
+    </content>
 
     <nav style="height: 50px; color: #fff; background-color: rgb(66, 48, 7); position: absolute; z-index: 10000; left: 0px; right: 0px; display: flex; justify-content: left; padding: 10px; align-items: center;">
         <h1>Welcome back, $USER</h1>
     </nav>
 
     <content id="home-content">
-        <button id="play-button">Daily Game</button>
+        <button id="play-button">Play</button>
         <button id="lboard-button">Leaderboard</button>
-    </content>
+    </content>-->
+
+    <h1 id="score" style="position: absolute; width: 100%; left: 0%; right: 0%; text-align: center; margin-top: 200px;">0</h1>
+    <canvas id="halloween-game-canvas"></canvas>
+    <img id="cauldron" src="cauldron.png">
+    <img id="corn" src="corn.png">
 
     <script async src="app.js"></script>
     <script>
