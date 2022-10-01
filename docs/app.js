@@ -69,12 +69,32 @@ function play () {
     game();
 }
 
+function leaderboardLoad() {
+    var home = document.getElementById("home-content");
+    var backgroundCorn = document.getElementById("bg-container");
+    var backgroundSkull = document.getElementById("bg-scroll-skully");
+    var leaderboard = document.getElementById("leaderboard-content");
+    home.style.display = "none";
+    backgroundCorn.style.display = "none";
+    backgroundSkull.style.display = "block";
+    leaderboard.style.display = "flex";
+}
+
+function back() {
+    var home = document.getElementById("home-content");
+    var backgroundCorn = document.getElementById("bg-container");
+    var backgroundSkull = document.getElementById("bg-scroll-skully");
+    var leaderboard = document.getElementById("leaderboard-content");
+    home.style.display = "flex";
+    backgroundCorn.style.display = "block";
+    backgroundSkull.style.display = "none";
+    leaderboard.style.display = "none";
+}
+
 function game () {
-    var welcome = document.getElementById("welcome-content");
     var home = document.getElementById("home-content");
     var gameAssets = document.getElementById("falling-corn-game");
     var background = document.getElementById("bg-container");
-    welcome.style.display = "none";
     home.style.display = "none";
     gameAssets.style.display = "block";
     background.style.display = "none";

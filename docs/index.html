@@ -18,18 +18,24 @@
         <div id="bg-scroll"></div>
     </div>
 
+    <div id="bg-container-skull">
+        <div id="bg-scroll-skully"></div>
+    </div>
+
     <content id="welcome-content">
         <input id="username-input" type="text" placeholder="Marilyn Monrock">
         <button id="enter-button" onclick="remember()">Remember me!</button>
     </content>
 
-    <nav style="height: 50px; color: #fff; background-color: rgb(66, 48, 7); position: absolute; z-index: 10000; left: 0px; right: 0px; display: flex; justify-content: left; padding: 10px; align-items: center;">
-        <h1>Welcome back, $USER</h1>
-    </nav>
-
     <content id="home-content">
+        <h1 id="local-username">nick</h1>
         <button id="play-button" onclick="play()">Play</button>
-        <button id="lboard-button">Leaderboard</button>
+        <button id="lboard-button" onclick="leaderboardLoad()">Leaderboard</button>
+    </content>
+
+    <content id="leaderboard-content">
+        <div id="board">.</div>
+        <button id="back-button" onclick="back()">Back</button>
     </content>
     
     <content id="falling-corn-game">

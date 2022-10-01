@@ -120,6 +120,7 @@ input::placeholder {
     margin-bottom: 20px;
     transition: background-color 0.5s;
     z-index: 4;
+    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
 }
 
 #play-button:hover {
@@ -144,13 +145,72 @@ input::placeholder {
     margin-bottom: 20px;
     transition: background-color 0.5s;
     z-index: 4;
+    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
 }
 
 #lboard-button:hover {
     background-color: rgb(206, 170, 54);
 }
 
+#back-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
 
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+    z-index: 4;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
+}
+
+#back-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+#leaderboard-content {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 4;
+}
+
+#board {
+    height: 60vh;
+    width: 70vw;
+    background-color: rgb(255, 233, 208);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
+}
+
+#local-username {
+    color: rgb(255, 233, 208);
+    font-weight: bold;
+    font-size: 45px;
+    margin-bottom: 20px;
+    animation: tilt-n-move-shaking 0.6s infinite;
+}
+
+@keyframes tilt-n-move-shaking {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(5px, 5px) rotate(5deg); }
+    50% { transform: translate(0, 0) rotate(0eg); }
+    75% { transform: translate(-5px, 5px) rotate(-5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
 
 
 
@@ -177,10 +237,41 @@ input::placeholder {
     left: -25%;
     background: url(pattern.png) repeat;
     background-size: 650px;
-    animation: backgroundScroll 25s linear infinite;
+    animation: backgroundScroll 60s linear infinite;
     transform: rotate(-45deg) scale(1);
     transform-origin: center center;
     z-index: 2;
+    display: block;
+}
+
+#bg-container-skull {
+    width: 300vw;
+    height: 300vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    overflow: hidden;
+    z-index: -5;
+    display: block;
+}
+
+#bg-scroll-skully {
+    opacity: 1;
+    position: absolute;
+    /* make BG larger than container */
+    height: 150%;
+    width: 150%;
+    /* center bg in container - ratio of 150% */
+    top: -25%;
+    left: -25%;
+    background: url(skull-pattern.png) repeat;
+    background-size: 650px;
+    animation: backgroundScroll 60s linear infinite;
+    transform: rotate(135deg) scale(1);
+    transform-origin: center center;
+    z-index: 2;
+    display: none;
 }
   
 @keyframes backgroundScroll {
@@ -193,13 +284,7 @@ input::placeholder {
     }
 }
 
-
-
-
-
 #halloween-game-canvas {
-    border: 5px solid black;
-
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
@@ -241,6 +326,7 @@ input::placeholder {
     margin-bottom: 20px;
     transition: background-color 0.5s;
     z-index: 4;
+    box-shadow: rgb(0, 0, 0, 0.1) 0px 7px 29px 0px;
 }
 
 #retry-button:hover {
@@ -265,6 +351,7 @@ input::placeholder {
     margin-bottom: 20px;
     transition: background-color 0.5s;
     z-index: 4;
+    box-shadow: rgb(0, 0, 0, 0.1) 0px 7px 29px 0px;
 }
 
 #home-button:hover {
