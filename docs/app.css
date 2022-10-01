@@ -173,7 +173,7 @@ input::placeholder {
     top: -25%;
     left: -25%;
     background: url(pattern.png) repeat;
-    background-size: 120px;
+    background-size: 650px;
     animation: backgroundScroll 25s linear infinite;
     transform: rotate(-45deg) scale(1);
     transform-origin: center center;
