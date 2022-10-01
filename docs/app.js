@@ -1,6 +1,45 @@
 document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
 
-// DATABASE INDEXEDDB
+// ----------------------
+// FIREBASE CLOUD STORAGE
+// ----------------------
+const firebaseApp = firebase.initializeApp({
+    apiKey: "AIzaSyB3F4Uowi0vH7jMLDfp1QO1TXtgL-_QLgg",
+    authDomain: "the-app-daily.firebaseapp.com",
+    projectId: "the-app-daily",
+    storageBucket: "the-app-daily.appspot.com",
+    messagingSenderId: "780060560819",
+    appId: "1:780060560819:web:db7c74e3c112e8c7af0fc6",
+    measurementId: "G-MQZX83YBK2"
+});
+const db = firebaseApp.firestore();
+
+const saveScore = () => {
+    currentScore = document.getElementById("score").innerHTML;
+    db.collection("leaderboard").doc(user).set({ score: currentScore });
+    /*.add({
+        username: user,
+        score: currentScore
+    })
+    .then((docRef) => {
+        console.log("Doc written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+        console.log("Error adding doc: ", error);
+    })*/
+}
+
+const loadScores = () => {
+    db.collection("leaderboard")
+    .read
+}
+
+// -----------------------
+// INDEXEDDB LOCAL STORAGE
+// -----------------------
+
+// User Variable
+let user = "";
 
 const indexedDB =
     window.indexedDB ||
@@ -22,7 +61,6 @@ request.onupgradeneeded = function () {
     store.createIndex("un", ["unstring"], {unique: true});
 }
 
-//DB TURNED OFF
 request.onsuccess = function () {
     const db = request.result;
     const transaction = db.transaction("username", "readwrite");
@@ -42,6 +80,8 @@ request.onsuccess = function () {
             home.style.display = "none";
         } else {
             console.log("Username found!");
+            user = idQuery.result.unstring;
+            document.getElementById("local-username").innerHTML = user;
             var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
             welcome.style.display = "none";
@@ -58,6 +98,8 @@ function remember () {
     const unval = document.getElementById("username-input").value;
 
     store.put({ id: 1, unstring: unval });
+    user = unval;
+    document.getElementById("local-username").innerHTML = user;
 
     var welcome = document.getElementById("welcome-content");
     var home = document.getElementById("home-content");
@@ -78,6 +120,8 @@ function leaderboardLoad() {
     backgroundCorn.style.display = "none";
     backgroundSkull.style.display = "block";
     leaderboard.style.display = "flex";
+
+    loadScores();
 }
 
 function back() {
@@ -299,6 +343,7 @@ function game () {
         gameAssets.style.display = "none";
         background.style.display = "block";
         menu.style.display = "none";
+        saveScore();
     }
 
     document.getElementById('retry-button').onclick = function() {
