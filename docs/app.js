@@ -24,11 +24,10 @@ const saveScore = () => {
 }
 
 const loadScores = () => {
-    db.collection("leaderboard")
-    .orderBy("score", "desc");
 
     db.collection("leaderboard")
     .get()
+    .orderBy("score", "desc")
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
