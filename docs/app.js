@@ -148,6 +148,8 @@ function back() {
     backgroundCorn.style.display = "block";
     backgroundSkull.style.display = "none";
     leaderboard.style.display = "none";
+
+    document.getElementById("scores-container").innerHTML = "";
 }
 
 function game () {
