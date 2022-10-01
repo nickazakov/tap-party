@@ -25,6 +25,9 @@ const saveScore = () => {
 
 const loadScores = () => {
     db.collection("leaderboard")
+    .orderBy("score", "desc");
+
+    db.collection("leaderboard")
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
