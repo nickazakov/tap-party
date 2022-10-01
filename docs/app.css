@@ -9,6 +9,7 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* --------------- */
