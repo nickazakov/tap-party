@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: rgb(255, 203, 244);
+    background-color: rgb(253, 180, 84);
     overflow-x: hidden;
     overflow-y: hidden;
     position: relative;
@@ -172,9 +172,10 @@ input::placeholder {
     /* center bg in container - ratio of 150% */
     top: -25%;
     left: -25%;
-    background: url(http://www.alanvitek.com/images/water.gif) repeat;
+    background: url(pattern.png) repeat;
+    background-size: 120px;
     animation: backgroundScroll 25s linear infinite;
-    transform: rotate(45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
     transform-origin: center center;
     z-index: 2;
 }
