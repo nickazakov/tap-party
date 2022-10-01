@@ -95,48 +95,6 @@ function game () {
         fingerX = fingerX - 50;
     })
 
-
-    class Candy {
-        constructor(gameWidth, gameHeight){
-            this.gameWidth = gameWidth;
-            this.gameHeight = gameHeight;
-            this.width = 50;
-            this.height = 50;
-            this.x = rng(10, 290);
-            this.y = 0;
-            this.markedForDeletion = false;
-            this.image = document.getElementById("corn");
-        }
-        draw(context){
-            context.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
-        update(){
-            this.y += rng(3,10);
-            if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
-        }
-    }
-
-    class Bone {
-        constructor(gameWidth, gameHeight){
-            this.gameWidth = gameWidth;
-            this.gameHeight = gameHeight;
-            this.width = 70;
-            this.height = 70;
-            this.x = rng(10, 290);
-            this.y = 0;
-            this.markedForDeletion = false;
-        }
-        draw(context){
-            context.fillStyle = "red";
-            context.fillRect(this.x, this.y, this.width, this.height);
-        }
-        update(context){
-            this.y += rng(3,10);
-            if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
-        }
-    }
-
-
     function handleObjects (deltaTime) {
 
         if(candyTimer > candyInterval){
@@ -180,29 +138,37 @@ function game () {
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             //context.fillRect(this.x, this.y, this.width, this.height);
         }
-        update(candies, bones){
-            this.x = (lerp (this.x, fingerX, 0.05));
+        update(){
+            this.checkCollision(candies, bones);
+            this.x = (lerp (this.x, fingerX, 1));
 
             if(this.x > 295){
                 this.x = 295;
             } else if (this.x < 0){
                 this.x = 0;
             }
+        }
 
+        checkCollision(candies, bones){
             // CANDIES, BONES
             candies.forEach(candy => {
                 const dx = candy.x - this.x;
                 const dy = candy.y - this.y;
                 const distance = Math.sqrt(dx*dx + dy*dy);
                 if(distance < candy.width/2 + this.width/2){
+                    // COLLISION
                     if(candyLock == false){
                         candyLock = true;
-                        score++;
+
+                        candy.markedForDeletion = true;
+                        
                         console.log("Collected Candy!");
+
+                        score++;
                         document.getElementById("score").innerHTML = score.toString();
-                        candies
                     }
                 } else {
+                    // NO COLLISION
                     candyLock = false;
                 }
             });
@@ -213,6 +179,7 @@ function game () {
                 const distance = Math.sqrt(dx*dx + dy*dy);
                 if(distance < bone.width/2 + this.width/2){
                     console.log("Collected Bone!");
+                    gameOver = true;
                 }
                 /*if(this.x + this.width >= bone.x && this.x <= bone.x + bone.width && this.y + this.height >= bone.y && this.y <= bone.y + bone.height) {
                         if(boneLock == false){
@@ -223,6 +190,47 @@ function game () {
                         boneLock = false;
                     }*/
             });
+        }
+    }
+
+    class Candy {
+        constructor(gameWidth, gameHeight){
+            this.gameWidth = gameWidth;
+            this.gameHeight = gameHeight;
+            this.width = 60;
+            this.height = 60;
+            this.x = rng(10, 290);
+            this.y = -100;
+            this.markedForDeletion = false;
+            this.image = document.getElementById("corn");
+        }
+        draw(context){
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+        update(){
+            this.y = lerp (this.y, 1500, 0.005);
+            if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
+        }
+    }
+
+    class Bone {
+        constructor(gameWidth, gameHeight){
+            this.gameWidth = gameWidth;
+            this.gameHeight = gameHeight;
+            this.width = 70;
+            this.height = 70;
+            this.x = rng(10, 290);
+            this.y = -100;
+            this.markedForDeletion = false;
+            this.image = document.getElementById("bone");
+        }
+        draw(context){
+
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+        update(){
+            this.y = lerp (this.y, 1500, 0.005);
+            if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
         }
     }
 
