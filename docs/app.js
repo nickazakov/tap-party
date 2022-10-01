@@ -23,7 +23,7 @@ request.onupgradeneeded = function () {
 }
 
 //DB TURNED OFF
-/*request.onsuccess = function () {
+request.onsuccess = function () {
     const db = request.result;
     const transaction = db.transaction("username", "readwrite");
 
@@ -48,7 +48,7 @@ request.onupgradeneeded = function () {
             home.style.display = "flex";
         }
     }
-}*/
+}
 
 function remember () {
     const db = request.result;
@@ -65,13 +65,20 @@ function remember () {
     home.style.display = "flex";
 }
 
-play();
-
 function play () {
     game();
 }
 
 function game () {
+    var welcome = document.getElementById("welcome-content");
+    var home = document.getElementById("home-content");
+    var gameAssets = document.getElementById("falling-corn-game");
+    var background = document.getElementById("bg-container");
+    welcome.style.display = "none";
+    home.style.display = "none";
+    gameAssets.style.display = "block";
+    background.style.display = "none";
+
     const canvas = document.getElementById("halloween-game-canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth - 20;
@@ -142,13 +149,12 @@ function game () {
             this.checkCollision(candies, bones);
             this.x = (lerp (this.x, fingerX, 1));
 
-            if(this.x > 295){
-                this.x = 295;
+            if(this.x > this.gameWidth - 100){
+                this.x = this.gameWidth - 100;
             } else if (this.x < 0){
                 this.x = 0;
             }
         }
-
         checkCollision(candies, bones){
             // CANDIES, BONES
             candies.forEach(candy => {
@@ -179,7 +185,7 @@ function game () {
                 const distance = Math.sqrt(dx*dx + dy*dy);
                 if(distance < bone.width/2 + this.width/2){
                     console.log("Collected Bone!");
-                    gameOver = true;
+                    gameover();
                 }
                 /*if(this.x + this.width >= bone.x && this.x <= bone.x + bone.width && this.y + this.height >= bone.y && this.y <= bone.y + bone.height) {
                         if(boneLock == false){
@@ -241,6 +247,47 @@ function game () {
     function lerp (start, end, amt) {
         return (1-amt)*start+amt*end
     }
+
+    function gameover () {
+        gameOver = true;
+        var menu = document.getElementById("game-over-screen");
+        menu.style.display = "block";
+
+        // SAVE SCORE TO FIREBASE LEADERBOARD
+    }
+
+    function retry() {
+        score = 0;
+        fingerX = (canvas.width)/2 - 50;
+        candies = [];
+        bones = [];
+        var menu = document.getElementById("game-over-screen");
+        menu.style.display = "none";
+        document.getElementById("score").innerHTML = "0";
+        gameOver = false;
+        animate(0);
+    }
+
+    function menu() {
+        var welcome = document.getElementById("welcome-content");
+        var home = document.getElementById("home-content");
+        var gameAssets = document.getElementById("falling-corn-game");
+        var background = document.getElementById("bg-container");
+        var menu = document.getElementById("game-over-screen");
+        welcome.style.display = "none";
+        home.style.display = "flex";
+        gameAssets.style.display = "none";
+        background.style.display = "block";
+        menu.style.display = "none";
+    }
+
+    document.getElementById('retry-button').onclick = function() {
+        retry();
+    };
+
+    document.getElementById('home-button').onclick = function() {
+        menu();
+    };
 
     const player = new Player(canvas.width, canvas.height);
 

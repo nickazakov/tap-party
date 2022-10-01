@@ -154,7 +154,7 @@ input::placeholder {
 
 
 
-.bg-container {
+#bg-container {
     width: 300vw;
     height: 300vh;
     position: absolute;
@@ -163,9 +163,10 @@ input::placeholder {
     transform: translate3d(-50%,-50%,0);
     overflow: hidden;
     z-index: -5;
+    display: block;
 }
   
-.bg-scroll {
+#bg-scroll {
     opacity: 1;
     position: absolute;
     /* make BG larger than container */
@@ -204,4 +205,84 @@ input::placeholder {
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+#score {
+    position: absolute;
+    width: 100%;
+    left: 0%;
+    right: 0%;
+    text-align: center;
+    margin-top: 200px;
+}
+
+#game-over-screen {
+    position: absolute;
+    margin-top: 50vh;
+    text-align: center;
+    display: none;
+}
+
+#retry-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+    z-index: 4;
+}
+
+#retry-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+#home-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+    z-index: 4;
+}
+
+#home-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+#cauldron {
+    display: none;
+}
+
+#corn {
+    display: none;
+}
+
+#bone {
+    display: none;
+}
+
+#falling-corn-game {
+    display: none;
 }
