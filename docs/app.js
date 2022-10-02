@@ -1,4 +1,4 @@
-document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+// document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
 
 // ----------------------
 // FIREBASE CLOUD STORAGE
@@ -25,6 +25,24 @@ const saveScore = () => {
 
 let obj = {};
 
+const getHS = () => {
+    currentScore = document.getElementById("score").innerHTML;
+    db.collection("leaderboard").doc(user)
+    .get()
+    .then((doc) => {
+        if (doc.exists) {
+            console.log("Document exists!");
+            if(doc.data().score >= currentScore){
+            } else {
+                saveScore();
+            }
+        } else {
+            console.log("No such document!");
+            saveScore();
+        }
+    })
+}
+
 const loadScores = () => {
 
     db.collection("leaderboard")
@@ -36,8 +54,6 @@ const loadScores = () => {
             console.log(doc.id, " => ", doc.data().score);
             username = doc.id;
             oldScore = doc.data().score;
-
-
 
             temp = document.createElement('div');
             temp.setAttribute("id", "username-entry");
@@ -129,6 +145,17 @@ function remember () {
 
 function play () {
     game();
+    dice = rng(1,10);
+    console.log(dice);
+    if(dice <= 2){
+        document.body.style.backgroundImage = "url('background.png')";
+    } else {
+        document.body.style.backgroundImage = "url('background-original.png')";
+    }
+}
+
+function rng(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function leaderboardLoad() {
@@ -258,6 +285,9 @@ function game () {
 
                         score++;
                         document.getElementById("score").innerHTML = score.toString();
+
+                        candyInterval = rng(500, 3200);
+                        boneInterval = rng(300, 900);
                     }
                 } else {
                     // NO COLLISION
@@ -340,7 +370,7 @@ function game () {
         menu.style.display = "block";
 
         // SAVE SCORE TO FIREBASE LEADERBOARD
-        saveScore();
+        getHS();
     }
 
     function retry() {
@@ -366,6 +396,7 @@ function game () {
         gameAssets.style.display = "none";
         background.style.display = "block";
         menu.style.display = "none";
+        document.getElementById("score").innerHTML = "0";
     }
 
     document.getElementById('retry-button').onclick = function() {
@@ -380,7 +411,7 @@ function game () {
 
     let lastTime = 0;
     let candyTimer = 0;
-    let candyInterval = rng(500, 1200);
+    let candyInterval = rng(500, 3200);
     let boneTimer = 0;
     let boneInterval = rng(700, 900);
     let gameOver = false;
