@@ -169,7 +169,7 @@ function leaderboardLoad() {
     leaderboard.style.display = "flex";
 
     var backgroundSkulll = document.getElementById("bg-container-skull");
-    backgroundSkulll.style.display = "none";
+    backgroundSkulll.style.display = "block";
 
     loadScores();
 }
