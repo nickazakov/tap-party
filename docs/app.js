@@ -181,6 +181,9 @@ function back() {
     backgroundSkull.style.display = "none";
     leaderboard.style.display = "none";
 
+    var backgroundSkulll = document.getElementById("bg-container-skull");
+    backgroundSkulll.style.display = "none";
+
     document.getElementById("scores-container").innerHTML = "";
 }
 
@@ -188,7 +191,7 @@ function game () {
     var home = document.getElementById("home-content");
     var gameAssets = document.getElementById("falling-corn-game");
     var background = document.getElementById("bg-container");
-    var backgroundSkull = document.getElementById("bg-scroll-skully");
+    var backgroundSkull = document.getElementById("bg-container-skull");
     home.style.display = "none";
     gameAssets.style.display = "block";
     background.style.display = "none";
