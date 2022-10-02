@@ -34,12 +34,15 @@ const getHS = () => {
     .then((doc) => {
         if (doc.exists) {
             console.log("Document exists!");
-            if(doc.data().score >= currentScore){
+            if(doc.data().score >= Number(currentScore)){
+                console.log("Less than HS");
             } else {
+                console.log("Upgrading HS");
                 saveScore();
             }
         } else {
             console.log("No such document!");
+            console.log("Creating HS");
             saveScore();
         }
     })
