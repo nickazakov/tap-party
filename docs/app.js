@@ -23,9 +23,12 @@ const saveScore = () => {
     });
 }
 
+let obj = {};
+
 const loadScores = () => {
 
     db.collection("leaderboard")
+    .orderBy("score", "desc")
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -33,6 +36,8 @@ const loadScores = () => {
             console.log(doc.id, " => ", doc.data().score);
             username = doc.id;
             oldScore = doc.data().score;
+
+
 
             temp = document.createElement('div');
             temp.setAttribute("id", "username-entry");
