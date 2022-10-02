@@ -199,10 +199,12 @@ function game () {
     var gameAssets = document.getElementById("falling-corn-game");
     var background = document.getElementById("bg-container");
     var backgroundSkull = document.getElementById("bg-container-skull");
+    var leaderboard = document.getElementById("leaderboard-content");
     home.style.display = "none";
     gameAssets.style.display = "block";
     background.style.display = "none";
     backgroundSkull.style.display = "none";
+    leaderboard.style.display = "none";
 
     const canvas = document.getElementById("halloween-game-canvas");
     const ctx = canvas.getContext("2d");
