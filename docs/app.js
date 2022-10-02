@@ -21,7 +21,7 @@ const saveScore = () => {
     db.collection("leaderboard")
     .doc(user)
     .set({ 
-        score: currentScore 
+        score: Number(currentScore)
     });
 }
 
