@@ -17,9 +17,9 @@ const db = firebaseApp.firestore();
 const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
     db.collection("leaderboard")
-    .doc(user)
+    .doc(currentScore)
     .set({ 
-        score: currentScore 
+        username: user 
     });
 }
 
@@ -27,13 +27,12 @@ const loadScores = () => {
 
     db.collection("leaderboard")
     .get()
-    .orderBy("score", "desc")
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data().score);
-            username = doc.id;
-            oldScore = doc.data().score;
+            console.log(doc.id, " => ", doc.data().username);
+            oldScore = doc.id;
+            username = doc.data().username;
 
             temp = document.createElement('div');
             temp.setAttribute("id", "username-entry");
@@ -46,7 +45,6 @@ const loadScores = () => {
             tempST = document.createTextNode(oldScore);
             tempS.appendChild(tempST);
             document.getElementById("scores-container").appendChild(tempS);
-
         });
     })
 }
