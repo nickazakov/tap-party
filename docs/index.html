@@ -54,15 +54,38 @@
     </content>
     
     <content id="falling-corn-game">
+
+        <!-- GAME OVER MENU & SCORE -->
         <h1 id="score">0</h1>
         <div id="game-over-screen">
             <button id="retry-button">Retry</button>
             <button id="home-button">Home</button>
         </div>
+
         <canvas id="halloween-game-canvas"></canvas>
         <img id="cauldron" src="cauldron.png">
         <img id="corn" src="corn.png">
         <img id="bone" src="bone.png">
+    </content>
+
+    <content id="grave-guess-game">
+
+        <!-- GAME OVER MENU & SCORE -->
+        <h1 id="grave-guess-score">0</h1>
+        <div id="game-over-screen-grave-guess">
+            <button id="retry-button-grave-guess">Retry</button>
+            <button id="home-button-grave-guess">Home</button>
+        </div>
+        <div id="popz">
+            <div id="grave-tile-container">
+                <div id="mask"></div>
+
+                <button id="grave-1" class="grave-tile"></button>
+                <button id="grave-2" class="grave-tile"></button>
+                <button id="grave-3" class="grave-tile"></button>
+                <button id="grave-4" class="grave-tile"></button>
+            </div>
+        </div>
     </content>
 
     <script>

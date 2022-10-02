@@ -1,10 +1,15 @@
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||| PRELOAD ASSETS |||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
 window.addEventListener('load', (event) => {
-    document.body.style.backgroundImage = "url('background.png')";
+    document.body.style.backgroundImage = "url('background-grave.png')";
 });
 
-// ----------------------
-// FIREBASE CLOUD STORAGE
-// ----------------------
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||| FIRESTORE ||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
 const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyB3F4Uowi0vH7jMLDfp1QO1TXtgL-_QLgg",
     authDomain: "the-app-daily.firebaseapp.com",
@@ -75,9 +80,9 @@ const loadScores = () => {
     })
 }
 
-// -----------------------
-// INDEXEDDB LOCAL STORAGE
-// -----------------------
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||| INDEXEDDB ||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 // User Variable
 let user = "";
@@ -131,7 +136,9 @@ request.onsuccess = function () {
     }
 }
 
-document.getElementById('yourAudioTag').play();
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||| MENUS ||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 function remember () {
     const db = request.result;
@@ -148,21 +155,6 @@ function remember () {
     var home = document.getElementById("home-content");
     welcome.style.display = "none";
     home.style.display = "flex";
-}
-
-function play () {
-    game();
-    dice = rng(1,10);
-    console.log(dice);
-    if(dice <= 2){
-        document.body.style.backgroundImage = "url('background.png')";
-    } else {
-        document.body.style.backgroundImage = "url('background-original.png')";
-    }
-}
-
-function rng(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function leaderboardLoad() {
@@ -197,7 +189,15 @@ function back() {
     document.getElementById("scores-container").innerHTML = "";
 }
 
-function game () {
+function play () {
+    graveGuess();
+}
+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||| GAMES ||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+function fallingCorn() {
     var home = document.getElementById("home-content");
     var gameAssets = document.getElementById("falling-corn-game");
     var background = document.getElementById("bg-container");
@@ -213,6 +213,15 @@ function game () {
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth - 20;
     canvas.height = window.innerHeight - 20;
+
+    // BACKGROUND CHOOSE
+    dice = rng(1,10);
+    console.log(dice);
+    if(dice <= 2){
+        document.body.style.backgroundImage = "url('background.png')";
+    } else {
+        document.body.style.backgroundImage = "url('background-original.png')";
+    }
 
     // START POSITION BASKET
     fingerX = (canvas.width)/2 - 50;
@@ -320,14 +329,6 @@ function game () {
                     console.log("Collected Bone!");
                     gameover();
                 }
-                /*if(this.x + this.width >= bone.x && this.x <= bone.x + bone.width && this.y + this.height >= bone.y && this.y <= bone.y + bone.height) {
-                        if(boneLock == false){
-                            console.log("Collected Bone!");
-                            boneLock = true;
-                        }
-                    } else {
-                        boneLock = false;
-                    }*/
             });
         }
     }
@@ -371,10 +372,6 @@ function game () {
             this.y = lerp (this.y, 1500, 0.005);
             if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
         }
-    }
-
-    function rng(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
     
     function lerp (start, end, amt) {
@@ -445,4 +442,179 @@ function game () {
         if (!gameOver) requestAnimationFrame(animate);
     }
     animate(0);
+}
+
+function graveGuess() {
+    let score = 0;
+    let iterations = 2;
+    let completion = 0;
+    let timeOffset = "1500";
+    let upTime = "700";
+    let list = [];
+    let tappable = false;
+    let taps = 0;
+
+    var home = document.getElementById("home-content");
+    var gameAssets = document.getElementById("grave-guess-game");
+    var background = document.getElementById("bg-container");
+    var backgroundSkull = document.getElementById("bg-container-skull");
+    var leaderboard = document.getElementById("leaderboard-content");
+
+    home.style.display = "none";
+    gameAssets.style.display = "block";
+    background.style.display = "none";
+    backgroundSkull.style.display = "none";
+    leaderboard.style.display = "none";
+
+    document.getElementById("grave-guess-score").innerHTML = "0";
+    round();
+
+    function round() {
+        tappable = false;
+        makeTappable(false);
+        timeOffset = "1500";
+        for(i = 0; i < iterations; i++) {
+            setTimeout(iterate, timeOffset);
+            temp = Number(timeOffset);
+            temp += 1500;
+            timeOffset = temp.toString();
+        }
+    }
+
+    function iterate() {
+        switch(rng(1,4)) {
+            case 1:
+                document.getElementById("grave-1").classList.add("hint-green");
+                list.push(1);
+                setTimeout(release, upTime);
+                console.log("act1");
+                break;
+            case 2:
+                document.getElementById("grave-2").classList.add("hint-orange");
+                list.push(2);
+                setTimeout(release, upTime);
+                console.log("act2");
+                break;
+            case 3:
+                document.getElementById("grave-3").classList.add("hint-purple");
+                list.push(3);
+                setTimeout(release, upTime);
+                console.log("act3");
+                break;
+            case 4:
+                document.getElementById("grave-4").classList.add("hint-red");
+                list.push(4);
+                setTimeout(release, upTime);
+                console.log("act4");
+                break;
+        }
+        completion++;
+        if(completion == iterations) {
+            console.log('Done!');
+            tappable = true;
+            makeTappable(true);
+            completion = 0;
+        }
+    }
+
+    document.getElementById("grave-1").addEventListener("click", function() {
+        tap(1);
+    });
+    document.getElementById("grave-2").addEventListener("click", function() {
+        tap(2);
+    });
+    document.getElementById("grave-3").addEventListener("click", function() {
+        tap(3);
+    });
+    document.getElementById("grave-4").addEventListener("click", function() {
+        tap(4);
+    });
+
+    function tap(i) {
+        console.log("Tap!");
+        if(tappable){
+            if(list[taps] == i) {
+                console.log("Correct!");
+                taps++;
+                if(taps == list.length) {
+                    console.log("Score Up!");
+                    score++;
+                    document.getElementById("grave-guess-score").innerHTML = score;
+                    iterations++;
+                    round();
+                }
+            } else {
+                gameover();
+                console.log("Game Over!");
+            }
+        }
+    }
+
+    function release() {
+        document.getElementById("grave-1").classList.remove("hint-green");
+        document.getElementById("grave-2").classList.remove("hint-orange");
+        document.getElementById("grave-3").classList.remove("hint-purple");
+        document.getElementById("grave-4").classList.remove("hint-red");
+    }
+
+    function gameover() {
+        var menu = document.getElementById("game-over-screen-grave-guess");
+        menu.style.display = "block";
+
+        release();
+        iterations = 2;
+        list = [];
+        tappable = false;
+        makeTappable(false);
+        completion = 0;
+        taps = 0;
+        document.getElementById("grave-1").replaceWith(document.getElementById("grave-1").cloneNode(true));
+        document.getElementById("grave-2").replaceWith(document.getElementById("grave-2").cloneNode(true));
+        document.getElementById("grave-3").replaceWith(document.getElementById("grave-3").cloneNode(true));
+        document.getElementById("grave-4").replaceWith(document.getElementById("grave-4").cloneNode(true));
+    }
+
+    function makeTappable(b) {
+        if(b) {
+            document.getElementById("mask").style.display = "none";
+        } else {
+            document.getElementById("mask").style.display = "block";
+        }
+    }
+
+    function retry() {
+        var menu = document.getElementById("game-over-screen-grave-guess");
+        menu.style.display = "none";
+        play();
+    }
+
+    function menu() {
+        var welcome = document.getElementById("welcome-content");
+        var home = document.getElementById("home-content");
+        var gameAssets = document.getElementById("grave-guess-game");
+        var background = document.getElementById("bg-container");
+        var menu = document.getElementById("game-over-screen-grave-guess");
+        welcome.style.display = "none";
+        home.style.display = "flex";
+        gameAssets.style.display = "none";
+        background.style.display = "block";
+        menu.style.display = "none";
+        document.getElementById("grave-guess-score").innerHTML = "0";
+    }
+
+    document.getElementById('retry-button-grave-guess').onclick = function() {
+        retry();
+    };
+
+    document.getElementById('home-button-grave-guess').onclick = function() {
+        menu();
+    };
+}
+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||| UTILITIES ||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+function rng(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
