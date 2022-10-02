@@ -277,7 +277,7 @@ function game () {
         }
         update(){
             this.checkCollision(candies, bones);
-            this.x = (lerp (this.x, fingerX, 1));
+            this.x = (lerp (this.x, fingerX, 0.1));
 
             if(this.x > this.gameWidth - 100){
                 this.x = this.gameWidth - 100;

@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alkalami&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="app.css?v=1.1">
     <title>The Daily App</title>
@@ -35,6 +37,15 @@
     </content>
 
     <content id="leaderboard-content">
+        <div id="top-bar-lb">
+            <form>  
+                <select id="game-leaderboard-dropdown">  
+                    <option value = "Falling Corn" id="falling-corn-lb">Falling Corn</option> 
+                    <option value = "Pumpkinball" id="pumpkinball-lb">Pumpkinball</option>  
+                </select>
+            </form> 
+            <button id="reload-lb" class="material-symbols-rounded">sync</button>
+        </div>
         <div id="board">
             <div id="scores-container">
             </div>
