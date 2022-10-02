@@ -1,4 +1,6 @@
-// document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+window.addEventListener('load', (event) => {
+    document.body.style.backgroundImage = "url('background.png')";
+});
 
 // ----------------------
 // FIREBASE CLOUD STORAGE
@@ -125,6 +127,8 @@ request.onsuccess = function () {
         }
     }
 }
+
+document.getElementById('yourAudioTag').play();
 
 function remember () {
     const db = request.result;
@@ -295,7 +299,7 @@ function game () {
                         document.getElementById("score").innerHTML = score.toString();
 
                         candyInterval = rng(500, 3200);
-                        boneInterval = rng(300, 900);
+                        boneInterval = rng(700, 1400);
                     }
                 } else {
                     // NO COLLISION
