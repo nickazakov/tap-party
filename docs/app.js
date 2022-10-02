@@ -164,7 +164,7 @@ function leaderboardLoad() {
     var backgroundSkull = document.getElementById("bg-scroll-skully");
     var leaderboard = document.getElementById("leaderboard-content");
     home.style.display = "none";
-    // backgroundCorn.style.display = "none";
+    backgroundCorn.style.display = "none";
     backgroundSkull.style.display = "block";
     leaderboard.style.display = "flex";
 
@@ -177,8 +177,8 @@ function back() {
     var backgroundSkull = document.getElementById("bg-scroll-skully");
     var leaderboard = document.getElementById("leaderboard-content");
     home.style.display = "flex";
-    // backgroundCorn.style.display = "block";
-    // backgroundSkull.style.display = "none";
+    backgroundCorn.style.display = "block";
+    backgroundSkull.style.display = "none";
     leaderboard.style.display = "none";
 
     document.getElementById("scores-container").innerHTML = "";
@@ -188,9 +188,11 @@ function game () {
     var home = document.getElementById("home-content");
     var gameAssets = document.getElementById("falling-corn-game");
     var background = document.getElementById("bg-container");
+    var backgroundSkull = document.getElementById("bg-scroll-skully");
     home.style.display = "none";
     gameAssets.style.display = "block";
-    // background.style.display = "none";
+    background.style.display = "none";
+    backgroundSkull.style.display = "none";
 
     const canvas = document.getElementById("halloween-game-canvas");
     const ctx = canvas.getContext("2d");
