@@ -145,13 +145,13 @@ function remember () {
 
 function play () {
     game();
-    /*dice = rng(1,10);
+    dice = rng(1,10);
     console.log(dice);
     if(dice <= 2){
         document.body.style.backgroundImage = "url('background.png')";
     } else {
         document.body.style.backgroundImage = "url('background-original.png')";
-    }*/
+    }
 }
 
 function rng(min, max) {
@@ -167,6 +167,9 @@ function leaderboardLoad() {
     backgroundCorn.style.display = "none";
     backgroundSkull.style.display = "block";
     leaderboard.style.display = "flex";
+
+    var backgroundSkulll = document.getElementById("bg-container-skull");
+    backgroundSkulll.style.display = "none";
 
     loadScores();
 }
