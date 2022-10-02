@@ -17,9 +17,9 @@ const db = firebaseApp.firestore();
 const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
     db.collection("leaderboard")
-    .doc(currentScore)
+    .doc(user)
     .set({ 
-        username: user 
+        score: currentScore 
     });
 }
 
@@ -30,9 +30,9 @@ const loadScores = () => {
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data().username);
-            oldScore = doc.id;
-            username = doc.data().username;
+            console.log(doc.id, " => ", doc.data().score);
+            username = doc.id;
+            oldScore = doc.data().score;
 
             temp = document.createElement('div');
             temp.setAttribute("id", "username-entry");
