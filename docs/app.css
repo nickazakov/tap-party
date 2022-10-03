@@ -13,8 +13,9 @@
 }
 
 body {
-    background-image: url(background-grave.png);
+    background-image: url(assets/cornfall/background-corn.png);
     background-size: cover;
+    background-color: rgb(146, 43, 146);
 
     overflow-x: hidden;
     overflow-y: hidden;
@@ -29,7 +30,9 @@ body {
 #welcome-content {
     width: 100vw;
     height: 100vh;
-    display: flex;
+
+    /* UPDATED FROM FLEX TO NONE*/
+    display: none;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -102,10 +105,55 @@ input::placeholder {
 /* HOME CONTENT */
 /* ------------ */
 
+#info-window {
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    width: 75vw;
+    border-radius: 30px;
+    margin-bottom: 200px;
+    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
+}
+
+#info-title {
+    text-align: center;
+    top: 0px;
+
+    color: rgb(255, 190, 116);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+#upcoming-game {
+    text-align: center;
+    top: 0px;
+
+    color: rgb(255, 190, 116);
+    font-weight: bold;
+    font-size: 35px;
+}
+
+#time-left {
+    text-align: center;
+    top: 0px;
+
+    color: rgb(255, 161, 53);
+    font-weight: bold;
+    font-size: 60px;
+    animation: float 3s infinite;
+}
+
+@keyframes float {
+	0% {transform: scale(0.9)  }
+	50% { transform: scale(1) }
+  100% { transform: scale(0.9) }
+}
+
 #home-content {
     width: 100vw;
     height: 100vh;
-    display: flex;
+
+    /* UPDATED FROM FLEX TO NONE*/
+    display: none;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -248,30 +296,34 @@ input::placeholder {
     transition: all 0.5s;
 }
 
+@keyframes spin { 100% { transform:rotate(360deg); } }
+
 #reload-lb:hover {
-    transform: rotateZ(360deg);
     background-color: rgb(58, 107, 199);
 }
 
-#game-leaderboard-dropdown {
+#switch-lb {
+    /* Button Design */
     border: none;
     background-color: rgb(195, 116, 240);
-    color: #fff;
-    font-weight: bold;
     border-radius: 30px;
-    padding: 10px;
-    margin-bottom: 20px;
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
-
-    font-size: 1.4rem;
-    
     height: 50px;
     width: 250px;
+
+    /* Text Design */
+    color: white;
     text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
     transition: background-color 0.5s;
+    z-index: 4;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
 }
 
-#game-leaderboard-dropdown:hover {
+#switch-lb:hover {
     background-color: rgb(168, 84, 216);
 }
 
@@ -360,13 +412,11 @@ select {
 #bg-scroll {
     opacity: 1;
     position: absolute;
-    /* make BG larger than container */
     height: 150%;
     width: 150%;
-    /* center bg in container - ratio of 150% */
     top: -25%;
     left: -25%;
-    background: url(pattern.png) repeat;
+    background: url(assets/general/pattern.png) repeat;
     background-size: 650px;
     animation: backgroundScroll 60s linear infinite;
     transform: rotate(-45deg) scale(1);
@@ -390,13 +440,11 @@ select {
 #bg-scroll-skully {
     opacity: 1;
     position: absolute;
-    /* make BG larger than container */
     height: 150%;
     width: 150%;
-    /* center bg in container - ratio of 150% */
     top: -25%;
     left: -25%;
-    background: url(skull-pattern.png) repeat;
+    background: url(assets/general/skull-pattern.png) repeat;
     background-size: 650px;
     animation: backgroundScroll 60s linear infinite;
     transform: rotate(135deg) scale(1);
@@ -410,7 +458,6 @@ select {
       background-position: 0 0;
     }
       100% {
-      /* pattern bg texture is 1000x1000px */
       background-position:0 -1000px;
     }
 }
@@ -432,7 +479,7 @@ select {
     left: 0%;
     right: 0%;
     text-align: center;
-    margin-top: 200px;
+    margin-top: 70px;
 
     color: rgb(255, 233, 208);
     font-weight: bold;
@@ -579,8 +626,8 @@ select {
     justify-content: center;
 }
 
-#popz {
-    display: flex;
+#grave-guess-container {
+    display: none;
     justify-content: center;
     padding-top: 170px;
 }
@@ -649,7 +696,7 @@ select {
 }
 
 #grave-1 {
-    background-image: url(rune-1.png);
+    background-image: url(assets/graveguess/rune-1.png);
     background-size: cover;
     transition: all 0.2s;
 }
@@ -659,7 +706,7 @@ select {
 }
 
 #grave-2 {
-    background-image: url(rune-2.png);
+    background-image: url(assets/graveguess/rune-2.png);
     background-size: cover;
     transition: all 0.2s;
 }
@@ -669,7 +716,7 @@ select {
 }
 
 #grave-3 {
-    background-image: url(rune-3.png);
+    background-image: url(assets/graveguess/rune-3.png);
     background-size: cover;
     transition: all 0.2s;
 }
@@ -679,7 +726,7 @@ select {
 }
 
 #grave-4 {
-    background-image: url(rune-4.png);
+    background-image: url(assets/graveguess/rune-4.png);
     background-size: cover;
     transition: all 0.2s;
 }

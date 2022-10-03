@@ -26,11 +26,17 @@
     </div>
 
     <content id="welcome-content">
+
         <input id="username-input" type="text" placeholder="Marilyn Monrock">
         <button id="enter-button" onclick="remember()">Remember me!</button>
     </content>
 
     <content id="home-content">
+        <div id="info-window">
+            <h1 id="info-title">Upcoming!</h1>
+            <h1 id="time-left">-</h1>
+            <h1 id="upcoming-game">Cornfall</h1>
+        </div>
         <h1 id="local-username"></h1>
         <button id="play-button" onclick="play()">Play</button>
         <button id="lboard-button" onclick="leaderboardLoad()">Leaderboard</button>
@@ -38,13 +44,8 @@
 
     <content id="leaderboard-content">
         <div id="top-bar-lb">
-            <form>  
-                <select id="game-leaderboard-dropdown">  
-                    <option value = "Falling Corn" id="falling-corn-lb">Falling Corn</option> 
-                    <option value = "Pumpkinball" id="pumpkinball-lb">Pumpkinball</option>  
-                </select>
-            </form> 
-            <button id="reload-lb" class="material-symbols-rounded">sync</button>
+            <button id="switch-lb" onclick="switchlb()">Cornfall</button>
+            <button id="reload-lb" class="material-symbols-rounded" onclick="refreshlb()">sync</button>
         </div>
         <div id="board">
             <div id="scores-container">
@@ -52,31 +53,31 @@
         </div>
         <button id="back-button" onclick="back()">Back</button>
     </content>
-    
+
+    <h1 id="score">0</h1>
+
     <content id="falling-corn-game">
 
-        <!-- GAME OVER MENU & SCORE -->
-        <h1 id="score">0</h1>
+        <!-- GAME OVER MENU -->
         <div id="game-over-screen">
             <button id="retry-button">Retry</button>
             <button id="home-button">Home</button>
         </div>
 
         <canvas id="halloween-game-canvas"></canvas>
-        <img id="cauldron" src="cauldron.png">
-        <img id="corn" src="corn.png">
-        <img id="bone" src="bone.png">
+        <img id="cauldron" src="assets/cornfall/cauldron.png">
+        <img id="corn" src="assets/cornfall/corn.png">
+        <img id="bone" src="assets/cornfall/bone.png">
     </content>
 
     <content id="grave-guess-game">
 
-        <!-- GAME OVER MENU & SCORE -->
-        <h1 id="grave-guess-score">0</h1>
+        <!-- GAME OVER MENU -->
         <div id="game-over-screen-grave-guess">
             <button id="retry-button-grave-guess">Retry</button>
             <button id="home-button-grave-guess">Home</button>
         </div>
-        <div id="popz">
+        <div id="grave-guess-container">
             <div id="grave-tile-container">
                 <div id="mask"></div>
 

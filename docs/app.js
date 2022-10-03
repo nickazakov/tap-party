@@ -2,9 +2,184 @@
 // ||||||||||||||||||||||||||| PRELOAD ASSETS |||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-window.addEventListener('load', (event) => {
-    document.body.style.backgroundImage = "url('background-grave.png')";
-});
+//window.addEventListener('load', (event) => {
+//    document.body.style.backgroundImage = "url('assets/cornfall/background-special.png')";
+//});
+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// |||||||||||||||||||||||||||||| TIME CHECK ||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+let game = "";
+let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
+updateTime();
+
+function updateTime() {
+    const d = new Date();
+    let h = d.getHours();
+    let m = d.getMinutes();
+    let s = d.getSeconds();
+
+    leftTime = (60 - m) + "m " + (60 - s) + "s "
+    document.getElementById("time-left").innerHTML = leftTime;
+
+    temp = gameList[h+1];
+    if(temp == 24){
+        temp = 0;
+    }
+    switch(temp){
+        case 0:
+            temp = "Cornfall";
+            break;
+        case 1:
+            temp = "Grave Guess";
+            break;
+        case 2:
+            temp = "Cornfall";
+            break;
+        case 3:
+            temp = "Grave Guess";
+            break;
+        case 4:
+            temp = "Cornfall";
+            break;
+        case 5:
+            temp = "Grave Guess";
+            break;
+        case 6:
+            temp = "Cornfall";
+            break;
+        case 7:
+            temp = "Grave Guess";
+            break;
+        case 8:
+            temp = "Cornfall";
+            break;
+        case 9:
+            temp = "Grave Guess";
+            break;
+        case 10:
+            temp = "Cornfall";
+            break;
+        case 11:
+            temp = "Grave Guess";
+            break;
+        case 12:
+            temp = "Cornfall";
+            break;
+        case 13:
+            temp = "Guessguess";
+            break;
+        case 14:
+            temp = "Cornfall";
+            break;
+        case 15:
+            temp = "Grave Guess";
+            break;
+        case 16:
+            temp = "Cornfall";
+            break;
+        case 17:
+            temp = "Grave Guess";
+            break;
+        case 18:
+            temp = "Cornfall";
+            break;
+        case 19:
+            temp = "Grave Guess";
+            break;
+        case 20:
+            temp = "Cornfall";
+            break;
+        case 21:
+            temp = "Grave Guess";
+            break;
+        case 22:
+            temp = "Cornfall";
+            break;
+        case 23:
+            temp = "Grave Guess";
+            break;
+    }
+    document.getElementById("upcoming-game").innerHTML = temp;
+
+    setTimeout(updateTime, "1000");
+
+    switch(h){
+        case 0:
+            game = "cornfall";
+            break;
+        case 1:
+            game = "graveguess";
+            break;
+        case 2:
+            game = "cornfall";
+            break;
+        case 3:
+            game = "graveguess";
+            break;
+        case 4:
+            game = "cornfall";
+            break;
+        case 5:
+            game = "graveguess";
+            break;
+        case 6:
+            game = "cornfall";
+            break;
+        case 7:
+            game = "graveguess";
+            break;
+        case 8:
+            game = "cornfall";
+            break;
+        case 9:
+            game = "graveguess";
+            break;
+        case 10:
+            game = "cornfall";
+            break;
+        case 11:
+            game = "graveguess";
+            break;
+        case 12:
+            game = "cornfall";
+            break;
+        case 13:
+            game = "graveguess";
+            break;
+        case 14:
+            game = "cornfall";
+            break;
+        case 15:
+            game = "graveguess";
+            break;
+        case 16:
+            game = "cornfall";
+            break;
+        case 17:
+            game = "graveguess";
+            break;
+        case 18:
+            game = "cornfall";
+            break;
+        case 19:
+            game = "graveguess";
+            break;
+        case 20:
+            game = "cornfall";
+            break;
+        case 21:
+            game = "graveguess";
+            break;
+        case 22:
+            game = "cornfall";
+            break;
+        case 23:
+            game = "graveguess";
+            break;
+    }
+}
 
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||| FIRESTORE ||||||||||||||||||||||||||||||||||||||
@@ -19,11 +194,28 @@ const firebaseApp = firebase.initializeApp({
     appId: "1:780060560819:web:db7c74e3c112e8c7af0fc6",
     measurementId: "G-MQZX83YBK2"
 });
+
 const db = firebaseApp.firestore();
+
+let categories = [
+    "cornfalllb",
+    "graveguesslb",
+    "potioncraftlb"
+];
+
+let categoriesPublic = [
+    "Cornfall",
+    "Grave Guess",
+    "Potioncraft"
+];
+
+let category = "cornfalllb";
+
+let categoryIndex = 0;
 
 const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
-    db.collection("leaderboard")
+    db.collection(category)
     .doc(user)
     .set({ 
         score: Number(currentScore)
@@ -34,7 +226,7 @@ let obj = {};
 
 const getHS = () => {
     currentScore = document.getElementById("score").innerHTML;
-    db.collection("leaderboard").doc(user)
+    db.collection(category).doc(user)
     .get()
     .then((doc) => {
         if (doc.exists) {
@@ -54,9 +246,9 @@ const getHS = () => {
 }
 
 const loadScores = () => {
-
-    db.collection("leaderboard")
-    .orderBy("score", "desc")
+    document.getElementById("scores-container").innerHTML = "";
+    db.collection(category)
+    .orderBy("score", "asc")
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -191,13 +383,72 @@ function back() {
 
 function play () {
     graveGuess();
+    /*switch(game) {
+        case "cornfall":
+            cornfall();
+            break;
+        case "graveguess":
+            graveGuess();
+            break;
+    }*/
+}
+
+function refreshlb() {
+    document.getElementById("reload-lb").style.animation="spin 0.5s linear";
+    setTimeout(stopRefreshAnim, "500");
+    document.getElementById("scores-container").innerHTML = "";
+    loadScores();
+}
+function stopRefreshAnim() {
+    document.getElementById("reload-lb").style.animation="";
+}
+
+function switchlb(i) {
+    if(i) {
+        categoryIndex = i;
+        category = categories[categoryIndex];
+        console.log(category);
+        return;
+    }
+    categoryIndex++;
+    if(categoryIndex < categories.length){
+        category = categories[categoryIndex];
+        document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
+        console.log(categoryIndex);
+        loadScores();
+    } else {
+        categoryIndex = 0;
+        category = categories[categoryIndex]
+        document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
+        console.log(categoryIndex);
+        loadScores();
+    }
+}
+
+function backdrop(n){
+    switch(n){
+        case 0:
+            console.log("Set Cornfall back!");
+            if(rng(1,10) <= 3) {
+                document.body.style.backgroundImage = "url('assets/cornfall/background-special.png')";
+            } else {
+                document.body.style.backgroundImage = "url('assets/cornfall/background-corn.png')";
+            }
+            break;
+        case 1:
+            console.log("Set Grave Guess back!");
+            document.body.style.backgroundImage = "url('assets/graveguess/background-grave.png')";
+            break;
+    }
 }
 
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||| GAMES ||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-function fallingCorn() {
+function cornfall() {
+    switchlb("0");
+
     var home = document.getElementById("home-content");
     var gameAssets = document.getElementById("falling-corn-game");
     var background = document.getElementById("bg-container");
@@ -215,13 +466,7 @@ function fallingCorn() {
     canvas.height = window.innerHeight - 20;
 
     // BACKGROUND CHOOSE
-    dice = rng(1,10);
-    console.log(dice);
-    if(dice <= 2){
-        document.body.style.backgroundImage = "url('background.png')";
-    } else {
-        document.body.style.backgroundImage = "url('background-original.png')";
-    }
+    backdrop(0);
 
     // START POSITION BASKET
     fingerX = (canvas.width)/2 - 50;
@@ -445,6 +690,11 @@ function fallingCorn() {
 }
 
 function graveGuess() {
+    switchlb("1");
+
+    // BACKGROUND SET
+    backdrop(1);
+
     let score = 0;
     let iterations = 2;
     let completion = 0;
@@ -460,13 +710,17 @@ function graveGuess() {
     var backgroundSkull = document.getElementById("bg-container-skull");
     var leaderboard = document.getElementById("leaderboard-content");
 
+    var graveContainer = document.getElementById("grave-guess-container");
+
     home.style.display = "none";
     gameAssets.style.display = "block";
     background.style.display = "none";
     backgroundSkull.style.display = "none";
     leaderboard.style.display = "none";
 
-    document.getElementById("grave-guess-score").innerHTML = "0";
+    graveContainer.style.display = "flex";
+
+    document.getElementById("score").innerHTML = "0";
     round();
 
     function round() {
@@ -536,17 +790,40 @@ function graveGuess() {
             if(list[taps] == i) {
                 console.log("Correct!");
                 taps++;
+                light(i);
                 if(taps == list.length) {
                     console.log("Score Up!");
                     score++;
-                    document.getElementById("grave-guess-score").innerHTML = score;
+                    document.getElementById("score").innerHTML = score;
                     iterations++;
                     round();
+                    getHS();
                 }
             } else {
                 gameover();
                 console.log("Game Over!");
             }
+        }
+    }
+
+    function light(n) {
+        switch(n){
+            case 1:
+                document.getElementById("grave-1").classList.add("hint-green");
+                setTimeout(release, "500");
+                break;
+            case 2:
+                document.getElementById("grave-2").classList.add("hint-orange");
+                setTimeout(release, "500");
+                break;
+            case 3:
+                document.getElementById("grave-3").classList.add("hint-purple");
+                setTimeout(release, "500");
+                break;
+            case 4:
+                document.getElementById("grave-4").classList.add("hint-red");
+                setTimeout(release, "500");
+                break;
         }
     }
 
@@ -594,12 +871,14 @@ function graveGuess() {
         var gameAssets = document.getElementById("grave-guess-game");
         var background = document.getElementById("bg-container");
         var menu = document.getElementById("game-over-screen-grave-guess");
+        var graveContainer = document.getElementById("grave-guess-container");
         welcome.style.display = "none";
         home.style.display = "flex";
         gameAssets.style.display = "none";
         background.style.display = "block";
         menu.style.display = "none";
-        document.getElementById("grave-guess-score").innerHTML = "0";
+        graveContainer.style.display = "none";
+        document.getElementById("score").innerHTML = "0";
     }
 
     document.getElementById('retry-button-grave-guess').onclick = function() {
