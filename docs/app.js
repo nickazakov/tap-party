@@ -382,15 +382,14 @@ function back() {
 }
 
 function play () {
-    graveGuess();
-    /*switch(game) {
+    switch(game) {
         case "cornfall":
             cornfall();
             break;
         case "graveguess":
             graveGuess();
             break;
-    }*/
+    }
 }
 
 function refreshlb() {
