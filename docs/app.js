@@ -30,75 +30,99 @@ function updateTime() {
     switch(temp){
         case 0:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 1:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 2:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 3:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 4:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 5:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 6:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 7:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 8:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 9:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 10:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 11:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 12:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 13:
             temp = "Guessguess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 14:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 15:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 16:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 17:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 18:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 19:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 20:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 21:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
         case 22:
             temp = "Cornfall";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 23:
             temp = "Grave Guess";
+            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
     }
     document.getElementById("upcoming-game").innerHTML = temp;
