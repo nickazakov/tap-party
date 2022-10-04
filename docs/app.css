@@ -62,9 +62,6 @@ body {
     left: -25%;
     background: url(assets/general/pattern.png) repeat;
 
-    /* BLUR BACK */
-    filter: blur(2px);
-
     background-size: 650px;
     animation: backgroundScroll 60s linear infinite;
     transform: rotate(-45deg) scale(1);
