@@ -10,8 +10,16 @@
 // |||||||||||||||||||||||||||||| TIME CHECK ||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+// VARIABLES RELATED TO TIME
 let game = "";
+
+// GAME LIST ARRAY
+// 0 : CORNFALL
+// 1 : GRAVEGUESS
+// 2 : POTIONCRAFT
 let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
+
+// FUNCTION TO UPDATE ELEMENTS RELATED TO THE TIME
 updateTime();
 
 function updateTime() {
@@ -20,25 +28,38 @@ function updateTime() {
     let m = d.getMinutes();
     let s = d.getSeconds();
 
-    leftTime = (60 - m) + "m " + (60 - s) + "s "
-    document.getElementById("time-left").innerHTML = leftTime;
+    // CALCULATE TIME TO NEXT GAME
+    leftTime = (60 - m) + "m " + (60 - s) + "s ";
+    if(document.getElementById("time-left")) {
+        document.getElementById("time-left").innerHTML = leftTime;
+    }
 
-    temp = gameList[h+1];
+    temp = Number(h) + 1;
     if(temp == 24){
+        // SET 24 TO 0
         temp = 0;
     }
+    temp = gameList[temp];
+
+    // SET INFO BANNER & UPCOMING GAME TITLE RELATIVE TO TIME
     switch(temp){
         case 0:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 1:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 2:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 3:
             temp = "Grave Guess";
@@ -105,6 +126,7 @@ function updateTime() {
             document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 19:
+            console.log("1");
             temp = "Grave Guess";
             document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
@@ -113,6 +135,7 @@ function updateTime() {
             document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 21:
+            console.log("1");
             temp = "Grave Guess";
             document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
@@ -121,14 +144,20 @@ function updateTime() {
             document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
             break;
         case 23:
+            console.log("1");
             temp = "Grave Guess";
             document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
             break;
     }
-    document.getElementById("upcoming-game").innerHTML = temp;
 
+    if(document.getElementById("upcoming-game")) {
+        document.getElementById("upcoming-game").innerHTML = temp;
+    }
+
+    // SELF UPDATE EVERY 1S
     setTimeout(updateTime, "1000");
 
+    // SET GAME RELATIVE TO TIME
     switch(h){
         case 0:
             game = "cornfall";
@@ -209,6 +238,7 @@ function updateTime() {
 // ||||||||||||||||||||||||||||| FIRESTORE ||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+// INITIALIZE FIREBASE
 const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyB3F4Uowi0vH7jMLDfp1QO1TXtgL-_QLgg",
     authDomain: "the-app-daily.firebaseapp.com",
@@ -219,24 +249,30 @@ const firebaseApp = firebase.initializeApp({
     measurementId: "G-MQZX83YBK2"
 });
 
+// INITIALIZE FIRESTORE
 const db = firebaseApp.firestore();
 
+// PRIVATE CATEGORY IDS
 let categories = [
     "cornfalllb",
     "graveguesslb",
     "potioncraftlb"
 ];
 
+// PUBLIC CATEGORY NAMES
 let categoriesPublic = [
     "Cornfall",
     "Grave Guess",
     "Potioncraft"
 ];
 
+// CURRENT CATEGORY PRIVATE ID
 let category = "cornfalllb";
 
+// CURRENT CATEGORY INDEX
 let categoryIndex = 0;
 
+// SET/UPDATE SCORE
 const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category)
@@ -246,8 +282,7 @@ const saveScore = () => {
     });
 }
 
-let obj = {};
-
+// PERFORM CHECK TO SEE IF UPDATING SCORE IS NEEDED
 const getHS = () => {
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category).doc(user)
@@ -269,10 +304,11 @@ const getHS = () => {
     })
 }
 
+// LOAD SCORES TO LEADERBOARD FOR CURRENT CATEGORY
 const loadScores = () => {
     document.getElementById("scores-container").innerHTML = "";
     db.collection(category)
-    .orderBy("score", "asc")
+    .orderBy("score", "desc")
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -296,11 +332,137 @@ const loadScores = () => {
     })
 }
 
+// CHECK IF #1 IN ANY CATEGORY
+const placeCheck = () => {
+    winnerInIndex = [];
+    for(let i = 0; i < categories.length; i++) {
+        db.collection(categories[i])
+        .orderBy("score", "desc")
+        .limit(1)
+        .get()
+        .then((querySnapshot) => {
+            if(user == querySnapshot.docs[0].id) {
+                console.log("We're currently #1 in " + categories[i]);
+                messageCheck(i);
+            }
+        })
+    }
+}
+
+let currentlySetting;
+
+const messageCheck = (i) => {
+    db.collection("winnermessages").doc(categories[i])
+    .get()
+    .then((doc) => {
+        if(doc.data().user == user) {
+            console.log("Message already set for " + categoriesPublic[i]);
+        } else {
+            console.log("Message not set for " + categoriesPublic[i])
+
+            document.getElementById("prompt-hint").innerHTML = "Looks like you ranked first in " + categoriesPublic[i] + " 👑<br>Write down some wise words or share a random cat fact.";
+            document.getElementById("message-prompt").style.display = "flex";
+
+            currentlySetting = i;
+        }
+    })
+}
+
+const lbRating = () => {
+    placeCheck();
+}
+
+let catFacts = [
+    "Stubbs, a 17-year-old orange tabby, is mayor of the historic district of Talkeetna, Alaska.",
+    "A cat’s learning style is about the same as a 2- to 3-year-old child.",
+    "A group of kittens is called a “kindle.”",
+    "It turns out that Abraham Lincoln was a crazy cat president! He had four cats that lived in the White House with him.",
+    "A green cat was born in Denmark in 1995. Some people believe that high levels of copper in the water pipes nearby may have given his fur a verdigris effect.",
+    "Studies suggest that domesticated cats first appeared around 3600 B.C.",
+    "The first known cat video was recorded in 1894.",
+    "Male cats are the most sensitive to catnip, while kittens under 3 months old have no response at all.",
+    "Most world languages have a similar word to describe the “meow” sound.",
+    "Cats can be toilet-trained.",
+    "Cats perceive people as big, hairless cats, says Wilde.",
+    "If you can’t find your cat, you should look in a box or a bag, as these are some of their favorite hiding spots!",
+    "Many cats like to lick their owner’s freshly washed hair.",
+    "Your cat drapes its tail over another cat, your dog, or you as a symbol of friendship.",
+    "Meowing is a behavior that cats developed exclusively to communicate with people.",
+    "Hissing is defensive, not aggressive, says Wilde. “It’s an expression of fear, stress or discomfort of a threatened cat communicating ‘stay away,'” she says.",
+    "Cats find it threatening when you make direct eye contact with them.",
+    "A cat with a question-mark-shaped tail is asking, “Want to play?”",
+    "Cats have up to 100 different vocalizations — dogs only have 10.",
+    "Cats’ purring may be a self-soothing behavior, since they make this noise when they’re ill or distressed, as well as when they’re happy.",
+    "Cats can spend up to a third of their waking hours grooming.",
+    "Cats live longer when they stay indoors.",
+    "Cats are fastidious creatures about their “bathroom.” If you have more than one cat, you should have one litter box for each.",
+    "According to The Huffington Post, cats typically sleep for 12 to 16 hours a day.",
+    "Between 2002 and 2012 the average lifespan of a cat increased by a year.",
+    "Cats dream, just like people do.",
+    "Each cat’s nose print is unique, much like human fingerprints.",
+    "A house cat is genetically 95.6% tiger.",
+    "While us humans have 206 bones, cats on average have 244. It ranges between 230-250 depending on how long a cat’s tail is and how many toes the cat has.",
+    "Cats can jump 5 times their height.",
+    "Cats can run around 48 kph (30 mph), but only over short distances. A house cat could beat superstar runner Usain Bolt in the 200 meter dash.",
+    "Cats have an extra organ that allows them to taste scents in the air.",
+    "Cat whiskers are the same width as their body.",
+    "Cats walk like camels and giraffes, both right feet then both left feet.",
+    "If your cat approaches you with a straight, almost vibrating tail, this means that he/she is extremely happy to see you.",
+    "An ailurophile is a person who loves cats. The word ailuro is the ancient Greek word for cat.",
+    "When your cat shows their belly, it is a sign of trust and a relaxed cat- this is not an invite for belly rub typically."
+]
+
+// FUNCTION TO SET WINNER MESSAGE
+const setMessage = (b) => {
+    // currentScore = document.getElementById("score").innerHTML;
+    if(b){
+        db.collection("winnermessages")
+        .doc(categories[currentlySetting])
+        .set({
+            msg: document.getElementById("custom-message").value,
+            user: user
+        });
+    } else {
+        db.collection("winnermessages")
+        .doc(categories[currentlySetting])
+        .set({
+            msg: catFacts[rng(0, 36)],
+            user: user
+        });
+    }
+    document.getElementById("message-prompt").style.display = "none";
+}
+
+// UPDATE MARQUEE MESSAGE
+const updateMessage = () => {
+    console.log("Marquee Message Updated");
+    // CLEAR MARQUEE TEXT
+    if(document.getElementById("marquee")) {
+        document.getElementById("marquee").innerHTML = "";
+    }
+    for(let i = 0; i < categories.length; i++) {
+        db.collection("winnermessages").doc(categories[i])
+        .get()
+        .then((doc) => {
+            temp = "";
+            temp = doc.data().user + " : " + doc.data().msg;
+            currentMsg = document.getElementById("marquee").innerHTML;
+
+            if(document.getElementById("marquee")) {
+                document.getElementById("marquee").innerHTML = currentMsg + " " + temp;
+            }
+        })
+    }
+}
+
+// FUNCTION TO UPDATE WINNER MESSAGE
+updateMessage();
+
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||| INDEXEDDB ||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-// User Variable
+// USER VARIABLE
 let user = "";
 
 const indexedDB =
@@ -312,17 +474,20 @@ const indexedDB =
 
 const request = indexedDB.open("UsernameData", 1);
 
+// ERROR PRINT
 request.onerror = function (event) {
     console.error("An error occurred with IndexedDB");
     console.error(event);
 }
 
+// SAVE USERNAME TO THE LOCAL STORAGE
 request.onupgradeneeded = function () {
     const db = request.result;
     const store = db.createObjectStore("username", { keyPath: "id" });
     store.createIndex("un", ["unstring"], {unique: true});
 }
 
+// PERFORM A CHECK TO SEE IF A USERNAME IS SAVED IN THE LOCAL STORAGE
 request.onsuccess = function () {
     const db = request.result;
     const transaction = db.transaction("username", "readwrite");
@@ -336,19 +501,157 @@ request.onsuccess = function () {
         console.log('Username: ', idQuery.result);
         if(idQuery.result == undefined) {
             console.log("No username.");
-            var welcome = document.getElementById("welcome-content");
+
+            /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
             welcome.style.display = "flex";
-            home.style.display = "none";
+            home.style.display = "none";*/
+
         } else {
+            goTo("home");
             console.log("Username found!");
             user = idQuery.result.unstring;
             document.getElementById("local-username").innerHTML = user;
-            var welcome = document.getElementById("welcome-content");
+            
+            /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
             welcome.style.display = "none";
-            home.style.display = "flex";
+            home.style.display = "flex";*/
         }
+    }
+}
+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||| PAGES ||||||||||||||||||||||||||||||||||||||
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+let landing_HTMLSnippet = `
+`;
+
+let welcome_HTMLSnippet = `
+    <div id="bg-container">
+        <div id="bg-scroll"></div>
+    </div>
+
+    <content id="welcome-content">
+        <input id="username-input" type="text" placeholder="Marilyn Monrock">
+        <button id="enter-button" onclick="remember()">Remember me!</button>
+    </content>
+`;
+
+let home_HTMLSnippet = `
+    <div id="bg-container">
+        <div id="bg-scroll"></div>
+    </div>
+
+    <marquee id="marquee" behavior="scroll" direction="left"></marquee>
+    <content id="home-content">
+        <div id="info-window">
+            <h1 id="info-title">Upcoming!</h1>
+            <h1 id="upcoming-game"></h1>
+            <h1 id="time-left"></h1>
+        </div>
+        <h1 id="local-username"></h1>
+        <button id="play-button" class="purple-long-button ds-light" onclick="play()">Play</button>
+        <button id="lboard-button" class="yellow-long-button ds-light" onclick="leaderboardLoad()">Leaderboard</button>
+    </content>
+`;
+
+let leaderboard_HTMLSnippet = `
+    <div id="bg-container-skull">
+        <div id="bg-scroll-skully"></div>
+    </div>
+
+    <content id="leaderboard-content">
+        <div id="message-prompt">
+            <div id="prompt-window">
+                <h1 id="prompt-hint" class="ds-light">
+                    -
+                </h1>
+                <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
+                <button class="purple-long-button ds-light" onclick="setMessage(true)">Save Message</button>
+                <button class="purple-long-button ds-light" onclick="setMessage(false)">Random Cat Fact</button>
+            </div>
+        </div>
+        <div id="top-bar-lb">
+            <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()">Cornfall</button>
+            <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()">sync</button>
+        </div>
+        <div id="board">
+            <div id="scores-container">
+            </div>
+        </div>
+        <button id="back-button" class="purple-long-button ds-heavy" onclick="back()">Back</button>
+    </content>
+`;
+
+let cornfall_HTMLSnippet = `
+    <h1 id="score">0</h1>
+
+    <content id="falling-corn-game">
+        <canvas id="halloween-game-canvas"></canvas>
+        <img id="cauldron" src="assets/cornfall/cauldron.png">
+        <img id="corn" src="assets/cornfall/corn.png">
+        <img id="bone" src="assets/cornfall/bone.png">
+        <div id="game-over-screen">
+            <button id="retry-button">Retry</button>
+            <button id="home-button">Home</button>
+        </div>
+    </content>
+`;
+
+let graveguess_HTMLSnippet = `
+    <h1 id="score">0</h1>
+
+    <content id="grave-guess-game">
+        <div id="grave-guess-container">
+            <div id="grave-tile-container">
+                <div id="mask"></div>
+                <button id="grave-1" class="grave-tile"></button>
+                <button id="grave-2" class="grave-tile"></button>
+                <button id="grave-3" class="grave-tile"></button>
+                <button id="grave-4" class="grave-tile"></button>
+            </div>
+        </div>
+        <div id="game-over-screen-grave-guess">
+            <button id="retry-button-grave-guess" class="purple-long-button ds-light game-over-ui">Retry</button>
+            <button id="home-button-grave-guess" class="purple-long-button ds-light game-over-ui">Home</button>
+        </div>
+    </content>
+`;
+
+function goTo(page) {
+    // goTo("home");
+    switch(page) {
+
+        // PAGES
+        case "landing":
+            document.body.innerHTML = "";
+            document.body.innerHTML = landing_HTMLSnippet;
+            break;
+        case "welcome": 
+            document.body.innerHTML = "";
+            document.body.innerHTML = welcome_HTMLSnippet;
+            break;
+        case "home":  
+            updateMessage();
+            document.body.innerHTML = "";
+            document.body.innerHTML = home_HTMLSnippet;
+            break;
+        case "leaderboard":  
+            document.body.innerHTML = "";
+            document.body.innerHTML = leaderboard_HTMLSnippet;
+            break;
+
+        // GAMES
+        case "cornfall":
+            document.body.innerHTML = "";
+            document.body.innerHTML = cornfall_HTMLSnippet;
+            break;
+        case "graveguess":
+            document.body.innerHTML = "";
+            document.body.innerHTML = graveguess_HTMLSnippet;
+            break;
     }
 }
 
@@ -356,6 +659,7 @@ request.onsuccess = function () {
 // ||||||||||||||||||||||||||||||||| MENUS ||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+// FUNCTION TO SAVE USERNAME
 function remember () {
     const db = request.result;
     const transaction = db.transaction("username", "readwrite");
@@ -373,38 +677,24 @@ function remember () {
     home.style.display = "flex";
 }
 
+// FUNCTION TO GO TO THE LEADERBOARD
 function leaderboardLoad() {
-    var home = document.getElementById("home-content");
-    var backgroundCorn = document.getElementById("bg-container");
-    var backgroundSkull = document.getElementById("bg-scroll-skully");
-    var leaderboard = document.getElementById("leaderboard-content");
-    home.style.display = "none";
-    backgroundCorn.style.display = "none";
-    backgroundSkull.style.display = "block";
-    leaderboard.style.display = "flex";
 
-    var backgroundSkulll = document.getElementById("bg-container-skull");
-    backgroundSkulll.style.display = "block";
+    goTo("leaderboard");
 
     loadScores();
+
+    // CHECK RANKING
+    lbRating();
 }
 
+// FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
 function back() {
-    var home = document.getElementById("home-content");
-    var backgroundCorn = document.getElementById("bg-container");
-    var backgroundSkull = document.getElementById("bg-scroll-skully");
-    var leaderboard = document.getElementById("leaderboard-content");
-    home.style.display = "flex";
-    backgroundCorn.style.display = "block";
-    backgroundSkull.style.display = "none";
-    leaderboard.style.display = "none";
-
-    var backgroundSkulll = document.getElementById("bg-container-skull");
-    backgroundSkulll.style.display = "none";
-
     document.getElementById("scores-container").innerHTML = "";
+    goTo("home");
 }
 
+// FUNCTION TO PLAY THE CURRENT GAME
 function play () {
     switch(game) {
         case "cornfall":
@@ -416,6 +706,7 @@ function play () {
     }
 }
 
+// FUNCTION TO REFRESH LEADERBOARD
 function refreshlb() {
     document.getElementById("reload-lb").style.animation="spin 0.5s linear";
     setTimeout(stopRefreshAnim, "500");
@@ -426,6 +717,7 @@ function stopRefreshAnim() {
     document.getElementById("reload-lb").style.animation="";
 }
 
+// FUNCTION TO SWITCH LEADERBOARD CATEGORY
 function switchlb(i) {
     if(i) {
         categoryIndex = i;
@@ -448,6 +740,7 @@ function switchlb(i) {
     }
 }
 
+// FUNCTION TO SWITCH BACKGROUND
 function backdrop(n){
     switch(n){
         case 0:
@@ -470,26 +763,18 @@ function backdrop(n){
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 function cornfall() {
+    goTo("cornfall");
+    backdrop(0);
     switchlb("0");
 
-    var home = document.getElementById("home-content");
-    var gameAssets = document.getElementById("falling-corn-game");
-    var background = document.getElementById("bg-container");
-    var backgroundSkull = document.getElementById("bg-container-skull");
-    var leaderboard = document.getElementById("leaderboard-content");
-    home.style.display = "none";
-    gameAssets.style.display = "block";
-    background.style.display = "none";
-    backgroundSkull.style.display = "none";
-    leaderboard.style.display = "none";
+    /*let canvasElement = document.createElement('canvas');
+    canvasElement.id = "halloween-game-canvas";
+    document.getElementById("falling-corn-game").appendChild(canvasElement);*/
 
     const canvas = document.getElementById("halloween-game-canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth - 20;
     canvas.height = window.innerHeight - 20;
-
-    // BACKGROUND CHOOSE
-    backdrop(0);
 
     // START POSITION BASKET
     fingerX = (canvas.width)/2 - 50;
@@ -668,17 +953,8 @@ function cornfall() {
     }
 
     function menu() {
-        var welcome = document.getElementById("welcome-content");
-        var home = document.getElementById("home-content");
-        var gameAssets = document.getElementById("falling-corn-game");
-        var background = document.getElementById("bg-container");
-        var menu = document.getElementById("game-over-screen");
-        welcome.style.display = "none";
-        home.style.display = "flex";
-        gameAssets.style.display = "none";
-        background.style.display = "block";
-        menu.style.display = "none";
         document.getElementById("score").innerHTML = "0";
+        goTo("home");
     }
 
     document.getElementById('retry-button').onclick = function() {
@@ -713,10 +989,9 @@ function cornfall() {
 }
 
 function graveGuess() {
-    switchlb("1");
-
-    // BACKGROUND SET
+    goTo("graveguess");
     backdrop(1);
+    switchlb("1");
 
     let score = 0;
     let iterations = 2;
@@ -726,22 +1001,6 @@ function graveGuess() {
     let list = [];
     let tappable = false;
     let taps = 0;
-
-    var home = document.getElementById("home-content");
-    var gameAssets = document.getElementById("grave-guess-game");
-    var background = document.getElementById("bg-container");
-    var backgroundSkull = document.getElementById("bg-container-skull");
-    var leaderboard = document.getElementById("leaderboard-content");
-
-    var graveContainer = document.getElementById("grave-guess-container");
-
-    home.style.display = "none";
-    gameAssets.style.display = "block";
-    background.style.display = "none";
-    backgroundSkull.style.display = "none";
-    leaderboard.style.display = "none";
-
-    graveContainer.style.display = "flex";
 
     document.getElementById("score").innerHTML = "0";
     round();
@@ -889,19 +1148,8 @@ function graveGuess() {
     }
 
     function menu() {
-        var welcome = document.getElementById("welcome-content");
-        var home = document.getElementById("home-content");
-        var gameAssets = document.getElementById("grave-guess-game");
-        var background = document.getElementById("bg-container");
-        var menu = document.getElementById("game-over-screen-grave-guess");
-        var graveContainer = document.getElementById("grave-guess-container");
-        welcome.style.display = "none";
-        home.style.display = "flex";
-        gameAssets.style.display = "none";
-        background.style.display = "block";
-        menu.style.display = "none";
-        graveContainer.style.display = "none";
         document.getElementById("score").innerHTML = "0";
+        goTo("home");
     }
 
     document.getElementById('retry-button-grave-guess').onclick = function() {

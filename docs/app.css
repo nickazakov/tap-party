@@ -1,3 +1,13 @@
+/*
+ _______  _______  __    _  _______  ______    _______  ___     
+|       ||       ||  |  | ||       ||    _ |  |   _   ||   |    
+|    ___||    ___||   |_| ||    ___||   | ||  |  |_|  ||   |    
+|   | __ |   |___ |       ||   |___ |   |_||_ |       ||   |    
+|   ||  ||    ___||  _    ||    ___||    __  ||       ||   |___ 
+|   |_| ||   |___ | | |   ||   |___ |   |  | ||   _   ||       |
+|_______||_______||_|  |__||_______||___|  |_||__| |__||_______|                                             
+*/
+
 * {
     margin: 0;
     padding: 0;
@@ -23,381 +33,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* --------------- */
-/* WELCOME CONTENT */
-/* --------------- */
-
-#welcome-content {
-    width: 100vw;
-    height: 100vh;
-
-    /* UPDATED FROM FLEX TO NONE*/
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 4;
-}
-
-#username-input {
-    /* Input Design */
-    border: none;
-    background-color: cornflowerblue;
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    caret-color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-}
-
-#username-input:hover {
-    border: 3px dashed white;
-    background-color: rgb(58, 107, 199);
-}
-
-#enter-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-}
-
-#enter-button:hover {
-    background-color: rgb(168, 84, 216);
-}
-
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
-}
-
-input::placeholder {
-    opacity: .5;
-    color: white;
-}
-
-/* ------------ */
-/* HOME CONTENT */
-/* ------------ */
-
-#info-window {
-    background-image: url(assets/general/banner-graveguess.png);
-    background-size: cover;
-    padding: 20px;
-    width: 75vw;
-    border-radius: 30px;
-    margin-bottom: 200px;
-    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
-}
-
-#info-title {
-    text-align: center;
-    top: 0px;
-
-    color: rgb(255, 190, 116);
-    font-weight: 600;
-    font-size: 20px;
-}
-
-#upcoming-game {
-    text-align: center;
-    top: 0px;
-
-    color: rgb(255, 137, 2);
-    border-radius: 5px;
-    text-shadow: rgba(0, 0, 0, 0.35) 1px 0 10px;
-    font-weight: bold;
-    font-size: 35px;
-}
-
-#time-left {
-    text-align: center;
-    top: 0px;
-
-    color: rgb(255, 161, 53);
-    font-weight: bold;
-    font-size: 60px;
-    animation: float 3s infinite;
-}
-
-@keyframes float {
-	0% {transform: scale(0.9)  }
-	50% { transform: scale(1) }
-  100% { transform: scale(0.9) }
-}
-
-#home-content {
-    width: 100vw;
-    height: 100vh;
-
-    /* UPDATED FROM FLEX TO NONE*/
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 4;
-}
-
-#play-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
-}
-
-#play-button:hover {
-    background-color: rgb(168, 84, 216);
-}
-
-#lboard-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(236, 196, 62);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
-}
-
-#lboard-button:hover {
-    background-color: rgb(206, 170, 54);
-}
-
-#back-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
-}
-
-#back-button:hover {
-    background-color: rgb(168, 84, 216);
-}
-
-#leaderboard-content {
-    width: 100vw;
-    height: 100vh;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 4;
-
-    display: flex;
-    justify-content: center;
-}
-
-#board {
-    height: 60vh;
-    width: 70vw;
-    background-color: rgb(255, 233, 208);
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
-
-    display: flex;
-    align-items: center;
-    overflow-y: hidden;
-}
-
-#scores-container {
-    padding: 20px 0px 20px 0px;
-    width: 80%;
-    height: 90%;
-    min-height: min-content;
-    max-height: max-content;
-    margin-right: auto;
-    margin-left: auto;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-#top-bar-lb {
-    display: flex;
-    justify-content: center;
-}
-
-#reload-lb {
-    background-color: cornflowerblue;
-    color: #fff;
-    font-weight: bold;
-    font-size: 2rem;
-    margin-bottom: 20px;
-
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 29px 0px;
-
-    margin-left: 20px;
-    border: none;
-    padding: 10px;
-    border-radius: 30px;
-    transition: all 0.5s;
-}
-
-@keyframes spin { 100% { transform:rotate(360deg); } }
-
-#reload-lb:hover {
-    background-color: rgb(58, 107, 199);
-}
-
-#switch-lb {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
-}
-
-#switch-lb:hover {
-    background-color: rgb(168, 84, 216);
-}
-
 .material-symbols-rounded {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 700,
-  'GRAD' 0,
-  'opsz' 48
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-}
-
-#falling-corn-lb {
-    background-color: rgb(224, 211, 91);
-    font-weight: bold;
-}
-
-#pumpkinball-lb {
-    background-color: rgb(241, 156, 59);
-    font-weight: bold;
-}
-
-#username-entry {
-    flex: 40%;
-    text-align: left;
-    padding: 10px 0px 10px 10px;
-    margin-bottom: 10px;
-    max-width: 100px;
-
-    font-weight: bold;
-    font-size: 17px;
-}
-
-#score-entry {
-    flex: 40%;
-    text-align: center;
-    background-color: rgb(255, 206, 115);
-    border-radius: 15px;
-    padding: 10px 0px 10px 0px;
-    margin-bottom: 10px;
-
-    font-weight: bold;
-    font-size: 17px;
-}
-
-#local-username {
-    color: rgb(255, 233, 208);
-    font-weight: bold;
-    font-size: 45px;
-    margin-bottom: 20px;
-    animation: tilt-n-move-shaking 0.6s infinite;
-}
-
-@keyframes tilt-n-move-shaking {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(5px, 5px) rotate(5deg); }
-    50% { transform: translate(0, 0) rotate(0eg); }
-    75% { transform: translate(-5px, 5px) rotate(-5deg); }
-    100% { transform: translate(0, 0) rotate(0deg); }
-}
-
-/* SCROLLBAR */
-
-::-webkit-scrollbar {
-    width: 0px;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 48
 }
 
 #bg-container {
@@ -420,6 +61,10 @@ select {
     top: -25%;
     left: -25%;
     background: url(assets/general/pattern.png) repeat;
+
+    /* BLUR BACK */
+    filter: blur(2px);
+
     background-size: 650px;
     animation: backgroundScroll 60s linear infinite;
     transform: rotate(-45deg) scale(1);
@@ -453,7 +98,7 @@ select {
     transform: rotate(135deg) scale(1);
     transform-origin: center center;
     z-index: 2;
-    display: none;
+    display: block;
 }
   
 @keyframes backgroundScroll {
@@ -463,17 +108,6 @@ select {
       100% {
       background-position:0 -1000px;
     }
-}
-
-/* GAME 1 */
-
-#halloween-game-canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    color: transparent;
 }
 
 #score {
@@ -489,61 +123,444 @@ select {
     font-size: 60px;
 }
 
+/* BUTTTOOOOOOOOOOOOOONNNNNNNNNSSSSSSSSSSSSSS */
+
+#username-input {
+    /* Input Design */
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    caret-color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+    z-index: 4;
+}
+
+#username-input:hover {
+    border: 3px dashed white;
+    background-color: rgb(58, 107, 199);
+}
+
+@keyframes spin { 100% { transform:rotate(360deg); } }
+
+/* GENERALIZED BUTTONS */
+.purple-long-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
+}
+.purple-long-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+.yellow-long-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(236, 196, 62);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
+}
+.yellow-long-button:hover {
+    background-color: rgb(206, 170, 54);
+}
+
+.blue-circle-button {
+    background-color: cornflowerblue;
+    color: #fff;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+
+    margin-left: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 30px;
+    transition: all 0.5s;
+}
+.blue-circle-button:hover {
+    background-color: rgb(58, 107, 199);
+}
+
+/* BUTTON DROP SHADOW */
+.ds-light {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 7px 29px 0px;
+}
+.ds-heavy {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
+}
+.ds-even-light {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 29px 0px;
+}
+.ds-even-heavy {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 29px 0px;
+}
+
+.game-over-ui {
+    z-index: 10;
+}
+
+/*
+ _     _  _______  ___      _______  _______  __   __  _______ 
+| | _ | ||       ||   |    |       ||       ||  |_|  ||       |
+| || || ||    ___||   |    |       ||   _   ||       ||    ___|
+|       ||   |___ |   |    |       ||  | |  ||       ||   |___ 
+|       ||    ___||   |___ |      _||  |_|  ||       ||    ___|
+|   _   ||   |___ |       ||     |_ |       || ||_|| ||   |___ 
+|__| |__||_______||_______||_______||_______||_|   |_||_______|
+*/
+
+#welcome-content {
+    width: 100vw;
+    height: 100vh;
+
+    /* UPDATED FROM FLEX TO NONE*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 4;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+input::placeholder {
+    opacity: .5;
+    color: white;
+}
+
+/*
+ __   __  _______  __   __  _______ 
+|  | |  ||       ||  |_|  ||       |
+|  |_|  ||   _   ||       ||    ___|
+|       ||  | |  ||       ||   |___ 
+|       ||  |_|  ||       ||    ___|
+|   _   ||       || ||_|| ||   |___ 
+|__| |__||_______||_|   |_||_______|
+*/
+
+#home-content {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 4;
+}
+
+#marquee {
+	color: rgb(255, 170, 59);
+	letter-spacing: 2px;
+	font-weight: 700;
+	padding: 15px;
+	font-size: 32px;
+    position: absolute;
+    background-color: rgb(255, 233, 208);
+    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
+}
+
+/* INFO BANNER */
+
+#info-window {
+    background-image: url(assets/general/banner-graveguess.png);
+    background-size: cover;
+    padding: 20px;
+    width: 75vw;
+    border-radius: 30px;
+    margin-bottom: 200px;
+    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
+    transition: all 1s;
+}
+
+#info-window:hover {
+    transform: scale(1.05);
+}
+
+#info-title {
+    text-align: center;
+    top: 0px;
+
+    color: rgb(255, 190, 116);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+#upcoming-game {
+    text-align: center;
+    top: 0px;
+
+    color: rgb(253, 168, 70);
+    border-radius: 5px;
+    text-shadow: rgba(255, 255, 255, 1) 0px 0px 20px;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+#time-left {
+    text-align: center;
+    top: 0px;
+
+    color: rgb(255, 161, 53);
+    font-weight: bold;
+    font-size: 60px;
+    animation: float 3s infinite;
+}
+
+@keyframes float {
+	0% {transform: scale(0.9)  }
+	50% { transform: scale(1) }
+  100% { transform: scale(0.9) }
+}
+
+#local-username {
+    color: rgb(255, 233, 208);
+    font-weight: bold;
+    font-size: 45px;
+    margin-bottom: 20px;
+    animation: tilt-n-move-shaking 0.6s infinite;
+}
+
+@keyframes tilt-n-move-shaking {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(5px, 5px) rotate(5deg); }
+    50% { transform: translate(0, 0) rotate(0eg); }
+    75% { transform: translate(-5px, 5px) rotate(-5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/*
+ ___      _______  _______  ______   _______  ______    _______  _______  _______  ______    ______  
+|   |    |       ||   _   ||      | |       ||    _ |  |  _    ||       ||   _   ||    _ |  |      | 
+|   |    |    ___||  |_|  ||  _    ||    ___||   | ||  | |_|   ||   _   ||  |_|  ||   | ||  |  _    |
+|   |    |   |___ |       || | |   ||   |___ |   |_||_ |       ||  | |  ||       ||   |_||_ | | |   |
+|   |___ |    ___||       || |_|   ||    ___||    __  ||  _   | |  |_|  ||       ||    __  || |_|   |
+|       ||   |___ |   _   ||       ||   |___ |   |  | || |_|   ||       ||   _   ||   |  | ||       |
+|_______||_______||__| |__||______| |_______||___|  |_||_______||_______||__| |__||___|  |_||______| 
+*/
+
+#leaderboard-content {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 4;
+
+    display: flex;
+    justify-content: center;
+}
+
+#message-prompt {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 5;
+
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+
+    display: none;
+}
+
+textarea {
+    /* Input Design */
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 15px;
+    width: auto;
+    height: 100px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 29px 0px;
+
+    /* Text Design */
+    color: white;
+    caret-color: white;
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 20px;
+
+    /* Other */
+    resize: none;
+    margin-bottom: 20px;
+    transition: background-color 0.5s;
+    z-index: 4;
+}
+
+textarea::-webkit-input-placeholder {
+    color: #b1caf6;
+    font-weight: bold;
+}
+  
+textarea:-moz-placeholder { /* Firefox 18- */
+    color: #b1caf6;  
+    font-weight: bold;
+}
+  
+textarea::-moz-placeholder {  /* Firefox 19+ */
+    color: #b1caf6;  
+    font-weight: bold;
+}
+  
+textarea:-ms-input-placeholder {
+    color: #b1caf6;  
+    font-weight: bold;
+}
+  
+textarea::placeholder {
+    color: #b1caf6;  
+    font-weight: bold;
+}
+
+#prompt-hint {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: rgb(0, 0, 0);
+    width: 250px;
+    padding: 10px;
+    font-weight: 600;
+    background-color: #ffffff;
+    border-radius: 15px;
+}
+
+textarea:hover {
+    border: 3px dashed white;
+    background-color: rgb(58, 107, 199);
+}
+
+#prompt-window {
+    display: flex;
+    background-color: rgb(255, 233, 208);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    width: 80vw;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
+}
+
+#board {
+    height: 60vh;
+    width: 70vw;
+    background-color: rgb(255, 233, 208);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
+
+    display: flex;
+    align-items: center;
+    overflow-y: hidden;
+}
+
+#top-bar-lb {
+    display: flex;
+    justify-content: center;
+}
+
+#scores-container {
+    padding: 20px 0px 20px 0px;
+    width: 80%;
+    height: 90%;
+    min-height: min-content;
+    max-height: max-content;
+    margin-right: auto;
+    margin-left: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#username-entry {
+    flex: 40%;
+    text-align: left;
+    padding: 10px 0px 10px 10px;
+    margin-bottom: 10px;
+    max-width: 100px;
+
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#score-entry {
+    flex: 40%;
+    text-align: center;
+    background-color: rgb(255, 206, 115);
+    border-radius: 15px;
+    padding: 10px 0px 10px 0px;
+    margin-bottom: 10px;
+
+    font-weight: bold;
+    font-size: 17px;
+}
+
+/*
+ _______  _______  ______    __    _  _______  _______  ___      ___     
+|       ||       ||    _ |  |  |  | ||       ||   _   ||   |    |   |    
+|       ||   _   ||   | ||  |   |_| ||    ___||  |_|  ||   |    |   |    
+|       ||  | |  ||   |_||_ |       ||   |___ |       ||   |    |   |    
+|      _||  |_|  ||    __  ||  _    ||    ___||       ||   |___ |   |___ 
+|     |_ |       ||   |  | || | |   ||   |    |   _   ||       ||       |
+|_______||_______||___|  |_||_|  |__||___|    |__| |__||_______||_______|
+*/
+
+#halloween-game-canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    color: transparent;
+}
+
 #game-over-screen {
     position: absolute;
     margin-top: 50vh;
     text-align: center;
     display: none;
-}
-
-#retry-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgb(0, 0, 0, 0.1) 0px 7px 29px 0px;
-}
-
-#retry-button:hover {
-    background-color: rgb(168, 84, 216);
-}
-
-#home-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgb(0, 0, 0, 0.1) 0px 7px 29px 0px;
-}
-
-#home-button:hover {
-    background-color: rgb(168, 84, 216);
 }
 
 #cauldron {
@@ -558,11 +575,15 @@ select {
     display: none;
 }
 
-#falling-corn-game {
-    display: none;
-}
-
-/* GRAVE 2 */
+/*
+ _______  ______    _______  __   __  _______  _______  __   __  _______  _______  _______ 
+|       ||    _ |  |   _   ||  | |  ||       ||       ||  | |  ||       ||       ||       |
+|    ___||   | ||  |  |_|  ||  |_|  ||    ___||    ___||  | |  ||    ___||  _____||  _____|
+|   | __ |   |_||_ |       ||       ||   |___ |   | __ |  |_|  ||   |___ | |_____ | |_____ 
+|   ||  ||    __  ||       ||       ||    ___||   ||  ||       ||    ___||_____  ||_____  |
+|   |_| ||   |  | ||   _   | |     | |   |___ |   |_| ||       ||   |___  _____| | _____| |
+|_______||___|  |_||__| |__|  |___|  |_______||_______||_______||_______||_______||_______|
+*/
 
 #game-over-screen-grave-guess {
     position: absolute;
@@ -571,58 +592,7 @@ select {
     display: none;
 }
 
-#retry-button-grave-guess {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgb(0, 0, 0, 0.1) 0px 7px 29px 0px;
-}
-
-#retry-button-grave-guess:hover {
-    background-color: rgb(168, 84, 216);
-}
-
-#home-button-grave-guess {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: background-color 0.5s;
-    z-index: 4;
-    box-shadow: rgb(0, 0, 0, 0.1) 0px 7px 29px 0px;
-}
-
-#home-button-grave-guess:hover {
-    background-color: rgb(168, 84, 216);
-}
-
 #grave-guess-game {
-    display: none;
     width: 100%;
     height: 100%;
     display: flex;
@@ -630,7 +600,7 @@ select {
 }
 
 #grave-guess-container {
-    display: none;
+    display: flex;
     justify-content: center;
     padding-top: 170px;
 }
@@ -743,7 +713,4 @@ select {
     display: block;
     width: inherit;
     height: inherit;
-    
-    margin: 0;
-    padding: 0;
 }
