@@ -446,7 +446,9 @@ const updateMessage = () => {
         .then((doc) => {
             temp = "";
             temp = doc.data().user + " : " + doc.data().msg;
-            currentMsg = document.getElementById("marquee").innerHTML;
+            if(document.getElementById("marquee")) {
+                currentMsg = document.getElementById("marquee").innerHTML;
+            }
 
             if(document.getElementById("marquee")) {
                 document.getElementById("marquee").innerHTML = currentMsg + " " + temp;
@@ -501,7 +503,7 @@ request.onsuccess = function () {
         console.log('Username: ', idQuery.result);
         if(idQuery.result == undefined) {
             console.log("No username.");
-
+            goTo("welcome");
             /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
             welcome.style.display = "flex";
@@ -535,7 +537,7 @@ let welcome_HTMLSnippet = `
 
     <content id="welcome-content">
         <input id="username-input" type="text" placeholder="Marilyn Monrock">
-        <button id="enter-button" onclick="remember()">Remember me!</button>
+        <button id="enter-button" class="purple-long-button ds-light" onclick="remember()">Remember me!</button>
     </content>
 `;
 
