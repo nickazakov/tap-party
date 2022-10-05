@@ -23,9 +23,8 @@
 }
 
 body {
-    background-image: url(assets/cornfall/background-corn.png);
-    background-size: cover;
     background-color: rgb(146, 43, 146);
+    background-size: cover;
 
     overflow-x: hidden;
     overflow-y: hidden;
@@ -739,10 +738,12 @@ textarea:hover {
 #halloween-game-canvas {
     padding-left: 0;
     padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
     display: block;
     color: transparent;
+
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
 }
 
 #game-over-screen {
@@ -754,6 +755,19 @@ textarea:hover {
     align-items: center;
 
     display: none;
+
+    z-index: 5;
+}
+
+#segment-fix {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: -1;
 }
 
 #cauldron {

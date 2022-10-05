@@ -640,6 +640,8 @@ let cornfall_HTMLSnippet = `
         <img id="cauldron" src="assets/cornfall/cauldron.png">
         <img id="corn" src="assets/cornfall/corn.png">
         <img id="bone" src="assets/cornfall/bone.png">
+
+        <div id="segment-fix"></div>
     </content>
 `;
 
@@ -647,6 +649,7 @@ let graveguess_HTMLSnippet = `
     <h1 id="score">0</h1>
 
     <content id="grave-guess-game">
+        <div id="segment-fix"></div>
         <div id="grave-guess-container">
             <div id="grave-tile-container">
                 <div id="mask"></div>
@@ -791,14 +794,15 @@ function back() {
 
 // FUNCTION TO PLAY THE CURRENT GAME
 function play () {
-    switch(game) {
+    cornfall();
+    /*switch(game) {
         case "cornfall":
             cornfall();
             break;
         case "graveguess":
             graveGuess();
             break;
-    }
+    }*/
 }
 
 // FUNCTION TO REFRESH LEADERBOARD
@@ -848,7 +852,7 @@ function backdrop(n){
             break;
         case 1:
             console.log("Set Grave Guess back!");
-            document.body.style.backgroundImage = "url('assets/graveguess/background-grave.png')";
+            document.getElementById("absolute-body").style.backgroundImage = "url('assets/graveguess/background-grave.png')";
             break;
     }
 }
