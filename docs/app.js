@@ -419,7 +419,7 @@ let catFacts = [
     "A cat’s learning style is about the same as a 2- to 3-year-old child.",
     "A group of kittens is called a “kindle.”",
     "It turns out that Abraham Lincoln was a crazy cat president! He had four cats that lived in the White House with him.",
-    "A green cat was born in Denmark in 1995. Some people believe that high levels of copper in the water pipes nearby may have given his fur a verdigris effect.",
+    "A green cat was born in Denmark in 1995.",
     "Studies suggest that domesticated cats first appeared around 3600 B.C.",
     "The first known cat video was recorded in 1894.",
     "Male cats are the most sensitive to catnip, while kittens under 3 months old have no response at all.",
@@ -430,7 +430,7 @@ let catFacts = [
     "Many cats like to lick their owner’s freshly washed hair.",
     "Your cat drapes its tail over another cat, your dog, or you as a symbol of friendship.",
     "Meowing is a behavior that cats developed exclusively to communicate with people.",
-    "Hissing is defensive, not aggressive, says Wilde. “It’s an expression of fear, stress or discomfort of a threatened cat communicating ‘stay away,'” she says.",
+    "Hissing is defensive, not aggressive, says Wilde.",
     "Cats find it threatening when you make direct eye contact with them.",
     "A cat with a question-mark-shaped tail is asking, “Want to play?”",
     "Cats have up to 100 different vocalizations — dogs only have 10.",
@@ -566,6 +566,10 @@ request.onsuccess = function () {
 // ||||||||||||||||||||||||||||||||| PAGES ||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+// MARQUEE
+
+// MARQUEE
+
 let landing_HTMLSnippet = `
 `;
 
@@ -585,8 +589,7 @@ let home_HTMLSnippet = `
         <div id="bg-scroll"></div>
     </div>
 
-    <div id="marquee-track"></div>
-    <div id="marquee"></div>
+    <div id="marquee" class="rightTI ds-light"></div>
     <content id="home-content">
         <div id="info-window">
             <h1 id="info-title">Upcoming!</h1>
