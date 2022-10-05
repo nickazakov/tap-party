@@ -428,12 +428,13 @@ input::placeholder {
     white-space: nowrap; 
     overflow: hidden;
     animation: marquee 50s linear infinite;
-    color: rgb(253, 168, 70);
     font-weight: bold;
-    padding: 10px;
+    padding-top: 40px;
+    padding-bottom: 10px;
     height: 20px;
 
-    background-color: rgb(255, 233, 208);
+    background-color: rgb(170, 103, 27);
+    color: rgb(255, 233, 208);
 }
 
 .rightTI:hover {
