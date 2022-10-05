@@ -694,13 +694,13 @@ function goTo(page) {
         case "cornfall":
             document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
-            backgroundArtefactCleaner();
+            setTimeout(backgroundArtefactCleaner, 100);
             veryQuickfakeLoad();
             break;
         case "graveguess":
             document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
-            backgroundArtefactCleaner();
+            setTimeout(backgroundArtefactCleaner, 100);
             quickFakeLoad();
             break;
     }
