@@ -683,9 +683,9 @@ let home_HTMLSnippet = `
             <h1 id="time-left">-</h1>
         </div>
         <h1 id="local-username"></h1>
-        <button id="play-button" class="purple-long-button ds-light" onclick="play()">Play</button>
-        <button id="lboard-button" class="yellow-long-button ds-light" onclick="leaderboardLoad()">Leaderboard</button>
-        <button id="lod-quality" class="green-long-button ds-light" onclick="lodSwitch()">LOD: High</button>
+        <button id="play-button" class="purple-long-button ds-light" onclick="play()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Play</button>
+        <button id="lboard-button" class="yellow-long-button ds-light" onclick="leaderboardLoad()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Leaderboard</button>
+        <button id="lod-quality" class="lod-button" onclick="lodSwitch()">LOD: High</button>
     </content>
 `;
 
@@ -699,18 +699,18 @@ let leaderboard_HTMLSnippet = `
             <h1 id="prompt-title" class="">🎉🎊</h1>
             <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
             <h1 id="prompt-hint" class="ds-light">-</h1>
-            <button class="orange-custom-long-button ds-light" onclick="setMessage(true)">Save Message</button>
-            <button class="purple-long-cat-button ds-light" onclick="setMessage(false)">Random Cat Fact</button>
+            <button class="orange-custom-long-button ds-light" onclick="setMessage(true)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Save Message</button>
+            <button class="purple-long-cat-button ds-light" onclick="setMessage(false)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Random Cat Fact</button>
         </div>
         <div id="top-bar-lb">
-            <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()">Cornfall</button>
-            <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()">sync</button>
+            <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
+            <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
         </div>
         <div id="board">
             <div id="scores-container">
             </div>
         </div>
-        <button id="back-button" class="purple-long-button ds-heavy" onclick="back()">Back</button>
+        <button id="back-button" class="purple-long-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
     </content>
 `;
 
@@ -719,8 +719,8 @@ let cornfall_HTMLSnippet = `
 
     <content id="falling-corn-game">
         <div id="game-over-screen">
-            <button id="retry-button" class="purple-long-button ds-heavy">Retry</button>
-            <button id="home-button" class="purple-long-button ds-heavy">Home</button>
+            <button id="retry-button" class="purple-long-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
+            <button id="home-button" class="purple-long-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
         </div>
         <canvas id="halloween-game-canvas"></canvas>
         <img id="cauldron" src="assets/cornfall/cauldron.png">
@@ -746,8 +746,8 @@ let graveguess_HTMLSnippet = `
             </div>
         </div>
         <div id="game-over-screen-grave-guess">
-            <button id="retry-button-grave-guess" class="purple-long-button ds-light game-over-ui">Retry</button>
-            <button id="home-button-grave-guess" class="purple-long-button ds-light game-over-ui">Home</button>
+            <button id="retry-button-grave-guess" class="purple-long-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
+            <button id="home-button-grave-guess" class="purple-long-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
         </div>
     </content>
 `;
@@ -781,7 +781,6 @@ function goTo(page) {
         // GAMES
         case "cornfall":
             document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
-            setTimeout(backgroundArtefactCleaner, 100);
             veryQuickfakeLoad();
             break;
         case "graveguess":
@@ -791,6 +790,54 @@ function goTo(page) {
     }
 
     lodSet(currentLodState);
+}
+
+function touchStart(id) {
+    buttonType = document.getElementById(id).classList[0];
+    switch(buttonType){
+        case "purple-long-button":
+            document.getElementById(id).classList.replace("purple-long-button", "purple-long-button-touch");
+            break;
+        case "yellow-long-button":
+            document.getElementById(id).classList.replace("yellow-long-button", "yellow-long-button-touch");
+            break;
+        case "orange-long-button":
+            document.getElementById(id).classList.replace("orange-long-button", "orange-long-button-touch");
+            break;
+        case "blue-circle-button":
+            document.getElementById(id).classList.replace("blue-circle-button", "blue-circle-button-touch");
+            break;
+        case "purple-long-cat-button":
+            document.getElementById(id).classList.replace("purple-long-cat-button", "purple-long-cat-button-touch");
+            break;
+        case "orange-custom-long-button":
+            document.getElementById(id).classList.replace("orange-custom-long-button", "orange-custom-long-button-touch");
+            break;
+    }
+}
+
+function touchEnd(id) {
+    buttonType = document.getElementById(id).classList[0];
+    switch(buttonType){
+        case "purple-long-button-touch":
+            document.getElementById(id).classList.replace("purple-long-button-touch", "purple-long-button");
+            break;
+        case "yellow-long-button-touch":
+            document.getElementById(id).classList.replace("yellow-long-button-touch", "yellow-long-button");
+            break;
+        case "orange-long-button-touch":
+            document.getElementById(id).classList.replace("orange-long-button-touch", "orange-long-button");
+            break;
+        case "blue-circle-button-touch":
+            document.getElementById(id).classList.replace("blue-circle-button-touch", "blue-circle-button");
+            break;
+        case "purple-long-cat-button-touch":
+            document.getElementById(id).classList.replace("purple-long-cat-button-touch", "purple-long-cat-button");
+            break;
+        case "orange-custom-long-button-touch":
+            document.getElementById(id).classList.replace("orange-custom-long-button-touch", "orange-custom-long-button");
+            break;
+    }
 }
 
 let loadingColors = [

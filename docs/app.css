@@ -239,8 +239,23 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s;
 }
-.purple-long-button:hover {
+.purple-long-button-touch{
+    /* Button Design */
+    border: none;
     background-color: rgb(168, 84, 216);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
 }
 
 .yellow-long-button {
@@ -261,8 +276,23 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s;
 }
-.yellow-long-button:hover {
+.yellow-long-button-touch {
+    /* Button Design */
+    border: none;
     background-color: rgb(206, 170, 54);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
 }
 
 .orange-long-button {
@@ -283,14 +313,10 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s;
 }
-.orange-long-button:hover {
-    background-color: rgb(179, 96, 19);
-}
-
-.green-long-button {
+.orange-long-button-touch {
     /* Button Design */
     border: none;
-    background-color: #0a2f61;
+    background-color: rgb(179, 96, 19);
     border-radius: 30px;
     height: 50px;
     width: 250px;
@@ -305,8 +331,22 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s;
 }
-.green-long-button:hover {
-    background-color: #082449;
+
+.lod-button {
+    /* Button Design */
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
+
+    /* Other */
+    margin-top: 20px;
 }
 
 .blue-circle-button {
@@ -322,8 +362,18 @@ body {
     border-radius: 30px;
     transition: all 0.5s;
 }
-.blue-circle-button:hover {
+.blue-circle-button-touch {
     background-color: rgb(58, 107, 199);
+    color: #fff;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+
+    margin-left: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 30px;
+    transition: all 0.5s;
 }
 
 .purple-long-cat-button {
@@ -346,8 +396,25 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s;
 }
-.purple-long-cat-button:hover {
+.purple-long-cat-button-touch {
+    /* Button Design */
+    border: none;
     background-color: rgb(168, 84, 216);
+    background-image: url(assets/general/cat-button.png);
+    background-size: cover;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
 }
 
 .orange-custom-long-button {
@@ -370,8 +437,25 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s;
 }
-.orange-custom-long-button:hover {
+.orange-custom-long-button-touch {
+    /* Button Design */
+    border: none;
     background-color: rgb(179, 96, 19);
+    background-image: url(assets/general/custom-message-button.png);
+    background-size: cover;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
 }
 
 /* BUTTON DROP SHADOW */
