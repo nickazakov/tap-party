@@ -606,7 +606,7 @@ let leaderboard_HTMLSnippet = `
 
     <content id="leaderboard-content">
         <div id="message-prompt">
-            <h1 id="prompt-title" class="">🎊 Congratz! 🎊</h1>
+            <h1 id="prompt-title" class="">🎉🎊</h1>
             <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
             <h1 id="prompt-hint" class="ds-light">-</h1>
             <button class="orange-custom-long-button ds-light" onclick="setMessage(true)">Save Message</button>
