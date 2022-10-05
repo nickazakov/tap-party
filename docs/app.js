@@ -795,14 +795,14 @@ function back() {
 // FUNCTION TO PLAY THE CURRENT GAME
 function play () {
     cornfall();
-    /*switch(game) {
+    switch(game) {
         case "cornfall":
             cornfall();
             break;
         case "graveguess":
             graveGuess();
             break;
-    }*/
+    }
 }
 
 // FUNCTION TO REFRESH LEADERBOARD
