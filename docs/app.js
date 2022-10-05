@@ -851,7 +851,7 @@ function backdrop(n){
             break;
         case 1:
             console.log("Set Grave Guess back!");
-            document.getElementById("absolute-body").style.backgroundImage = "url('assets/graveguess/background-grave.png')";
+            document.body.style.backgroundImage = "url('assets/graveguess/background-grave.png')";
             break;
     }
 }
