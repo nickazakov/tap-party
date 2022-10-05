@@ -256,6 +256,8 @@ body {
     /* Other */
     margin-bottom: 20px;
     transition: all 0.5s;
+
+    transform: scale(1.05);
 }
 
 .yellow-long-button {
@@ -293,6 +295,8 @@ body {
     /* Other */
     margin-bottom: 20px;
     transition: all 0.5s;
+
+    transform: scale(1.05);
 }
 
 .orange-long-button {
@@ -330,6 +334,8 @@ body {
     /* Other */
     margin-bottom: 20px;
     transition: all 0.5s;
+
+    transform: scale(1.05);
 }
 
 .lod-button {
@@ -346,7 +352,6 @@ body {
     background-color: transparent;
 
     /* Other */
-    margin-top: 20px;
 }
 
 .blue-circle-button {
@@ -374,6 +379,8 @@ body {
     padding: 10px;
     border-radius: 30px;
     transition: all 0.5s;
+
+    transform: scale(1.05);
 }
 
 .purple-long-cat-button {
@@ -415,6 +422,8 @@ body {
     /* Other */
     margin-bottom: 20px;
     transition: all 0.5s;
+
+    transform: scale(1.05);
 }
 
 .orange-custom-long-button {
@@ -456,6 +465,8 @@ body {
     /* Other */
     margin-bottom: 20px;
     transition: all 0.5s;
+
+    transform: scale(1.05);
 }
 
 /* BUTTON DROP SHADOW */
