@@ -33,6 +33,11 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+@font-face {
+    font-family: sfBlack;
+    src: url(assets/general/SFBlack.ttf);
+}
+
 .material-symbols-rounded {
     font-variation-settings:
     'FILL' 0,
@@ -195,6 +200,28 @@ body {
     background-color: rgb(206, 170, 54);
 }
 
+.orange-long-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(240, 133, 34);
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
+}
+.orange-long-button:hover {
+    background-color: rgb(179, 96, 19);
+}
+
 .blue-circle-button {
     background-color: cornflowerblue;
     color: #fff;
@@ -210,6 +237,54 @@ body {
 }
 .blue-circle-button:hover {
     background-color: rgb(58, 107, 199);
+}
+
+.purple-long-cat-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(195, 116, 240);
+    background-image: url(assets/general/cat-button.png);
+    background-size: cover;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
+}
+.purple-long-cat-button:hover {
+    background-color: rgb(168, 84, 216);
+}
+
+.orange-custom-long-button {
+    /* Button Design */
+    border: none;
+    background-color: rgb(240, 133, 34);
+    background-image: url(assets/general/custom-message-button.png);
+    background-size: cover;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
+}
+.orange-custom-long-button:hover {
+    background-color: rgb(179, 96, 19);
 }
 
 /* BUTTON DROP SHADOW */
@@ -290,11 +365,29 @@ input::placeholder {
 	letter-spacing: 2px;
 	font-weight: 700;
 	padding: 15px;
+    height: 35px;
 	font-size: 32px;
     position: absolute;
-    background-color: rgb(255, 233, 208);
+
+    white-space: nowrap;
+    will-change: transform;
+    animation: marquee 30s linear infinite;
+}
+
+#marquee-track {
+	background-color: rgb(255, 233, 208);
+	padding: 15px;
+    height: 35px;
+    width: 100%;
+    position: absolute;
     box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
 }
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+}
+  
 
 /* INFO BANNER */
 
@@ -303,6 +396,7 @@ input::placeholder {
     background-size: cover;
     padding: 20px;
     width: 75vw;
+    height: 30vw;
     border-radius: 30px;
     margin-bottom: 200px;
     box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
@@ -388,26 +482,13 @@ input::placeholder {
     justify-content: center;
 }
 
-#message-prompt {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    z-index: 5;
-
-    backdrop-filter: blur(3px);
-    justify-content: center;
-    align-items: center;
-
-    display: none;
-}
-
 textarea {
     /* Input Design */
     border: none;
     background-color: cornflowerblue;
     border-radius: 15px;
-    width: auto;
-    height: 100px;
+    width: 85vw;
+    height: 150px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 29px 0px;
 
     /* Text Design */
@@ -416,7 +497,7 @@ textarea {
     text-align: left;
     font-size: 1.3rem;
     font-weight: bold;
-    padding: 20px;
+    padding: 10px;
 
     /* Other */
     resize: none;
@@ -450,11 +531,21 @@ textarea::placeholder {
     font-weight: bold;
 }
 
+#prompt-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    font-weight: bold;
+    font-family: sfBlack;
+    text-align: center;
+    color: rgb(240, 133, 34)
+}
+
 #prompt-hint {
     font-size: 1.4rem;
     margin-bottom: 20px;
     color: rgb(0, 0, 0);
-    width: 250px;
+    width: 85vw;
+    height: 150px;
     padding: 10px;
     font-weight: 600;
     background-color: #ffffff;
@@ -464,6 +555,20 @@ textarea::placeholder {
 textarea:hover {
     border: 3px dashed white;
     background-color: rgb(58, 107, 199);
+}
+
+#message-prompt {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 5;
+
+    background-color: rgb(255, 233, 208);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    display: none;
 }
 
 #prompt-window {

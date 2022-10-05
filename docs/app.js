@@ -63,90 +63,132 @@ function updateTime() {
             break;
         case 3:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 4:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 5:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 6:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 7:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 8:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 9:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 10:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 11:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 12:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 13:
             temp = "Guessguess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 14:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 15:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 16:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 17:
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 18:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 19:
             console.log("1");
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 20:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 21:
             console.log("1");
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
         case 22:
             temp = "Cornfall";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-cornfall.png')";
+            }
             break;
         case 23:
             console.log("1");
             temp = "Grave Guess";
-            document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            if(document.getElementById("info-window")){
+                document.getElementById("info-window").style.backgroundImage = "url('assets/general/banner-graveguess.png')";
+            }
             break;
     }
 
@@ -360,7 +402,7 @@ const messageCheck = (i) => {
         } else {
             console.log("Message not set for " + categoriesPublic[i])
 
-            document.getElementById("prompt-hint").innerHTML = "Looks like you ranked first in " + categoriesPublic[i] + " 👑<br>Write down some wise words or share a random cat fact.";
+            document.getElementById("prompt-hint").innerHTML = "Looks like you ranked first in " + categoriesPublic[i] + " 👑🎉<br><br>Write down some wise words or share a random cat fact!";
             document.getElementById("message-prompt").style.display = "flex";
 
             currentlySetting = i;
@@ -435,7 +477,7 @@ const setMessage = (b) => {
 
 // UPDATE MARQUEE MESSAGE
 const updateMessage = () => {
-    console.log("Marquee Message Updated");
+    console.log("Marquee Message Updating");
     // CLEAR MARQUEE TEXT
     if(document.getElementById("marquee")) {
         document.getElementById("marquee").innerHTML = "";
@@ -456,9 +498,6 @@ const updateMessage = () => {
         })
     }
 }
-
-// FUNCTION TO UPDATE WINNER MESSAGE
-updateMessage();
 
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||| INDEXEDDB ||||||||||||||||||||||||||||||||||||||
@@ -536,7 +575,7 @@ let welcome_HTMLSnippet = `
     </div>
 
     <content id="welcome-content">
-        <input id="username-input" type="text" placeholder="Marilyn Monrock">
+        <input id="username-input" class="ds-light" type="text" placeholder="Marilyn Monrock">
         <button id="enter-button" class="purple-long-button ds-light" onclick="remember()">Remember me!</button>
     </content>
 `;
@@ -546,7 +585,8 @@ let home_HTMLSnippet = `
         <div id="bg-scroll"></div>
     </div>
 
-    <marquee id="marquee" behavior="scroll" direction="left"></marquee>
+    <div id="marquee-track"></div>
+    <div id="marquee"></div>
     <content id="home-content">
         <div id="info-window">
             <h1 id="info-title">Upcoming!</h1>
@@ -566,14 +606,11 @@ let leaderboard_HTMLSnippet = `
 
     <content id="leaderboard-content">
         <div id="message-prompt">
-            <div id="prompt-window">
-                <h1 id="prompt-hint" class="ds-light">
-                    -
-                </h1>
-                <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
-                <button class="purple-long-button ds-light" onclick="setMessage(true)">Save Message</button>
-                <button class="purple-long-button ds-light" onclick="setMessage(false)">Random Cat Fact</button>
-            </div>
+            <h1 id="prompt-title" class="">🎊 Congratz! 🎊</h1>
+            <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
+            <h1 id="prompt-hint" class="ds-light">-</h1>
+            <button class="orange-custom-long-button ds-light" onclick="setMessage(true)">Save Message</button>
+            <button class="purple-long-cat-button ds-light" onclick="setMessage(false)">Random Cat Fact</button>
         </div>
         <div id="top-bar-lb">
             <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()">Cornfall</button>
@@ -671,12 +708,11 @@ function remember () {
 
     store.put({ id: 1, unstring: unval });
     user = unval;
-    document.getElementById("local-username").innerHTML = user;
+    if(document.getElementById("local-username")) {
+        document.getElementById("local-username").innerHTML = user;
+    }
 
-    var welcome = document.getElementById("welcome-content");
-    var home = document.getElementById("home-content");
-    welcome.style.display = "none";
-    home.style.display = "flex";
+    goTo("home");
 }
 
 // FUNCTION TO GO TO THE LEADERBOARD
