@@ -794,7 +794,6 @@ function back() {
 
 // FUNCTION TO PLAY THE CURRENT GAME
 function play () {
-    cornfall();
     switch(game) {
         case "cornfall":
             cornfall();
