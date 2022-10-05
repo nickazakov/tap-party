@@ -635,7 +635,7 @@ let cornfall_HTMLSnippet = `
             <button id="retry-button" class="purple-long-button ds-heavy">Retry</button>
             <button id="home-button" class="purple-long-button ds-heavy">Home</button>
         </div>
-
+        <div id="segment-loader"></div>
         <canvas id="halloween-game-canvas"></canvas>
         <img id="cauldron" src="assets/cornfall/cauldron.png">
         <img id="corn" src="assets/cornfall/corn.png">
@@ -656,6 +656,7 @@ let graveguess_HTMLSnippet = `
                 <button id="grave-4" class="grave-tile"></button>
             </div>
         </div>
+        <div id="segment-loader"></div>
         <div id="game-over-screen-grave-guess">
             <button id="retry-button-grave-guess" class="purple-long-button ds-light game-over-ui">Retry</button>
             <button id="home-button-grave-guess" class="purple-long-button ds-light game-over-ui">Home</button>
@@ -693,14 +694,25 @@ function goTo(page) {
         case "cornfall":
             document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
+            backgroundArtefactCleaner();
             veryQuickfakeLoad();
             break;
         case "graveguess":
             document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
+            backgroundArtefactCleaner();
             quickFakeLoad();
             break;
     }
+}
+
+function backgroundArtefactCleaner() {
+    document.getElementById("segment-loader").style.display = "block";
+    setTimeout(backgroundArtefactCleanerStop, 150)
+}
+
+function backgroundArtefactCleanerStop() {
+    document.getElementById("segment-loader").style.display = "none";
 }
 
 let loadingColors = [

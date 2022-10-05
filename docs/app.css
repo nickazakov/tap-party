@@ -445,34 +445,13 @@ input::placeholder {
     100% {text-indent: -1000%;}
 }
 
-/*#marquee {
-	color: rgb(255, 170, 59);
-	letter-spacing: 2px;
-	font-weight: 700;
-	padding: 15px;
-    height: 35px;
-	font-size: 32px;
+#segment-loader {
+    width: 100vw;
+    height: 100vh;
     position: absolute;
-
-    white-space: nowrap;
-    will-change: transform;
-    animation: marquee 30s linear infinite;
+    background-color: transparent;
+    display: none;
 }
-
-#marquee-track {
-	background-color: rgb(255, 233, 208);
-	padding: 15px;
-    height: 35px;
-    width: 100%;
-    position: absolute;
-    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
-}
-
-@keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
-}*/
-  
 
 /* INFO BANNER */
 
