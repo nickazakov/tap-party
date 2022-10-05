@@ -407,6 +407,7 @@ body {
     /* Button Design */
     border: none;
     background-color: rgb(168, 84, 216);
+    filter: brightness(50%);
     background-image: url(assets/general/cat-button.png);
     background-size: cover;
     border-radius: 30px;
@@ -450,6 +451,7 @@ body {
     /* Button Design */
     border: none;
     background-color: rgb(179, 96, 19);
+    filter: brightness(50%);
     background-image: url(assets/general/custom-message-button.png);
     background-size: cover;
     border-radius: 30px;

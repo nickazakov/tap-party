@@ -17,7 +17,6 @@ let game = "";
 // 0 : CORNFALL
 // 1 : GRAVEGUESS
 // 2 : POTIONCRAFT
-let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
 
 // FUNCTION TO UPDATE ELEMENTS RELATED TO THE TIME
 updateTime();
@@ -27,6 +26,7 @@ function updateTime() {
     let h = d.getHours();
     let m = d.getMinutes();
     let s = d.getSeconds();
+    let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
 
     // CALCULATE TIME TO NEXT GAME
     leftTime = (60 - m) + "m " + (60 - s) + "s ";
@@ -39,7 +39,7 @@ function updateTime() {
         // SET 24 TO 0
         temp = 0;
     }
-    temp = gameList[temp];
+    temp = gameList[Number(temp)];
 
     // SET INFO BANNER & UPCOMING GAME TITLE RELATIVE TO TIME
     switch(temp){
@@ -699,8 +699,8 @@ let leaderboard_HTMLSnippet = `
             <h1 id="prompt-title" class="">🎉🎊</h1>
             <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
             <h1 id="prompt-hint" class="ds-light">-</h1>
-            <button class="orange-custom-long-button ds-light" onclick="setMessage(true)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Save Message</button>
-            <button class="purple-long-cat-button ds-light" onclick="setMessage(false)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Random Cat Fact</button>
+            <button id="class="orange-custom-long-button" class="orange-custom-long-button ds-light" onclick="setMessage(true)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Save Message</button>
+            <button id="purple-long-cat-button" class="purple-long-cat-button ds-light" onclick="setMessage(false)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Random Cat Fact</button>
         </div>
         <div id="top-bar-lb">
             <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
