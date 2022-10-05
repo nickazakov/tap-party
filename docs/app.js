@@ -505,6 +505,7 @@ const updateMessage = () => {
 
 // USER VARIABLE
 let user = "";
+let currentLodState = "High";
 
 const indexedDB =
     window.indexedDB ||
@@ -514,9 +515,16 @@ const indexedDB =
     window.shimIndexedDB;
 
 const request = indexedDB.open("UsernameData", 1);
+const request2 = indexedDB.open("LodState", 1);
 
 // ERROR PRINT
 request.onerror = function (event) {
+    console.error("An error occurred with IndexedDB");
+    console.error(event);
+}
+
+// ERROR PRINT
+request2.onerror = function (event) {
     console.error("An error occurred with IndexedDB");
     console.error(event);
 }
@@ -526,6 +534,13 @@ request.onupgradeneeded = function () {
     const db = request.result;
     const store = db.createObjectStore("username", { keyPath: "id" });
     store.createIndex("un", ["unstring"], {unique: true});
+}
+
+// SAVE LOD STATE TO THE LOCAL STORAGE
+request2.onupgradeneeded = function () {
+    const db2 = request2.result;
+    const store = db2.createObjectStore("lod", { keyPath: "id2" });
+    store.createIndex("lds", ["lodstate"], {unique: true});
 }
 
 // PERFORM A CHECK TO SEE IF A USERNAME IS SAVED IN THE LOCAL STORAGE
@@ -559,6 +574,77 @@ request.onsuccess = function () {
             welcome.style.display = "none";
             home.style.display = "flex";*/
         }
+    }
+}
+
+// PERFORM A CHECK TO SEE IF LOD STATE IS SAVED IN THE LOCAL STORAGE
+request2.onsuccess = function () {
+    const db2 = request2.result;
+    const transaction = db2.transaction("lod", "readwrite");
+
+    const store = transaction.objectStore("lod");
+    const userIndex = store.index("lds");
+
+    const idQuery = store.get(1);
+
+    idQuery.onsuccess = function () {
+        console.log('Username: ', idQuery.result);
+        if(idQuery.result == undefined) {
+            console.log("No saved LOD Level.");
+            lodSet(currentLodState);
+        } else {
+            document.getElementById("lod-quality").innerHTML = "LOD: " + idQuery.result.lodstate;
+            currentLodState = idQuery.result.lodstate;
+
+            console.log("Loaded LOD Level: " + currentLodState);
+            lodSet(currentLodState);
+        }
+    }
+}
+
+function lodSwitch() {
+    if(currentLodState == "High"){
+        currentLodState = "Low";
+    } else {
+        currentLodState = "High";
+    }
+
+    lodSet(currentLodState);
+
+    console.log('lod tap');
+    const db2 = request2.result;
+    const transaction = db2.transaction("lod", "readwrite");
+    const store = transaction.objectStore("lod");
+
+    store.put({ id2: 1, lodstate: currentLodState});
+}
+
+function lodSet(lod) {
+    switch(lod) {
+        case "High":
+            if(document.getElementById("lod-quality")) {
+                document.getElementById("lod-quality").innerHTML = "LOD: " + currentLodState;
+            }
+
+            if(document.getElementById("bg-container")){
+                document.getElementById("bg-container").style.display = "block";
+            }
+            if(document.getElementById("bg-container-skull")){
+                document.getElementById("bg-container-skull").style.display = "block";
+            }
+            break;
+        case "Low":
+            if(document.getElementById("lod-quality")) {
+                document.getElementById("lod-quality").innerHTML = "LOD: " + currentLodState;
+            }
+
+            if(document.getElementById("bg-container")){
+                document.getElementById("bg-container").style.display = "none";
+            }
+            if(document.getElementById("bg-container-skull")){
+                document.getElementById("bg-container-skull").style.display = "none";
+            }
+            break;
     }
 }
 
@@ -599,6 +685,7 @@ let home_HTMLSnippet = `
         <h1 id="local-username"></h1>
         <button id="play-button" class="purple-long-button ds-light" onclick="play()">Play</button>
         <button id="lboard-button" class="yellow-long-button ds-light" onclick="leaderboardLoad()">Leaderboard</button>
+        <button id="lod-quality" class="green-long-button ds-light" onclick="lodSwitch()">LOD: High</button>
     </content>
 `;
 
@@ -635,7 +722,6 @@ let cornfall_HTMLSnippet = `
             <button id="retry-button" class="purple-long-button ds-heavy">Retry</button>
             <button id="home-button" class="purple-long-button ds-heavy">Home</button>
         </div>
-        <div id="segment-loader"></div>
         <canvas id="halloween-game-canvas"></canvas>
         <img id="cauldron" src="assets/cornfall/cauldron.png">
         <img id="corn" src="assets/cornfall/corn.png">
@@ -659,7 +745,6 @@ let graveguess_HTMLSnippet = `
                 <button id="grave-4" class="grave-tile"></button>
             </div>
         </div>
-        <div id="segment-loader"></div>
         <div id="game-over-screen-grave-guess">
             <button id="retry-button-grave-guess" class="purple-long-button ds-light game-over-ui">Retry</button>
             <button id="home-button-grave-guess" class="purple-long-button ds-light game-over-ui">Home</button>
@@ -668,54 +753,44 @@ let graveguess_HTMLSnippet = `
 `;
 
 function goTo(page) {
-    // goTo("home");
+    document.getElementById("absolute-body").innerHTML = "";
+
     switch(page) {
 
         // PAGES
         case "landing":
-            document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
             break;
         case "welcome": 
-            document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = welcome_HTMLSnippet;
             fakeLoad();
             break;
         case "home":  
-            updateMessage();
-            document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
+            document.body.style.backgroundImage = "url(assets/general/low-lod-pattern.png)";
+            document.getElementById("local-username").innerHTML = user;
+            updateMessage();
             fakeLoad();
             break;
         case "leaderboard":  
-            document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
+            document.body.style.backgroundImage = "url(assets/general/low-lod-skull-pattern.png)";
             fakeLoad();
             break;
 
         // GAMES
         case "cornfall":
-            document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
             setTimeout(backgroundArtefactCleaner, 100);
             veryQuickfakeLoad();
             break;
         case "graveguess":
-            document.getElementById("absolute-body").innerHTML = "";
             document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
-            setTimeout(backgroundArtefactCleaner, 100);
             quickFakeLoad();
             break;
     }
-}
 
-function backgroundArtefactCleaner() {
-    document.getElementById("segment-loader").style.display = "block";
-    setTimeout(backgroundArtefactCleanerStop, 150)
-}
-
-function backgroundArtefactCleanerStop() {
-    document.getElementById("segment-loader").style.display = "none";
+    lodSet(currentLodState);
 }
 
 let loadingColors = [
@@ -732,7 +807,7 @@ let loadingTips = [
     "If you score more than 7 on Grave Guess, you've officially beaten the dev high score.",
     "Cornfall has a super rare orange level background",
     "Love Cats.",
-    "Fun fact: This is a fake loading screen.<br>There's nothing to load.",
+    "Fun fact:<br>This is a fake loading screen.<br>There's nothing to load.",
 ]
 
 function veryQuickfakeLoad(){
@@ -751,7 +826,6 @@ function fakeLoad(){
     document.getElementById("loading-screen").style.display = "flex";
     setTimeout(stopLoad, 500);
 }
-
 
 function stopLoad(){
     document.getElementById("loading-screen").style.display = "none";
@@ -781,6 +855,11 @@ function remember () {
 // FUNCTION TO GO TO THE LEADERBOARD
 function leaderboardLoad() {
     goTo("leaderboard");
+
+    categoryIndex = 0;
+    category = categories[categoryIndex];
+    document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
+
     loadScores();
     // CHECK RANKING
     lbRating();
@@ -831,7 +910,7 @@ function switchlb(i) {
         loadScores();
     } else {
         categoryIndex = 0;
-        category = categories[categoryIndex]
+        category = categories[categoryIndex];
         document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
         console.log(categoryIndex);
         loadScores();

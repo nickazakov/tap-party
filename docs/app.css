@@ -67,7 +67,8 @@ body {
     transform: translate3d(-50%,-50%,0);
     overflow: hidden;
     z-index: -5;
-    display: block;
+
+    display: none;
 }
   
 #bg-scroll {
@@ -96,7 +97,8 @@ body {
     transform: translate3d(-50%,-50%,0);
     overflow: hidden;
     z-index: -5;
-    display: block;
+
+    display: none;
 }
 
 #bg-scroll-skully {
@@ -109,7 +111,7 @@ body {
     background: url(assets/general/skull-pattern.png) repeat;
     background-size: 650px;
     animation: backgroundScroll 60s linear infinite;
-    transform: rotate(135deg) scale(1);
+    transform: rotate(-45deg) scale(1);
     transform-origin: center center;
     z-index: 2;
     display: block;
@@ -285,6 +287,28 @@ body {
     background-color: rgb(179, 96, 19);
 }
 
+.green-long-button {
+    /* Button Design */
+    border: none;
+    background-color: #0a2f61;
+    border-radius: 30px;
+    height: 50px;
+    width: 250px;
+
+    /* Text Design */
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* Other */
+    margin-bottom: 20px;
+    transition: all 0.5s;
+}
+.green-long-button:hover {
+    background-color: #082449;
+}
+
 .blue-circle-button {
     background-color: cornflowerblue;
     color: #fff;
@@ -432,8 +456,9 @@ input::placeholder {
     padding-bottom: 10px;
     height: 20px;
 
-    background-color: rgb(170, 103, 27);
-    color: rgb(255, 233, 208);
+    background-color: #062145;
+    color: rgb(253, 219, 70);
+    text-shadow: rgb(253, 168, 70, 1) 0px 0px 20px;
 }
 
 .rightTI:hover {
@@ -455,13 +480,14 @@ input::placeholder {
 /* INFO BANNER */
 
 #info-window {
+    background-color: #062145;
     background-image: url(assets/general/banner-graveguess.png);
     background-size: cover;
     padding: 20px;
     width: 75vw;
     border-radius: 30px;
     margin-bottom: 200px;
-    box-shadow: rgb(0, 0, 0, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgb(0, 0, 0, 0.5) 0px 7px 29px 0px;
     transition: all 1s;
 }
 
@@ -476,15 +502,16 @@ input::placeholder {
     color: rgb(255, 190, 116);
     font-weight: 600;
     font-size: 20px;
+    margin-bottom: 10px;
 }
 
 #upcoming-game {
     text-align: center;
     top: 0px;
 
-    color: rgb(253, 168, 70);
+    color: rgb(253, 219, 70);
     border-radius: 5px;
-    text-shadow: rgba(255, 255, 255, 1) 0px 0px 20px;
+    text-shadow: rgb(253, 168, 70, 1) 0px 0px 20px;
     font-weight: bold;
     font-size: 35px;
 }
