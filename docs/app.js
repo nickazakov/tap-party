@@ -590,8 +590,8 @@ let home_HTMLSnippet = `
     <content id="home-content">
         <div id="info-window">
             <h1 id="info-title">Upcoming!</h1>
-            <h1 id="upcoming-game"></h1>
-            <h1 id="time-left"></h1>
+            <h1 id="upcoming-game">-</h1>
+            <h1 id="time-left">-</h1>
         </div>
         <h1 id="local-username"></h1>
         <button id="play-button" class="purple-long-button ds-light" onclick="play()">Play</button>
