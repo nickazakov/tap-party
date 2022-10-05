@@ -628,14 +628,15 @@ let cornfall_HTMLSnippet = `
     <h1 id="score">0</h1>
 
     <content id="falling-corn-game">
+        <div id="game-over-screen">
+            <button id="retry-button" class="purple-long-button ds-heavy">Retry</button>
+            <button id="home-button" class="purple-long-button ds-heavy">Home</button>
+        </div>
+
         <canvas id="halloween-game-canvas"></canvas>
         <img id="cauldron" src="assets/cornfall/cauldron.png">
         <img id="corn" src="assets/cornfall/corn.png">
         <img id="bone" src="assets/cornfall/bone.png">
-        <div id="game-over-screen">
-            <button id="retry-button">Retry</button>
-            <button id="home-button">Home</button>
-        </div>
     </content>
 `;
 
@@ -665,33 +666,77 @@ function goTo(page) {
 
         // PAGES
         case "landing":
-            document.body.innerHTML = "";
-            document.body.innerHTML = landing_HTMLSnippet;
+            document.getElementById("absolute-body").innerHTML = "";
+            document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
             break;
         case "welcome": 
-            document.body.innerHTML = "";
-            document.body.innerHTML = welcome_HTMLSnippet;
+            document.getElementById("absolute-body").innerHTML = "";
+            document.getElementById("absolute-body").innerHTML = welcome_HTMLSnippet;
+            fakeLoad();
             break;
         case "home":  
             updateMessage();
-            document.body.innerHTML = "";
-            document.body.innerHTML = home_HTMLSnippet;
+            document.getElementById("absolute-body").innerHTML = "";
+            document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
+            fakeLoad();
             break;
         case "leaderboard":  
-            document.body.innerHTML = "";
-            document.body.innerHTML = leaderboard_HTMLSnippet;
+            document.getElementById("absolute-body").innerHTML = "";
+            document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
+            fakeLoad();
             break;
 
         // GAMES
         case "cornfall":
-            document.body.innerHTML = "";
-            document.body.innerHTML = cornfall_HTMLSnippet;
+            document.getElementById("absolute-body").innerHTML = "";
+            document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
+            veryQuickfakeLoad();
             break;
         case "graveguess":
-            document.body.innerHTML = "";
-            document.body.innerHTML = graveguess_HTMLSnippet;
+            document.getElementById("absolute-body").innerHTML = "";
+            document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
+            quickFakeLoad();
             break;
     }
+}
+
+let loadingColors = [
+    "#15924d",
+    "#6495ed",
+    "#ffa135",
+    "#c374f0",
+
+]
+
+let loadingTips = [
+    "Players at the top of the leaderboard have a higher chance of winning.",
+    "There's a built-in cat fact generator inside this game.",
+    "If you score more than 7 on Grave Guess, you've officially beaten the dev high score.",
+    "Cornfall has a super rare orange level background",
+    "Love Cats.",
+    "Fun fact: This is a fake loading screen.<br>There's nothing to load.",
+]
+
+function veryQuickfakeLoad(){
+    setTimeout(stopLoad, 100);
+    document.getElementById("loading-screen").style.display = "flex";
+}
+
+function quickFakeLoad(){
+    setTimeout(stopLoad, 250);
+    document.getElementById("loading-screen").style.display = "flex";
+}
+
+function fakeLoad(){
+    document.getElementById("loading-screen").style.backgroundColor = loadingColors[rng(0,3)];
+    document.getElementById("tip-content").innerHTML = loadingTips[rng(0,5)];
+    document.getElementById("loading-screen").style.display = "flex";
+    setTimeout(stopLoad, 500);
+}
+
+
+function stopLoad(){
+    document.getElementById("loading-screen").style.display = "none";
 }
 
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -717,11 +762,8 @@ function remember () {
 
 // FUNCTION TO GO TO THE LEADERBOARD
 function leaderboardLoad() {
-
     goTo("leaderboard");
-
     loadScores();
-
     // CHECK RANKING
     lbRating();
 }
@@ -972,7 +1014,7 @@ function cornfall() {
     function gameover () {
         gameOver = true;
         var menu = document.getElementById("game-over-screen");
-        menu.style.display = "block";
+        menu.style.display = "flex";
 
         // SAVE SCORE TO FIREBASE LEADERBOARD
         getHS();
@@ -1156,7 +1198,7 @@ function graveGuess() {
 
     function gameover() {
         var menu = document.getElementById("game-over-screen-grave-guess");
-        menu.style.display = "block";
+        menu.style.display = "flex";
 
         release();
         iterations = 2;
