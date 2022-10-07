@@ -12,6 +12,7 @@
 
 // VARIABLES RELATED TO TIME
 let game = "";
+let view = "welcome";
 
 // GAME LIST ARRAY
 // 0 : CORNFALL
@@ -29,7 +30,7 @@ function updateTime() {
     let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
 
     // CALCULATE TIME TO NEXT GAME
-    leftTime = (60 - m) + "m " + (60 - s) + "s ";
+    leftTime = (60 - m - 1) + "m " + (60 - s) + "s ";
     if(document.getElementById("time-left")) {
         document.getElementById("time-left").innerHTML = leftTime;
     }
@@ -374,46 +375,7 @@ const loadScores = () => {
     })
 }
 
-// CHECK IF #1 IN ANY CATEGORY
-const placeCheck = () => {
-    winnerInIndex = [];
-    for(let i = 0; i < categories.length; i++) {
-        db.collection(categories[i])
-        .orderBy("score", "desc")
-        .limit(1)
-        .get()
-        .then((querySnapshot) => {
-            if(user == querySnapshot.docs[0].id) {
-                console.log("We're currently #1 in " + categories[i]);
-                messageCheck(i);
-            }
-        })
-    }
-}
-
-let currentlySetting;
-
-const messageCheck = (i) => {
-    db.collection("winnermessages").doc(categories[i])
-    .get()
-    .then((doc) => {
-        if(doc.data().user == user) {
-            console.log("Message already set for " + categoriesPublic[i]);
-        } else {
-            console.log("Message not set for " + categoriesPublic[i])
-
-            document.getElementById("prompt-hint").innerHTML = "Looks like you ranked first in " + categoriesPublic[i] + " 👑🎉<br><br>Write down some wise words or share a random cat fact!";
-            document.getElementById("message-prompt").style.display = "flex";
-
-            currentlySetting = i;
-        }
-    })
-}
-
-const lbRating = () => {
-    placeCheck();
-}
-
+/* CAT FACT GENERATOR
 let catFacts = [
     "Stubbs, a 17-year-old orange tabby, is mayor of the historic district of Talkeetna, Alaska.",
     "A cat’s learning style is about the same as a 2- to 3-year-old child.",
@@ -453,51 +415,7 @@ let catFacts = [
     "An ailurophile is a person who loves cats. The word ailuro is the ancient Greek word for cat.",
     "When your cat shows their belly, it is a sign of trust and a relaxed cat- this is not an invite for belly rub typically."
 ]
-
-// FUNCTION TO SET WINNER MESSAGE
-const setMessage = (b) => {
-    // currentScore = document.getElementById("score").innerHTML;
-    if(b){
-        db.collection("winnermessages")
-        .doc(categories[currentlySetting])
-        .set({
-            msg: document.getElementById("custom-message").value,
-            user: user
-        });
-    } else {
-        db.collection("winnermessages")
-        .doc(categories[currentlySetting])
-        .set({
-            msg: catFacts[rng(0, 36)],
-            user: user
-        });
-    }
-    document.getElementById("message-prompt").style.display = "none";
-}
-
-// UPDATE MARQUEE MESSAGE
-const updateMessage = () => {
-    console.log("Marquee Message Updating");
-    // CLEAR MARQUEE TEXT
-    if(document.getElementById("marquee")) {
-        document.getElementById("marquee").innerHTML = "";
-    }
-    for(let i = 0; i < categories.length; i++) {
-        db.collection("winnermessages").doc(categories[i])
-        .get()
-        .then((doc) => {
-            temp = "";
-            temp = doc.data().user + " : " + doc.data().msg;
-            if(document.getElementById("marquee")) {
-                currentMsg = document.getElementById("marquee").innerHTML;
-            }
-
-            if(document.getElementById("marquee")) {
-                document.getElementById("marquee").innerHTML = currentMsg + " " + temp;
-            }
-        })
-    }
-}
+*/
 
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||| INDEXEDDB ||||||||||||||||||||||||||||||||||||||
@@ -567,7 +485,7 @@ request.onsuccess = function () {
             goTo("home");
             console.log("Username found!");
             user = idQuery.result.unstring;
-            document.getElementById("local-username").innerHTML = user;
+            // document.getElementById("local-username").innerHTML = user;
             
             /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
@@ -593,7 +511,7 @@ request2.onsuccess = function () {
             console.log("No saved LOD Level.");
             lodSet(currentLodState);
         } else {
-            document.getElementById("lod-quality").innerHTML = "LOD: " + idQuery.result.lodstate;
+            // document.getElementById("lod-quality").innerHTML = "LOD: " + idQuery.result.lodstate;
             currentLodState = idQuery.result.lodstate;
 
             console.log("Loaded LOD Level: " + currentLodState);
@@ -652,10 +570,6 @@ function lodSet(lod) {
 // ||||||||||||||||||||||||||||||||| PAGES ||||||||||||||||||||||||||||||||||||||
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-// MARQUEE
-
-// MARQUEE
-
 let landing_HTMLSnippet = `
 `;
 
@@ -671,11 +585,28 @@ let welcome_HTMLSnippet = `
 `;
 
 let home_HTMLSnippet = `
-    <div id="bg-container">
-        <div id="bg-scroll"></div>
+    <div id="abg22-halloween">
+        <div id="abg22-halloween-back"></div>
+        <div id="abg22-halloween-witch"></div>
+        <div id="abg22-halloween-flame"></div>
+        <div id="abg22-halloween-fore"></div>
     </div>
 
-    <div id="marquee" class="rightTI ds-light"></div>
+    <content id="home-ui">
+        <div id="ui">
+            <div id="ui-top"></div>
+            <div id="ui-bottom">
+                <div id="time-left-indicator">
+                    <div id="time-left">0m 0s</div>
+                    <button id="purple-button" class="purple-button" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="play()">Play</button>
+                </div>
+                <button id="orange-button" class="orange-button" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="fadeHome()">Leaderboard</button>
+            </div>
+        </div>
+    </content>
+`;
+
+/*
     <content id="home-content">
         <div id="info-window">
             <h1 id="info-title">Upcoming!</h1>
@@ -687,21 +618,10 @@ let home_HTMLSnippet = `
         <button id="lboard-button" class="yellow-long-button ds-light" onclick="leaderboardLoad()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Leaderboard</button>
         <button id="lod-quality" class="lod-button" onclick="lodSwitch()">LOD: High</button>
     </content>
-`;
+*/
 
 let leaderboard_HTMLSnippet = `
-    <div id="bg-container-skull">
-        <div id="bg-scroll-skully"></div>
-    </div>
-
     <content id="leaderboard-content">
-        <div id="message-prompt">
-            <h1 id="prompt-title" class="">🎉🎊</h1>
-            <textarea placeholder="Brag about it..." maxlength="80" id="custom-message"></textarea>
-            <h1 id="prompt-hint" class="ds-light">-</h1>
-            <button id="class="orange-custom-long-button" class="orange-custom-long-button ds-light" onclick="setMessage(true)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Save Message</button>
-            <button id="purple-long-cat-button" class="purple-long-cat-button ds-light" onclick="setMessage(false)" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Random Cat Fact</button>
-        </div>
         <div id="top-bar-lb">
             <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
             <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
@@ -759,50 +679,87 @@ function goTo(page) {
 
         // PAGES
         case "landing":
+            view = "landing";
             document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
             break;
         case "welcome": 
+            view = "welcome";
+            fakeLoad();
             document.getElementById("absolute-body").innerHTML = welcome_HTMLSnippet;
-            fakeLoad();
             break;
-        case "home":  
+        case "home":
+            console.log("home");
+            document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
-            document.body.style.backgroundImage = "url(assets/general/low-lod-pattern.png)";
-            document.getElementById("local-username").innerHTML = user;
-            updateMessage();
-            fakeLoad();
+            if(view == "leaderboard"){
+                fadeLeaderboard();
+            }
+            view = "home";
+            // document.body.style.backgroundImage = "url(assets/general/low-lod-pattern.png)";
+            // document.getElementById("local-username").innerHTML = user;
             break;
-        case "leaderboard":  
+        case "leaderboard":
+            view = "leaderboard";
             document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
-            document.body.style.backgroundImage = "url(assets/general/low-lod-skull-pattern.png)";
-            fakeLoad();
+            loadScores();
+            // document.body.style.backgroundImage = "url(assets/general/low-lod-skull-pattern.png)";
+            // LOAD LEADERBOARD DATA & SET TO FIRST MINIGAME
+            categoryIndex = 0;
+            category = categories[categoryIndex];
+            document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
             break;
 
         // GAMES
         case "cornfall":
-            document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
+            view = "game";
             veryQuickfakeLoad();
+            document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
             break;
         case "graveguess":
-            document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
+            view = "game";
             quickFakeLoad();
+            document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
             break;
     }
 
     lodSet(currentLodState);
 }
 
+function fadeHome() {
+    document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
+    document.getElementById("abg22-halloween-fore").style.transform = "translateY(5vh)";
+    document.getElementById("home-ui").style.opacity = "0";
+    setTimeout(fadeHomeC, 1500);
+}
+
+function fadeLeaderboard() {
+    document.getElementById("absolute-mask").style.display = "block";
+    document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
+    document.getElementById("home-ui").style.opacity = "0";
+    setTimeout(fadeLeaderboardC, 500);
+}
+
+function fadeHomeC() {
+    goTo("leaderboard");
+}
+
+function fadeLeaderboardC() {
+    document.getElementById("absolute-mask").style.display = "none";
+    document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
+    document.getElementById("home-ui").style.opacity = "1";
+}
+
 function touchStart(id) {
     buttonType = document.getElementById(id).classList[0];
     switch(buttonType){
-        case "purple-long-button":
-            document.getElementById(id).classList.replace("purple-long-button", "purple-long-button-touch");
+        case "purple-button":
+            document.getElementById(id).classList.replace("purple-button", "purple-button-touch");
             break;
         case "yellow-long-button":
             document.getElementById(id).classList.replace("yellow-long-button", "yellow-long-button-touch");
             break;
-        case "orange-long-button":
-            document.getElementById(id).classList.replace("orange-long-button", "orange-long-button-touch");
+        case "orange-button":
+            document.getElementById(id).classList.replace("orange-button", "orange-button-touch");
             break;
         case "blue-circle-button":
             document.getElementById(id).classList.replace("blue-circle-button", "blue-circle-button-touch");
@@ -819,14 +776,14 @@ function touchStart(id) {
 function touchEnd(id) {
     buttonType = document.getElementById(id).classList[0];
     switch(buttonType){
-        case "purple-long-button-touch":
-            document.getElementById(id).classList.replace("purple-long-button-touch", "purple-long-button");
+        case "purple-button-touch":
+            document.getElementById(id).classList.replace("purple-button-touch", "purple-button");
             break;
         case "yellow-long-button-touch":
             document.getElementById(id).classList.replace("yellow-long-button-touch", "yellow-long-button");
             break;
-        case "orange-long-button-touch":
-            document.getElementById(id).classList.replace("orange-long-button-touch", "orange-long-button");
+        case "orange-button-touch":
+            document.getElementById(id).classList.replace("orange-button-touch", "orange-button");
             break;
         case "blue-circle-button-touch":
             document.getElementById(id).classList.replace("blue-circle-button-touch", "blue-circle-button");
@@ -897,19 +854,6 @@ function remember () {
     }
 
     goTo("home");
-}
-
-// FUNCTION TO GO TO THE LEADERBOARD
-function leaderboardLoad() {
-    goTo("leaderboard");
-
-    categoryIndex = 0;
-    category = categories[categoryIndex];
-    document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
-
-    loadScores();
-    // CHECK RANKING
-    lbRating();
 }
 
 // FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD

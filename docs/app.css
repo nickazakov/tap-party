@@ -23,7 +23,7 @@
 }
 
 body {
-    background-color: rgb(146, 43, 146);
+    background-color: #020b0e;
     background-size: cover;
 
     overflow-x: hidden;
@@ -31,8 +31,6 @@ body {
     position: relative;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
-
-/* MARQUEE */
 
 @font-face {
     font-family: sfBlack;
@@ -178,6 +176,15 @@ body {
     }
 }
 
+#absolute-mask {
+    background-color: #020b0e;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    z-index: 10;
+    display: none;
+}
+
 #loading-screen {
     position: absolute;
     width: 100vw;
@@ -188,6 +195,8 @@ body {
     align-items: center;
     flex-direction: column;
     transition: all 1s;
+
+    display: none;
 }
 
 #loading-screen span {
@@ -221,42 +230,69 @@ body {
 }
 
 /* GENERALIZED BUTTONS */
-.purple-long-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(195, 116, 240);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
 
-    /* Text Design */
-    color: white;
-    text-align: center;
+/* NEW */
+.purple-button {
+    border: none;
+    width: 250px;
+    height: 50px;
     font-size: 1.4rem;
+    color: #fff;
+    border-radius: 30px;
+    margin-bottom: 20px;
     font-weight: bold;
 
-    /* Other */
-    margin-bottom: 20px;
     transition: all 0.5s;
+
+    background: rgb(153,41,234);
+    background: linear-gradient(180deg, rgb(154, 41, 235) 0%, rgba(88,8,251,1) 100%);
 }
-.purple-long-button-touch{
-    /* Button Design */
+.purple-button-touch {
     border: none;
-    background-color: rgb(168, 84, 216);
-    border-radius: 30px;
-    height: 50px;
     width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
+    height: 50px;
     font-size: 1.4rem;
+    color: #fff;
+    border-radius: 30px;
+    margin-bottom: 20px;
     font-weight: bold;
 
-    /* Other */
-    margin-bottom: 20px;
     transition: all 0.5s;
 
+    background: rgb(127,25,201);
+    background: linear-gradient(180deg, rgba(127,25,201,1) 0%, rgba(67,8,186,1) 100%);
+    transform: scale(1.05);
+}
+
+.orange-button {
+    border: none;
+    width: 250px;
+    height: 50px;
+    font-size: 1.4rem;
+    color: #fff;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+
+    transition: all 0.5s;
+
+    background: rgb(255,159,25);
+    background: linear-gradient(180deg, rgba(255,159,25,1) 0%, rgba(255,111,18,1) 100%);
+}
+.orange-button-touch {
+    border: none;
+    width: 250px;
+    height: 50px;
+    font-size: 1.4rem;
+    color: #fff;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+
+    transition: all 0.5s;
+
+    background: rgb(208,129,20);
+    background: linear-gradient(180deg, rgba(208,129,20,1) 0%, rgba(200,89,18,1) 100%);
     transform: scale(1.05);
 }
 
@@ -282,45 +318,6 @@ body {
     /* Button Design */
     border: none;
     background-color: rgb(206, 170, 54);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: all 0.5s;
-
-    transform: scale(1.05);
-}
-
-.orange-long-button {
-    /* Button Design */
-    border: none;
-    background-color: rgb(240, 133, 34);
-    border-radius: 30px;
-    height: 50px;
-    width: 250px;
-
-    /* Text Design */
-    color: white;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-
-    /* Other */
-    margin-bottom: 20px;
-    transition: all 0.5s;
-}
-.orange-long-button-touch {
-    /* Button Design */
-    border: none;
-    background-color: rgb(179, 96, 19);
     border-radius: 30px;
     height: 50px;
     width: 250px;
@@ -485,8 +482,131 @@ body {
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 29px 0px;
 }
 
+/* SEASONAL ANIMATED BACKGROUNDS */
+
+/* HALLOWEEN 2022 */
+#abg22-halloween {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+
+    z-index: -5;
+    transform: translateY(0vh);
+    transition: all 1.5s cubic-bezier(1,.01,0,1);
+}
+#abg22-halloween-back {
+    background-image: url(assets/general/seasonal/halloween22/abg/Background.png);
+    background-size: cover;
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+}
+#abg22-halloween-fore {
+    background-image: url(assets/general/seasonal/halloween22/abg/Foreground.png);
+    background-size: cover;
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+
+    transition: all 0.75s linear;
+}
+#abg22-halloween-witch {
+    background-image: url(assets/general/seasonal/halloween22/abg/Witch.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+
+    animation: abg22-halloween-witch 5s infinite ease-in-out;
+}
+#abg22-halloween-flame {
+    background-image: url(assets/general/seasonal/halloween22/abg/Flame.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+
+    animation: abg22-halloween-flame 5s infinite ease-in-out;
+    transition: all 1s;
+}
+@keyframes abg22-halloween-witch {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-7deg); }
+    100% { transform: rotate(0deg); }
+}
+@keyframes abg22-halloween-flame {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(-7deg) scale(1.1); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+/* UI */
+
+#ui {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#ui-top {
+    width: 100vw;
+    height: 50vh;
+}
+
+#ui-bottom {
+    width: 100vw;
+    height: 50vh;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#home-ui {
+    position: absolute;
+
+    transition: all 0.5s cubic-bezier(1,.01,0,1);
+}
+
 .game-over-ui {
     z-index: 10;
+}
+
+#time-left-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#time-left {
+    text-align: center;
+    width: fit-content;
+    background-color: #ff0042;
+    padding: 5px 35px 5px 35px;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+    
+    /* animation: float 3s infinite; */
+}
+
+@keyframes float {
+	0% {transform: scale(0.9)  }
+	50% { transform: scale(1) }
+  100% { transform: scale(0.9) }
 }
 
 /*
@@ -544,28 +664,6 @@ input::placeholder {
     z-index: 4;
 }
 
-.rightTI { 
-    white-space: nowrap; 
-    overflow: hidden;
-    animation: marquee 50s linear infinite;
-    font-weight: bold;
-    padding-top: 40px;
-    padding-bottom: 10px;
-    height: 20px;
-
-    background-color: #062145;
-    color: rgb(253, 219, 70);
-    text-shadow: rgb(253, 168, 70, 1) 0px 0px 20px;
-}
-
-.rightTI:hover {
-    animation-play-state: paused;
-}
-@-webkit-keyframes marquee {
-    0% {text-indent: 100%;}
-    100% {text-indent: -1000%;}
-}
-
 #segment-loader {
     width: 100vw;
     height: 100vh;
@@ -611,22 +709,6 @@ input::placeholder {
     text-shadow: rgb(253, 168, 70, 1) 0px 0px 20px;
     font-weight: bold;
     font-size: 35px;
-}
-
-#time-left {
-    text-align: center;
-    top: 0px;
-
-    color: rgb(255, 161, 53);
-    font-weight: bold;
-    font-size: 60px;
-    animation: float 3s infinite;
-}
-
-@keyframes float {
-	0% {transform: scale(0.9)  }
-	50% { transform: scale(1) }
-  100% { transform: scale(0.9) }
 }
 
 #local-username {
