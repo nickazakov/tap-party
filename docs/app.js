@@ -6,6 +6,18 @@
 //    document.body.style.backgroundImage = "url('assets/cornfall/background-special.png')";
 //});
 
+let leaderBoardBones = [
+    "url(assets/general/seasonal/halloween22/abg/Bone-1.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-2.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-3.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-4.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-5.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-6.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-7.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-8.png)",
+    "url(assets/general/seasonal/halloween22/abg/Bone-9.png)",
+]
+
 let drags = new Set() //set of all active drags
 document.addEventListener("touchmove", function(event){
   if(!event.isTrusted)return //don't react to fake touches
@@ -538,7 +550,7 @@ request.onsuccess = function () {
             goTo("home");
             console.log("Username found!");
             user = idQuery.result.unstring;
-            document.getElementById("local-username").innerHTML = user;
+            // document.getElementById("local-username").innerHTML = user;
             
             /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
@@ -646,7 +658,6 @@ let home_HTMLSnippet = `
     </div>
 
     <content id="home-ui">
-        <p id="greeting">Good evening, <b id="local-username"></b></p>
         <div id="ui">
             <div id="ui-top"></div>
             <div id="ui-bottom">
@@ -676,6 +687,10 @@ let home_HTMLSnippet = `
 
 let leaderboard_HTMLSnippet = `
     <content id="leaderboard-content">
+        <div id="abg22-halloween">
+            <div id="abg22-halloween-bone"></div>
+        </div>
+
         <div id="top-bar-lb">
             <button id="switch-lb" class="orange-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
             <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
@@ -685,6 +700,7 @@ let leaderboard_HTMLSnippet = `
             <div id="scores-container">
             </div>
         </div>
+        <button id="purple-button" class="purple-button material-symbols-rounded ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">format_paint</button>
 
         <button id="purple-button" class="purple-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
     </content>
@@ -752,17 +768,18 @@ function goTo(page) {
             }
             view = "home";
             // document.body.style.backgroundImage = "url(assets/general/low-lod-pattern.png)";
-            document.getElementById("local-username").innerHTML = user;
+            // document.getElementById("local-username").innerHTML = user;
             break;
         case "leaderboard":
             view = "leaderboard";
             document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
-            loadScores();
+            leaderBoardBack();
             // document.body.style.backgroundImage = "url(assets/general/low-lod-skull-pattern.png)";
             // LOAD LEADERBOARD DATA & SET TO FIRST MINIGAME
             categoryIndex = 0;
             category = categories[categoryIndex];
             document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
+            loadScores();
             break;
 
         // GAMES
@@ -779,6 +796,22 @@ function goTo(page) {
     }
 
     lodSet(currentLodState);
+}
+
+function leaderBoardBack() {
+    if(document.getElementById("abg22-halloween-bone")){
+        document.getElementById("abg22-halloween-bone").style.opacity = "0";
+    }
+
+    if(rng(1,10) < 7) {
+        if(document.getElementById("abg22-halloween-bone")){
+            document.getElementById("abg22-halloween-bone").style.opacity = "1";
+            document.getElementById("abg22-halloween-bone").style.backgroundImage = leaderBoardBones[rng(0,8)];
+        }
+    }
+    if(document.getElementById("abg22-halloween-bone")){
+        setTimeout(leaderBoardBack, 1500);
+    }
 }
 
 function fadeHome() {
@@ -803,6 +836,11 @@ function fadeLeaderboardC() {
     document.getElementById("absolute-mask").style.display = "none";
     document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
     document.getElementById("home-ui").style.opacity = "1";
+}
+
+function returnHome() {
+    document.getElementById("scores-container").innerHTML = "";
+    goTo("home");
 }
 
 function touchStart(id) {
@@ -914,8 +952,8 @@ function remember () {
 
 // FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
 function back() {
-    document.getElementById("scores-container").innerHTML = "";
-    goTo("home");
+    document.getElementById("leaderboard-content").style.opacity = "0";
+    setTimeout(returnHome, 500);
 }
 
 // FUNCTION TO PLAY THE CURRENT GAME

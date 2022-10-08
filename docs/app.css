@@ -536,6 +536,19 @@ body {
     animation: abg22-halloween-flame 5s infinite ease-in-out;
     transition: all 1s;
 }
+#abg22-halloween-bone {
+    background-image: url(assets/general/seasonal/halloween22/abg/Bone-1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    opacity: 1;
+
+    transition: all 1s;
+}
 @keyframes abg22-halloween-witch {
     0% { transform: rotate(0deg); }
     50% { transform: rotate(-7deg); }
@@ -600,6 +613,8 @@ body {
     font-weight: bold;
     
     /* animation: float 3s infinite; */
+
+    transition: all 0.5s;
 }
 
 @keyframes float {
@@ -739,6 +754,9 @@ input::placeholder {
 
     display: flex;
     justify-content: center;
+
+    opacity: 1;
+    transition: all 0.5s;
 }
 
 textarea {
