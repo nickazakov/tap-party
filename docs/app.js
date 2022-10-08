@@ -1,11 +1,5 @@
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||| PRELOAD ASSETS |||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
-//window.addEventListener('load', (event) => {
-//    document.body.style.backgroundImage = "url('assets/cornfall/background-special.png')";
-//});
-
+// #region Global Variables
+let view = "welcome";
 let leaderBoardBones = [
     "url(assets/general/seasonal/halloween22/abg/Bone-1.png)",
     "url(assets/general/seasonal/halloween22/abg/Bone-2.png)",
@@ -16,7 +10,10 @@ let leaderBoardBones = [
     "url(assets/general/seasonal/halloween22/abg/Bone-7.png)",
     "url(assets/general/seasonal/halloween22/abg/Bone-8.png)",
     "url(assets/general/seasonal/halloween22/abg/Bone-9.png)",
-]
+];
+// #endregion
+
+// #region Gesture Block
 
 let drags = new Set() //set of all active drags
 document.addEventListener("touchmove", function(event){
@@ -45,13 +42,11 @@ document.addEventListener("touchend", function(event){
   }
 })
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// |||||||||||||||||||||||||||||| TIME CHECK ||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// #endregion
 
+// #region Time System
 // VARIABLES RELATED TO TIME
 let game = "";
-let view = "welcome";
 
 // GAME LIST ARRAY
 // 0 : CORNFALL
@@ -316,9 +311,9 @@ function updateTime() {
     }
 }
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||| FIRESTORE ||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// #endregion
+
+// #region Firebase Firestore
 
 // INITIALIZE FIREBASE
 const firebaseApp = firebase.initializeApp({
@@ -336,6 +331,7 @@ const db = firebaseApp.firestore();
 
 // PRIVATE CATEGORY IDS
 let categories = [
+    "globallb",
     "cornfalllb",
     "graveguesslb",
     "potioncraftlb"
@@ -343,26 +339,65 @@ let categories = [
 
 // PUBLIC CATEGORY NAMES
 let categoriesPublic = [
+    "Monthly",
     "Cornfall",
     "Grave Guess",
     "Potioncraft"
 ];
 
 // CURRENT CATEGORY PRIVATE ID
-let category = "cornfalllb";
+let category = "globallb";
 
 // CURRENT CATEGORY INDEX
 let categoryIndex = 0;
 
 // SET/UPDATE SCORE
 const saveScore = () => {
+    totalScore = 0;
+
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category)
     .doc(user)
     .set({ 
         score: Number(currentScore)
     });
+
+    totalScore = 0;
+    for(i = 1; i < categories.length; i++) {
+        db.collection(categories[i]).doc(user)
+        .get()
+        .then((doc) => {
+            totalScore = totalScore + doc.data().score;
+
+            db.collection("globallb")
+            .doc(user)
+            .set({ 
+                score:  totalScore
+            });
+            console.log("New Total Score: " + totalScore);
+        });
+    }
 }
+
+const calcGlobal = () => {
+    totalScore = 0;
+    for(i = 1; i < categories.length; i++) {
+        db.collection(categories[i]).doc(user)
+        .get()
+        .then((doc) => {
+            totalScore = totalScore + doc.data().score;
+
+            db.collection("globallb")
+            .doc(user)
+            .set({ 
+                score:  totalScore
+            });
+            console.log("New Total Score: " + totalScore);
+        });
+    }
+}
+
+let totalScore = 0;
 
 // PERFORM CHECK TO SEE IF UPDATING SCORE IS NEEDED
 const getHS = () => {
@@ -403,42 +438,63 @@ const loadScores = () => {
 
             switch(medals){
                 case 0:
-                    card = document.createElement('div');
-                    card.setAttribute("id", "entry-card-gold");
+                    if(username == user) {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-gold-self");
+                    } else {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-gold");
+                    }
                     break;
                 case 1:
-                    card = document.createElement('div');
-                    card.setAttribute("id", "entry-card-silver");
+                    if(username == user) {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-silver-self");
+                    } else {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-silver");
+                    }
                     break;
                 case 2:
-                    card = document.createElement('div');
-                    card.setAttribute("id", "entry-card-bronze");
+                    if(username == user) {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-bronze-self");
+                    } else {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-bronze");
+                    }
                     break;
                 default:
-                    card = document.createElement('div');
-                    card.setAttribute("id", "entry-card-unranked");
+                    if(username == user) {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-unranked-self");
+                    } else {
+                        card = document.createElement('div');
+                        card.setAttribute("id", "entry-card-unranked");
+                    }
             }
             medals++;
 
-
+            // CREATE & APPEND USERNAME ENTRY
             temp = document.createElement('div');
             temp.setAttribute("id", "username-entry");
             tempT = document.createTextNode(username);
             temp.appendChild(tempT);
-
             card.appendChild(temp);
 
+            // CREATE & APPEND SCORE ENTRY
             tempS = document.createElement('div');
             tempS.setAttribute("id", "score-entry");
             tempST = document.createTextNode(oldScore);
             tempS.appendChild(tempST);
-
             card.appendChild(tempS);
+
             document.getElementById("scores-container").appendChild(card);
-            console.log("card " + card.id);
         });
     })
 }
+
+// #endregion
 
 /* CAT FACT GENERATOR
 let catFacts = [
@@ -482,10 +538,7 @@ let catFacts = [
 ]
 */
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||| INDEXEDDB ||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
+// #region IndexedDB
 // USER VARIABLE
 let user = "";
 let currentLodState = "High";
@@ -631,9 +684,10 @@ function lodSet(lod) {
     }
 }
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||| PAGES ||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// #endregion
+
+// #region Navigation
+// #region HTMLSnippets
 
 let landing_HTMLSnippet = `
 `;
@@ -663,27 +717,13 @@ let home_HTMLSnippet = `
             <div id="ui-bottom">
                 <div id="time-left-indicator">
                     <div id="time-left">0m 0s</div>
-                    <button id="purple-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="play()">Play</button>
+                    <button id="purple-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="setTimeout(play, 100)">Play</button>
                 </div>
-                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="fadeHome()">Leaderboard</button>
+                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="transitionHome()">Leaderboard</button>
             </div>
         </div>
     </content>
 `;
-
-/*
-    <content id="home-content">
-        <div id="info-window">
-            <h1 id="info-title">Upcoming!</h1>
-            <h1 id="upcoming-game">-</h1>
-            <h1 id="time-left">-</h1>
-        </div>
-        <h1 id="local-username"></h1>
-        <button id="play-button" class="purple-long-button ds-light" onclick="play()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Play</button>
-        <button id="lboard-button" class="yellow-long-button ds-light" onclick="leaderboardLoad()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Leaderboard</button>
-        <button id="lod-quality" class="lod-button" onclick="lodSwitch()">LOD: High</button>
-    </content>
-*/
 
 let leaderboard_HTMLSnippet = `
     <content id="leaderboard-content">
@@ -700,8 +740,6 @@ let leaderboard_HTMLSnippet = `
             <div id="scores-container">
             </div>
         </div>
-        <button id="purple-button" class="purple-button material-symbols-rounded ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">format_paint</button>
-
         <button id="purple-button" class="purple-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
     </content>
 `;
@@ -711,8 +749,8 @@ let cornfall_HTMLSnippet = `
 
     <content id="falling-corn-game">
         <div id="game-over-screen">
-            <button id="retry-button" class="purple-long-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
-            <button id="home-button" class="purple-long-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
+            <button id="retry-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
+            <button id="home-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
         </div>
         <canvas id="halloween-game-canvas"></canvas>
         <img id="cauldron" src="assets/cornfall/cauldron.png">
@@ -738,12 +776,15 @@ let graveguess_HTMLSnippet = `
             </div>
         </div>
         <div id="game-over-screen-grave-guess">
-            <button id="retry-button-grave-guess" class="purple-long-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
-            <button id="home-button-grave-guess" class="purple-long-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
+            <button id="retry-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
+            <button id="home-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
         </div>
     </content>
 `;
 
+// #endregion
+
+// GLOBAL GOTO FUNCTION
 function goTo(page) {
     document.getElementById("absolute-body").innerHTML = "";
 
@@ -751,47 +792,50 @@ function goTo(page) {
 
         // PAGES
         case "landing":
-            view = "landing";
             document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
+
+            view = "landing";
             break;
         case "welcome": 
-            view = "welcome";
-            fakeLoad();
             document.getElementById("absolute-body").innerHTML = welcome_HTMLSnippet;
+
+            view = "welcome";
             break;
         case "home":
-            console.log("home");
             document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
             if(view == "leaderboard"){
-                fadeLeaderboard();
+                transitionLeaderboard();
             }
+
             view = "home";
-            // document.body.style.backgroundImage = "url(assets/general/low-lod-pattern.png)";
-            // document.getElementById("local-username").innerHTML = user;
             break;
         case "leaderboard":
-            view = "leaderboard";
+            document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
             leaderBoardBack();
-            // document.body.style.backgroundImage = "url(assets/general/low-lod-skull-pattern.png)";
-            // LOAD LEADERBOARD DATA & SET TO FIRST MINIGAME
             categoryIndex = 0;
             category = categories[categoryIndex];
             document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
             loadScores();
+
+            view = "leaderboard";
             break;
 
         // GAMES
         case "cornfall":
-            view = "game";
+            document.body.style.backgroundImage = "";
             veryQuickfakeLoad();
             document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
+
+            view = "game";
             break;
         case "graveguess":
-            view = "game";
+            document.body.style.backgroundImage = "";
             quickFakeLoad();
             document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
+
+            view = "game";
             break;
     }
 
@@ -814,25 +858,28 @@ function leaderBoardBack() {
     }
 }
 
-function fadeHome() {
+function transitionHome() {
     document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
     document.getElementById("abg22-halloween-fore").style.transform = "translateY(5vh)";
     document.getElementById("home-ui").style.opacity = "0";
-    setTimeout(fadeHomeC, 1500);
+    setTimeout(transitionHome2, 1500);
+}
+function transitionHome2() {
+    goTo("leaderboard");
+    document.getElementById("leaderboard-content").style.opacity = "0";
+    setTimeout(transitionHome3, 500);
+}
+function transitionHome3() {
+    document.getElementById("leaderboard-content").style.opacity = "1";
 }
 
-function fadeLeaderboard() {
+function transitionLeaderboard() {
     document.getElementById("absolute-mask").style.display = "block";
     document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
     document.getElementById("home-ui").style.opacity = "0";
-    setTimeout(fadeLeaderboardC, 500);
+    setTimeout(transitionLeaderboard2, 500);
 }
-
-function fadeHomeC() {
-    goTo("leaderboard");
-}
-
-function fadeLeaderboardC() {
+function transitionLeaderboard2() {
     document.getElementById("absolute-mask").style.display = "none";
     document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
     document.getElementById("home-ui").style.opacity = "1";
@@ -843,14 +890,18 @@ function returnHome() {
     goTo("home");
 }
 
+// FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
+function back() {
+    document.getElementById("leaderboard-content").style.opacity = "0";
+    setTimeout(returnHome, 500);
+}
+
+// GLOBAL BUTTON HOVER FUNCTIONS
 function touchStart(id) {
     buttonType = document.getElementById(id).classList[0];
     switch(buttonType){
         case "purple-button":
             document.getElementById(id).classList.replace("purple-button", "purple-button-touch");
-            break;
-        case "yellow-long-button":
-            document.getElementById(id).classList.replace("yellow-long-button", "yellow-long-button-touch");
             break;
         case "orange-button":
             document.getElementById(id).classList.replace("orange-button", "orange-button-touch");
@@ -858,35 +909,19 @@ function touchStart(id) {
         case "blue-circle-button":
             document.getElementById(id).classList.replace("blue-circle-button", "blue-circle-button-touch");
             break;
-        case "purple-long-cat-button":
-            document.getElementById(id).classList.replace("purple-long-cat-button", "purple-long-cat-button-touch");
-            break;
-        case "orange-custom-long-button":
-            document.getElementById(id).classList.replace("orange-custom-long-button", "orange-custom-long-button-touch");
-            break;
     }
 }
-
 function touchEnd(id) {
     buttonType = document.getElementById(id).classList[0];
     switch(buttonType){
         case "purple-button-touch":
             document.getElementById(id).classList.replace("purple-button-touch", "purple-button");
             break;
-        case "yellow-long-button-touch":
-            document.getElementById(id).classList.replace("yellow-long-button-touch", "yellow-long-button");
-            break;
         case "orange-button-touch":
             document.getElementById(id).classList.replace("orange-button-touch", "orange-button");
             break;
         case "blue-circle-button-touch":
             document.getElementById(id).classList.replace("blue-circle-button-touch", "blue-circle-button");
-            break;
-        case "purple-long-cat-button-touch":
-            document.getElementById(id).classList.replace("purple-long-cat-button-touch", "purple-long-cat-button");
-            break;
-        case "orange-custom-long-button-touch":
-            document.getElementById(id).classList.replace("orange-custom-long-button-touch", "orange-custom-long-button");
             break;
     }
 }
@@ -929,10 +964,6 @@ function stopLoad(){
     document.getElementById("loading-screen").style.display = "none";
 }
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||| MENUS ||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
 // FUNCTION TO SAVE USERNAME
 function remember () {
     const db = request.result;
@@ -950,12 +981,6 @@ function remember () {
     goTo("home");
 }
 
-// FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
-function back() {
-    document.getElementById("leaderboard-content").style.opacity = "0";
-    setTimeout(returnHome, 500);
-}
-
 // FUNCTION TO PLAY THE CURRENT GAME
 function play () {
     switch(game) {
@@ -968,13 +993,25 @@ function play () {
     }
 }
 
+let canCalcB = true;
+
 // FUNCTION TO REFRESH LEADERBOARD
 function refreshlb() {
     document.getElementById("reload-lb").style.animation="spin 0.5s linear";
     setTimeout(stopRefreshAnim, "500");
     document.getElementById("scores-container").innerHTML = "";
     loadScores();
+
+    if(canCalcB) {
+        calcGlobal();
+        canCalcB = false;
+        setTimeout(canCalc, 1000);
+    }
 }
+function canCalc() {
+    canCalcB = true;
+}
+
 function stopRefreshAnim() {
     document.getElementById("reload-lb").style.animation="";
 }
@@ -1020,14 +1057,13 @@ function backdrop(n){
     }
 }
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||| GAMES ||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+// #endregion
 
+// #region Games
 function cornfall() {
     goTo("cornfall");
     backdrop(0);
-    switchlb("0");
+    switchlb("1");
 
     /*let canvasElement = document.createElement('canvas');
     canvasElement.id = "halloween-game-canvas";
@@ -1202,29 +1238,13 @@ function cornfall() {
         getHS();
     }
 
-    function retry() {
-        score = 0;
-        fingerX = (canvas.width)/2 - 50;
-        candies = [];
-        bones = [];
-        var menu = document.getElementById("game-over-screen");
-        menu.style.display = "none";
-        document.getElementById("score").innerHTML = "0";
-        gameOver = false;
-        animate(0);
-    }
-
-    function menu() {
-        document.getElementById("score").innerHTML = "0";
-        goTo("home");
-    }
-
     document.getElementById('retry-button').onclick = function() {
-        retry();
+        setTimeout(play, 100);
     };
 
     document.getElementById('home-button').onclick = function() {
-        menu();
+        document.getElementById("score").innerHTML = "0";
+        setTimeout(goTo, 100, "home");
     };
 
     const player = new Player(canvas.width, canvas.height);
@@ -1253,7 +1273,7 @@ function cornfall() {
 function graveGuess() {
     goTo("graveguess");
     backdrop(1);
-    switchlb("1");
+    switchlb("2");
 
     let score = 0;
     let iterations = 2;
@@ -1403,30 +1423,19 @@ function graveGuess() {
         }
     }
 
-    function retry() {
-        var menu = document.getElementById("game-over-screen-grave-guess");
-        menu.style.display = "none";
-        play();
-    }
-
-    function menu() {
-        document.getElementById("score").innerHTML = "0";
-        goTo("home");
-    }
-
-    document.getElementById('retry-button-grave-guess').onclick = function() {
-        retry();
+    document.getElementById('retry-button').onclick = function() {
+        setTimeout(play, 100);
     };
 
-    document.getElementById('home-button-grave-guess').onclick = function() {
-        menu();
+    document.getElementById('home-button').onclick = function() {
+        document.getElementById("score").innerHTML = "0";
+        setTimeout(goTo, 100, "home");
     };
 }
+// #endregion
 
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||| UTILITIES ||||||||||||||||||||||||||||||||||||
-// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
+// #region Utilities
 function rng(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+// #endregion
