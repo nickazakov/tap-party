@@ -349,6 +349,8 @@ const getHS = () => {
 
 // LOAD SCORES TO LEADERBOARD FOR CURRENT CATEGORY
 const loadScores = () => {
+
+    let medals = 0;
     document.getElementById("scores-container").innerHTML = "";
     db.collection(category)
     .orderBy("score", "desc")
@@ -360,17 +362,41 @@ const loadScores = () => {
             username = doc.id;
             oldScore = doc.data().score;
 
+            switch(medals){
+                case 0:
+                    card = document.createElement('div');
+                    card.setAttribute("id", "entry-card-gold");
+                    break;
+                case 1:
+                    card = document.createElement('div');
+                    card.setAttribute("id", "entry-card-silver");
+                    break;
+                case 2:
+                    card = document.createElement('div');
+                    card.setAttribute("id", "entry-card-bronze");
+                    break;
+                default:
+                    card = document.createElement('div');
+                    card.setAttribute("id", "entry-card-unranked");
+            }
+            medals++;
+
+
             temp = document.createElement('div');
             temp.setAttribute("id", "username-entry");
             tempT = document.createTextNode(username);
             temp.appendChild(tempT);
-            document.getElementById("scores-container").appendChild(temp);
+
+            card.appendChild(temp);
 
             tempS = document.createElement('div');
             tempS.setAttribute("id", "score-entry");
             tempST = document.createTextNode(oldScore);
             tempS.appendChild(tempST);
-            document.getElementById("scores-container").appendChild(tempS);
+
+            card.appendChild(tempS);
+            document.getElementById("scores-container").appendChild(card);
+            console.log("card " + card.id);
         });
     })
 }
@@ -485,7 +511,7 @@ request.onsuccess = function () {
             goTo("home");
             console.log("Username found!");
             user = idQuery.result.unstring;
-            // document.getElementById("local-username").innerHTML = user;
+            document.getElementById("local-username").innerHTML = user;
             
             /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
@@ -593,14 +619,15 @@ let home_HTMLSnippet = `
     </div>
 
     <content id="home-ui">
+        <p id="greeting">Good evening, <b id="local-username"></b></p>
         <div id="ui">
             <div id="ui-top"></div>
             <div id="ui-bottom">
                 <div id="time-left-indicator">
                     <div id="time-left">0m 0s</div>
-                    <button id="purple-button" class="purple-button" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="play()">Play</button>
+                    <button id="purple-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="play()">Play</button>
                 </div>
-                <button id="orange-button" class="orange-button" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="fadeHome()">Leaderboard</button>
+                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="fadeHome()">Leaderboard</button>
             </div>
         </div>
     </content>
@@ -623,14 +650,16 @@ let home_HTMLSnippet = `
 let leaderboard_HTMLSnippet = `
     <content id="leaderboard-content">
         <div id="top-bar-lb">
-            <button id="switch-lb" class="purple-long-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
+            <button id="switch-lb" class="orange-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
             <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
         </div>
+
         <div id="board">
             <div id="scores-container">
             </div>
         </div>
-        <button id="back-button" class="purple-long-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
+
+        <button id="back-button" class="purple-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
     </content>
 `;
 
@@ -696,7 +725,7 @@ function goTo(page) {
             }
             view = "home";
             // document.body.style.backgroundImage = "url(assets/general/low-lod-pattern.png)";
-            // document.getElementById("local-username").innerHTML = user;
+            document.getElementById("local-username").innerHTML = user;
             break;
         case "leaderboard":
             view = "leaderboard";
