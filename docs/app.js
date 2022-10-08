@@ -338,6 +338,7 @@ let categories = [
 ];
 
 let bannersUnlocked = [
+    true,
     false,
     false,
     false,
@@ -362,8 +363,8 @@ let categoryIndex = 0;
 
 // SET/UPDATE SCORE
 const saveScore = () => {
-    totalScore = 0;
 
+    console.log("-");
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category)
     .doc(user)
@@ -372,24 +373,7 @@ const saveScore = () => {
         banner: bannerEquipped
     });
 
-    totalScore = 0;
-    for(i = 1; i < categories.length; i++) {
-        db.collection(categories[i]).doc(user)
-        .get()
-        .then((doc) => {
-            totalScore = totalScore + doc.data().score;
-
-            if(i == categories.length - 1) {
-                db.collection("globallb")
-                .doc(user)
-                .set({ 
-                    score:  totalScore,
-                    banner: bannerEquipped
-                });
-                console.log("New Total Score: " + totalScore);
-            }
-        });
-    }
+    calcGlobal();
 }
 
 const calcGlobal = () => {
@@ -535,7 +519,7 @@ const loadScores = () => {
                             card.setAttribute("class", id);
                         } else {
                             card.setAttribute("id", "entry-card-bronze-self");
-                            card.setAttribute("class", "silver");
+                            card.setAttribute("class", "bronze");
                         }
                     } else if (banner) {
                         card = document.createElement('div');
@@ -601,6 +585,10 @@ const loadScores = () => {
 
             document.getElementById("scores-container").appendChild(card);
         });
+
+        tempSep = document.createElement('div');
+        tempSep.setAttribute("id", "leaderboard-fix");
+        document.getElementById("scores-container").appendChild(tempSep);
 
         if(document.getElementById("entry-card-gold-self")) {
             document.getElementById("entry-card-gold-self").addEventListener('click', function (event) {
@@ -913,32 +901,67 @@ let leaderboard_HTMLSnippet = `
                 <h2>Climb up the monthly leaderboard to start collecting banners!</h2>
                 <div id="banner-collection">
 
-                    <div id="banner-card-option" class="banner-1" onclick="equipBanner(0)">
+                    <div id="banner-card-option" class="banner-0" onclick="equipBanner(0)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-1" class="material-symbols-rounded">check</span>
+                            <span id="equip-icon-0" class="material-symbols-rounded">trip_origin</span>
+                        </div>
+                        <div id="banner-unlock-hint">Default Banner</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-1" onclick="equipBanner(1)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-1" class="material-symbols-rounded">trip_origin</span>
                         </div>
                         <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-2" onclick="equipBanner(1)">
+                    <div id="banner-card-option" class="banner-2" onclick="equipBanner(2)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-2" class="material-symbols-rounded">check</span>
+                            <span id="equip-icon-2" class="material-symbols-rounded">trip_origin</span>
                         </div>
                         <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-3" onclick="equipBanner(2)">
+                    <div id="banner-card-option" class="banner-3" onclick="equipBanner(3)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-3" class="material-symbols-rounded">check</span>
+                            <span id="equip-icon-3" class="material-symbols-rounded">trip_origin</span>
                         </div>
                         <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-4" onclick="equipBanner(3)">
+                    <div id="banner-card-option" class="banner-4" onclick="equipBanner(4)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-4" class="material-symbols-rounded">check</span>
+                            <span id="equip-icon-4" class="material-symbols-rounded">trip_origin</span>
                         </div>
                         <div id="banner-unlock-hint">Reach 50 in Cornfall</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-coming-soon">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-1" class="material-symbols-rounded">trip_origin</span>
+                        </div>
+                        <div id="banner-unlock-hint">Coming Soon!</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-coming-soon">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-2" class="material-symbols-rounded">trip_origin</span>
+                        </div>
+                        <div id="banner-unlock-hint">Coming Soon!</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-coming-soon">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-3" class="material-symbols-rounded">trip_origin</span>
+                        </div>
+                        <div id="banner-unlock-hint">Coming Soon!</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-coming-soon">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-4" class="material-symbols-rounded">trip_origin</span>
+                        </div>
+                        <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
 
                 </div>
@@ -1022,6 +1045,7 @@ function goTo(page) {
             categoryIndex = 0;
             category = categories[categoryIndex];
             document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
+            calcGlobal();
             loadScores();
 
             view = "leaderboard";
@@ -1056,6 +1080,7 @@ function profileOpen() {
 
     switch(bannerEquipped){
         case 0:
+            document.getElementById("equip-icon-0").style.display = "block";
             break;
         case 1:
             document.getElementById("equip-icon-1").style.display = "block";
@@ -1123,15 +1148,15 @@ function returnHome() {
 function equipBanner(b) {
     if(bannersUnlocked[b]) {
         let id = "equip-icon-";
-        for(i = 0; i < 4; i++) { // SET AMOUNT OF BANNERS
-            id = "equip-icon-"+(i+1);
-            document.getElementById(id).style.display = "none";
-        }
-        id = "equip-icon-"+(b+1);
-        console.log(id);
-        document.getElementById(id).style.display = "block";
-        bannerEquipped = (b+1);
-        setBanners();
+            for(i = 0; i < 5; i++) { // SET AMOUNT OF BANNERS
+                id = "equip-icon-"+i;
+                document.getElementById(id).style.display = "none";
+            }
+            id = "equip-icon-"+b;
+            console.log(id);
+            document.getElementById(id).style.display = "block";
+            bannerEquipped = b;
+            setBanners();
     } else {
         console.log("Locked Banner!");
     }
