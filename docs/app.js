@@ -337,6 +337,15 @@ let categories = [
     "potioncraftlb"
 ];
 
+let bannersUnlocked = [
+    false,
+    false,
+    false,
+    false,
+]
+
+let bannerEquipped = 0;
+
 // PUBLIC CATEGORY NAMES
 let categoriesPublic = [
     "Monthly",
@@ -359,7 +368,8 @@ const saveScore = () => {
     db.collection(category)
     .doc(user)
     .set({ 
-        score: Number(currentScore)
+        score: Number(currentScore),
+        banner: bannerEquipped
     });
 
     totalScore = 0;
@@ -369,12 +379,15 @@ const saveScore = () => {
         .then((doc) => {
             totalScore = totalScore + doc.data().score;
 
-            db.collection("globallb")
-            .doc(user)
-            .set({ 
-                score:  totalScore
-            });
-            console.log("New Total Score: " + totalScore);
+            if(i == categories.length - 1) {
+                db.collection("globallb")
+                .doc(user)
+                .set({ 
+                    score:  totalScore,
+                    banner: bannerEquipped
+                });
+                console.log("New Total Score: " + totalScore);
+            }
         });
     }
 }
@@ -389,10 +402,20 @@ const calcGlobal = () => {
 
             db.collection("globallb")
             .doc(user)
-            .set({ 
+            .update({ 
                 score:  totalScore
             });
             console.log("New Total Score: " + totalScore);
+        });
+    }
+}
+
+const createScores = () => {
+    for(i = 0; i < categories.length; i++) {
+        db.collection(categories[i]).doc(user)
+        .set({ 
+            score: 0,
+            banner: bannerEquipped
         });
     }
 }
@@ -433,41 +456,108 @@ const loadScores = () => {
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data().score);
-            username = doc.id;
-            oldScore = doc.data().score;
-
+            let username = doc.id;
+            let oldScore = doc.data().score;
+            let banner = doc.data().banner;
+            console.log("banner: " + banner);
+            
+            let card;
             switch(medals){
                 case 0:
-                    if(username == user) {
+                    // GOLD
+                    if (username == user) {
+                        // SELF
                         card = document.createElement('div');
-                        card.setAttribute("id", "entry-card-gold-self");
+                        console.log("banner: " + banner);
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-gold-self");
+                        }
+                    } else if (banner) {
+                        card = document.createElement('div');
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-gold-self");
+                        }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-gold");
                     }
                     break;
                 case 1:
-                    if(username == user) {
+                    // SILVER
+                    if (username == user) {
+                        // SELF
                         card = document.createElement('div');
-                        card.setAttribute("id", "entry-card-silver-self");
+                        console.log("banner: " + banner);
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-silver-self");
+                        }
+                    } else if (banner) {
+                        card = document.createElement('div');
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-silver-self");
+                        }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-silver");
                     }
                     break;
                 case 2:
-                    if(username == user) {
+                    // BRONZE
+                    if (username == user) {
+                        // SELF
                         card = document.createElement('div');
-                        card.setAttribute("id", "entry-card-bronze-self");
+                        console.log("banner: " + banner);
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-bronze-self");
+                        }
+                    } else if (banner) {
+                        card = document.createElement('div');
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-bronze-self");
+                        }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-bronze");
                     }
                     break;
                 default:
-                    if(username == user) {
+                    // UNRANKED
+                    if (username == user) {
+                        // SELF
                         card = document.createElement('div');
-                        card.setAttribute("id", "entry-card-unranked-self");
+                        console.log("banner: " + banner);
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-unranked-self");
+                        }
+                    } else if (banner) {
+                        card = document.createElement('div');
+                        if(banner != 0) {
+                            id = "banner-" + banner;
+                            card.setAttribute("class", id);
+                        } else {
+                            card.setAttribute("id", "entry-card-unranked-self");
+                        }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-unranked");
@@ -491,7 +581,62 @@ const loadScores = () => {
 
             document.getElementById("scores-container").appendChild(card);
         });
+
+        if(document.getElementById("entry-card-gold-self")) {
+            document.getElementById("entry-card-gold-self").addEventListener('click', function (event) {
+                profileOpen();
+            });
+        }
+        if(document.getElementById("entry-card-silver-self")) {
+            document.getElementById("entry-card-silver-self").addEventListener('click', function (event) {
+                profileOpen();
+            });
+        }
+        if(document.getElementById("entry-card-bronze-self")) {
+            document.getElementById("entry-card-bronze-self").addEventListener('click', function (event) {
+                profileOpen();
+            });
+        }
+        if(document.getElementById("entry-card-unranked-self")) {
+            document.getElementById("entry-card-unranked-self").addEventListener('click', function (event) {
+                profileOpen();
+            });
+        }
     })
+}
+
+const getBanners = () => {
+    db.collection("unlocks").doc(user)
+    .get()
+    .then((doc) => {
+        if (doc.exists) {
+            console.log("Unlocks Document exists!");
+            bannersUnlocked = doc.data().banners;
+            bannerEquipped = doc.data().equipped;
+            // SET EQUIPPED FROM DOC.DATA().EQUIPPED
+            console.log(bannersUnlocked);
+        } else {
+            console.log("No Unlocks Document!");
+            setBanners();
+        }
+    })
+}
+
+const setBanners = () => {
+
+    db.collection("unlocks")
+    .doc(user)
+    .set({ 
+        banners: bannersUnlocked,
+        equipped: bannerEquipped
+    });
+
+    for(i = 0; i < categories.length; i++) {
+        db.collection(categories[i]).doc(user)
+        .update({ 
+            banner: bannerEquipped
+        });
+    }
 }
 
 // #endregion
@@ -741,6 +886,44 @@ let leaderboard_HTMLSnippet = `
             </div>
         </div>
         <button id="purple-button" class="purple-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
+
+        <div id="absolute-profile">
+            <div id="profile-popup">
+                <h1>username</h1>
+                <h2>Climb up the monthly leaderboard to start collecting banners!</h2>
+                <div id="banner-collection">
+
+                    <div id="banner-card-option" class="banner-1" onclick="equipBanner(0)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-1" class="material-symbols-rounded">check</span>
+                        </div>
+                        <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-2" onclick="equipBanner(1)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-2" class="material-symbols-rounded">check</span>
+                        </div>
+                        <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-3" onclick="equipBanner(2)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-3" class="material-symbols-rounded">check</span>
+                        </div>
+                        <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
+                    </div>
+
+                    <div id="banner-card-option" class="banner-4" onclick="equipBanner(3)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-4" class="material-symbols-rounded">check</span>
+                        </div>
+                        <div id="banner-unlock-hint">Reach 50 in Cornfall</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </content>
 `;
 
@@ -811,6 +994,8 @@ function goTo(page) {
             view = "home";
             break;
         case "leaderboard":
+            getBanners();
+
             document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
             leaderBoardBack();
@@ -820,6 +1005,9 @@ function goTo(page) {
             loadScores();
 
             view = "leaderboard";
+            break;
+        case "profile":
+            view = "profile";
             break;
 
         // GAMES
@@ -840,6 +1028,28 @@ function goTo(page) {
     }
 
     lodSet(currentLodState);
+}
+
+function profileOpen() {
+    console.log("Opening Profile!");
+    document.getElementById("absolute-profile").style.display = "flex";
+
+    switch(bannerEquipped){
+        case 0:
+            break;
+        case 1:
+            document.getElementById("equip-icon-1").style.display = "block";
+            break;
+        case 2:
+            document.getElementById("equip-icon-2").style.display = "block";
+            break;
+        case 3:
+            document.getElementById("equip-icon-3").style.display = "block";
+            break;
+        case 4:
+            document.getElementById("equip-icon-4").style.display = "block";
+            break;
+    }
 }
 
 function leaderBoardBack() {
@@ -888,6 +1098,23 @@ function transitionLeaderboard2() {
 function returnHome() {
     document.getElementById("scores-container").innerHTML = "";
     goTo("home");
+}
+
+function equipBanner(b) {
+    if(bannersUnlocked[b]) {
+        let id = "equip-icon-";
+        for(i = 0; i < 4; i++) { // SET AMOUNT OF BANNERS
+            id = "equip-icon-"+(i+1);
+            document.getElementById(id).style.display = "none";
+        }
+        id = "equip-icon-"+(b+1);
+        console.log(id);
+        document.getElementById(id).style.display = "block";
+        bannerEquipped = (b+1);
+        setBanners();
+    } else {
+        console.log("Locked Banner!");
+    }
 }
 
 // FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
@@ -979,6 +1206,8 @@ function remember () {
     }
 
     goTo("home");
+    createScores();
+    getBanners();
 }
 
 // FUNCTION TO PLAY THE CURRENT GAME
