@@ -925,8 +925,6 @@ textarea:hover {
     border-radius: 20px;
     margin-bottom: 20px;
 
-    background: linear-gradient(180deg, rgb(217, 206, 49) 0%, rgb(212, 137, 26) 100%);
-
     box-shadow: rgba(255, 230, 0, 0.5) 0px 0px 21px 0px;
 }
 
@@ -938,14 +936,10 @@ textarea:hover {
     border-radius: 20px;
     margin-bottom: 20px;
 
-    background: rgb(180, 175, 170);
-    background: linear-gradient(180deg, rgb(180, 175, 170) 0%, rgb(84, 94, 101) 100%);
-
     box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 21px 0px;
 }
 
 #entry-card-bronze {
-    background-color: brown;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -953,14 +947,10 @@ textarea:hover {
     border-radius: 20px;
     margin-bottom: 20px;
 
-    background: rgb(196, 125, 39);
-    background: linear-gradient(180deg, rgb(194, 124, 38) 0%, rgb(117, 66, 13) 100%);
-
     box-shadow: rgba(255, 145, 19, 0.5) 0px 0px 21px 0px;
 }
 
 #entry-card-unranked {
-    background-color: #132a31;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -980,8 +970,6 @@ textarea:hover {
     border-radius: 20px;
     margin-bottom: 20px;
 
-    background: linear-gradient(180deg, rgb(217, 206, 49) 0%, rgb(212, 137, 26) 100%);
-
     box-shadow: rgba(255, 230, 0, 0.5) 0px 0px 21px 0px;
 }
 
@@ -995,16 +983,12 @@ textarea:hover {
     border-radius: 20px;
     margin-bottom: 20px;
 
-    background: rgb(180, 175, 170);
-    background: linear-gradient(180deg, rgb(180, 175, 170) 0%, rgb(84, 94, 101) 100%);
-
     box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 21px 0px;
 }
 
 #entry-card-bronze-self {
     border: 4px solid #fff;
 
-    background-color: brown;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1012,16 +996,12 @@ textarea:hover {
     border-radius: 20px;
     margin-bottom: 20px;
 
-    background: rgb(196, 125, 39);
-    background: linear-gradient(180deg, rgb(194, 124, 38) 0%, rgb(117, 66, 13) 100%);
-
     box-shadow: rgba(255, 145, 19, 0.5) 0px 0px 21px 0px;
 }
 
 #entry-card-unranked-self {
     border: 4px solid #fff;
 
-    background-color: #132a31;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1036,6 +1016,7 @@ textarea:hover {
     text-align: left;
     font-weight: bold;
     font-size: 1.5rem;
+    text-shadow: 0px 0px 20px rgba(0,0,0,0.35);
 }
 
 #score-entry {
@@ -1187,7 +1168,24 @@ textarea:hover {
     box-shadow: rgba(255, 230, 0, 0.5) 0px 0px 21px 0px;
 }
 
+.gold {
+    background: rgb(217, 206, 49);
+    background: linear-gradient(180deg, rgb(217, 206, 49) 0%, rgb(212, 137, 26) 100%);
+}
 
+.silver {
+    background: rgb(180, 175, 170);
+    background: linear-gradient(180deg, rgb(180, 175, 170) 0%, rgb(84, 94, 101) 100%);
+}
+
+.bronze {
+    background: rgb(196, 125, 39);
+    background: linear-gradient(180deg, rgb(194, 124, 38) 0%, rgb(117, 66, 13) 100%);
+}
+
+.unranked {
+    background-color: #132a31;
+}
 
 /*
  _______  _______  ______    __    _  _______  _______  ___      ___     

@@ -471,21 +471,26 @@ const loadScores = () => {
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-gold-self");
                             card.setAttribute("class", id);
                         } else {
                             card.setAttribute("id", "entry-card-gold-self");
+                            card.setAttribute("class", "gold");
                         }
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-gold");
                             card.setAttribute("class", id);
                         } else {
-                            card.setAttribute("id", "entry-card-gold-self");
+                            card.setAttribute("id", "entry-card-gold");
+                            card.setAttribute("class", "gold");
                         }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-gold");
+                        card.setAttribute("class", "gold");
                     }
                     break;
                 case 1:
@@ -496,21 +501,26 @@ const loadScores = () => {
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-silver-self");
                             card.setAttribute("class", id);
                         } else {
                             card.setAttribute("id", "entry-card-silver-self");
+                            card.setAttribute("class", "silver");
                         }
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-silver");
                             card.setAttribute("class", id);
                         } else {
-                            card.setAttribute("id", "entry-card-silver-self");
+                            card.setAttribute("id", "entry-card-silver");
+                            card.setAttribute("class", "silver");
                         }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-silver");
+                        card.setAttribute("class", "silver");
                     }
                     break;
                 case 2:
@@ -521,21 +531,26 @@ const loadScores = () => {
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-bronze-self");
                             card.setAttribute("class", id);
                         } else {
                             card.setAttribute("id", "entry-card-bronze-self");
+                            card.setAttribute("class", "silver");
                         }
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-bronze");
                             card.setAttribute("class", id);
                         } else {
-                            card.setAttribute("id", "entry-card-bronze-self");
+                            card.setAttribute("id", "entry-card-bronze");
+                            card.setAttribute("class", "bronze");
                         }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-bronze");
+                        card.setAttribute("class", "bronze");
                     }
                     break;
                 default:
@@ -546,21 +561,26 @@ const loadScores = () => {
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-unranked-self");
                             card.setAttribute("class", id);
                         } else {
                             card.setAttribute("id", "entry-card-unranked-self");
+                            card.setAttribute("class", "unranked");
                         }
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
                             id = "banner-" + banner;
+                            card.setAttribute("id", "entry-card-unranked");
                             card.setAttribute("class", id);
                         } else {
-                            card.setAttribute("id", "entry-card-unranked-self");
+                            card.setAttribute("id", "entry-card-unranked");
+                            card.setAttribute("class", "unranked");
                         }
                     } else {
                         card = document.createElement('div');
                         card.setAttribute("id", "entry-card-unranked");
+                        card.setAttribute("class", "unranked");
                     }
             }
             medals++;
