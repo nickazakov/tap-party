@@ -25,7 +25,6 @@
 body {
     background-color: #020b0e;
     background-size: cover;
-
     overflow-x: hidden;
     overflow-y: hidden;
     position: relative;
@@ -891,7 +890,7 @@ textarea:hover {
     -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 
-    touch-action: pan-left, pan-right, pan-up, pan-down;
+    /*touch-action: pan-left, pan-right, pan-up, pan-down;*/
 }
 
 #scores-container::-webkit-scrollbar {
