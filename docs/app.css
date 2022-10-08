@@ -11,6 +11,7 @@
 * {
     margin: 0;
     padding: 0;
+    touch-action: none;
     -webkit-tap-highlight-color: transparent; /* for removing the highlight */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -22,8 +23,6 @@
 }
 
 body {
-    touch-action: none;
-
     background-color: #020b0e;
     background-size: cover;
 
