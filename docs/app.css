@@ -11,7 +11,6 @@
 * {
     margin: 0;
     padding: 0;
-    /*touch-action: none;*/
     -webkit-tap-highlight-color: transparent; /* for removing the highlight */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -23,6 +22,7 @@
 }
 
 body {
+    touch-action: none;
     background-color: #020b0e;
     background-size: cover;
     overflow-x: hidden;
@@ -890,7 +890,7 @@ textarea:hover {
     -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 
-    /*touch-action: pan-left, pan-right, pan-up, pan-down;*/
+    touch-action: pan-left, pan-right, pan-up, pan-down;
 }
 
 #scores-container::-webkit-scrollbar {
