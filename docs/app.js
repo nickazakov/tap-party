@@ -452,15 +452,18 @@ const loadScores = () => {
                     if (username == user) {
                         // SELF
                         card = document.createElement('div');
+                        card.classList.add("self");
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-gold-self");
-                            card.setAttribute("class", id);
+                            card.classList.add(id);
                         } else {
                             card.setAttribute("id", "entry-card-gold-self");
-                            card.setAttribute("class", "gold");
+                            card.classList.add("gold");
                         }
+                        card.setAttribute("ontouchstart", "touchStart(this.id)");
+                        card.setAttribute("ontouchend", "touchEnd(this.id)");
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
@@ -482,15 +485,18 @@ const loadScores = () => {
                     if (username == user) {
                         // SELF
                         card = document.createElement('div');
+                        card.classList.add("self");
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-silver-self");
-                            card.setAttribute("class", id);
+                            card.classList.add(id);
                         } else {
                             card.setAttribute("id", "entry-card-silver-self");
-                            card.setAttribute("class", "silver");
+                            card.classList.add("silver");
                         }
+                        card.setAttribute("ontouchstart", "touchStart(this.id)");
+                        card.setAttribute("ontouchend", "touchEnd(this.id)");
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
@@ -512,15 +518,18 @@ const loadScores = () => {
                     if (username == user) {
                         // SELF
                         card = document.createElement('div');
+                        card.classList.add("self");
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-bronze-self");
-                            card.setAttribute("class", id);
+                            card.classList.add(id);
                         } else {
                             card.setAttribute("id", "entry-card-bronze-self");
-                            card.setAttribute("class", "bronze");
+                            card.classList.add("bronze");
                         }
+                        card.setAttribute("ontouchstart", "touchStart(this.id)");
+                        card.setAttribute("ontouchend", "touchEnd(this.id)");
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
@@ -542,15 +551,18 @@ const loadScores = () => {
                     if (username == user) {
                         // SELF
                         card = document.createElement('div');
+                        card.classList.add("self");
                         console.log("banner: " + banner);
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-unranked-self");
-                            card.setAttribute("class", id);
+                            card.classList.add(id);
                         } else {
                             card.setAttribute("id", "entry-card-unranked-self");
-                            card.setAttribute("class", "unranked");
+                            card.classList.add("unranked");
                         }
+                        card.setAttribute("ontouchstart", "touchStart(this.id)");
+                        card.setAttribute("ontouchend", "touchEnd(this.id)");
                     } else if (banner) {
                         card = document.createElement('div');
                         if(banner != 0) {
@@ -897,74 +909,74 @@ let leaderboard_HTMLSnippet = `
 
         <div id="absolute-profile">
             <div id="profile-popup">
-                <h1>username</h1>
-                <h2>Climb up the monthly leaderboard to start collecting banners!</h2>
+                <h1>Banner Library</h1>
+
                 <div id="banner-collection">
 
                     <div id="banner-card-option" class="banner-0" onclick="equipBanner(0)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-0" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-0" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Default Banner</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-1" onclick="equipBanner(1)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-1" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-1" class="material-symbols-rounded">circle</span>
                         </div>
-                        <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
+                        <div id="banner-unlock-hint">Halloween Exclusive</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-2" onclick="equipBanner(2)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-2" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-2" class="material-symbols-rounded">circle</span>
                         </div>
-                        <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
+                        <div id="banner-unlock-hint">Halloween Exclusive</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-3" onclick="equipBanner(3)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-3" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-3" class="material-symbols-rounded">circle</span>
                         </div>
-                        <div id="banner-unlock-hint">2022 Halloween Exclusive</div>
+                        <div id="banner-unlock-hint">Halloween Exclusive</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-4" onclick="equipBanner(4)">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-4" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-4" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Reach 50 in Cornfall</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-coming-soon">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-1" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-1" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-coming-soon">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-2" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-2" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-coming-soon">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-3" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-3" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
 
                     <div id="banner-card-option" class="banner-coming-soon">
                         <div id="banner-equip-indicator">
-                            <span id="equip-icon-4" class="material-symbols-rounded">trip_origin</span>
+                            <span id="equip-icon-4" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
-
                 </div>
+                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="profileClose()">Save</button>
             </div>
         </div>
     </content>
@@ -1050,9 +1062,6 @@ function goTo(page) {
 
             view = "leaderboard";
             break;
-        case "profile":
-            view = "profile";
-            break;
 
         // GAMES
         case "cornfall":
@@ -1076,6 +1085,7 @@ function goTo(page) {
 
 function profileOpen() {
     console.log("Opening Profile!");
+
     document.getElementById("absolute-profile").style.display = "flex";
 
     switch(bannerEquipped){
@@ -1095,7 +1105,31 @@ function profileOpen() {
             document.getElementById("equip-icon-4").style.display = "block";
             break;
     }
+
+    for(i = 0; i < 5; i++){
+        if(!bannersUnlocked[i]) {
+            className = "banner-"+i;
+            document.getElementsByClassName(className)[0].style.filter = "brightness(25%)";
+        }
+    }
+
+    setTimeout(profileFadeIn, 100);
 }
+
+function profileFadeIn() {
+    document.getElementById("absolute-profile").style.opacity = "1";
+}
+
+function profileClose() {
+    loadScores();
+    document.getElementById("absolute-profile").style.opacity = "0";
+    setTimeout(profileFadeOut, 550);
+}
+
+function profileFadeOut() {
+    document.getElementById("absolute-profile").style.display = "none";
+}
+
 
 function leaderBoardBack() {
     if(document.getElementById("abg22-halloween-bone")){
@@ -1159,7 +1193,14 @@ function equipBanner(b) {
             setBanners();
     } else {
         console.log("Locked Banner!");
+        className = "banner-"+b;
+        document.getElementsByClassName(className)[0].classList.add("wobble");
+        setTimeout(bannerAnimStop, 1000, className);
     }
+}
+
+function bannerAnimStop(className) {
+    document.getElementsByClassName(className)[0].classList.remove("wobble");
 }
 
 // FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
@@ -1181,6 +1222,13 @@ function touchStart(id) {
         case "blue-circle-button":
             document.getElementById(id).classList.replace("blue-circle-button", "blue-circle-button-touch");
             break;
+        case "blue-circle-button":
+            document.getElementById(id).classList.replace("blue-circle-button", "blue-circle-button-touch");
+            break;
+
+        case "self":
+            document.getElementById(id).classList.replace("self", "self-touch");
+            break;
     }
 }
 function touchEnd(id) {
@@ -1194,6 +1242,9 @@ function touchEnd(id) {
             break;
         case "blue-circle-button-touch":
             document.getElementById(id).classList.replace("blue-circle-button-touch", "blue-circle-button");
+            break;
+        case "self-touch":
+            document.getElementById(id).classList.replace("self-touch", "self");
             break;
     }
 }
