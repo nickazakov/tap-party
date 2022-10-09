@@ -36,6 +36,11 @@ body {
     src: url(assets/general/SFBlack.ttf);
 }
 
+@font-face {
+    font-family: horrorWorld;
+    src: url(assets/general/horrorWorld.ttf);
+}
+
 .material-symbols-rounded {
     font-variation-settings:
     'FILL' 1,
@@ -579,9 +584,17 @@ body {
     align-items: center;
 }
 
+#lootbox-content {
+    opacity: 0;
+    transition: all 0.5s;
+}
+
 #ui-top {
     width: 100vw;
     height: 50vh;
+
+    display: flex;
+    justify-content: center;
 }
 
 #ui-bottom {
@@ -592,6 +605,94 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
+}
+
+#event-info {
+    margin-top: 35px;
+    position: absolute;
+    width: 80%;
+    height: 60px;
+    
+    background: rgb(153,41,234);
+    background: linear-gradient(180deg, rgb(154, 41, 235) 0%, rgba(88,8,251,1) 100%);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+}
+
+#event-time-left {
+    position: absolute;
+    background-color: #ff0042;
+    margin-top: 100px;
+}
+
+#event-title {
+    padding: 10px 15px 10px 15px;
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+#event-title h1 {
+    font-size: 1.5rem;
+    font-family: horrorWorld;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 5px;
+}
+
+#lootbox-button {
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    padding: 10px 10px 10px 10px;
+}
+
+#unopened-count {
+    background-color: #ff0042;
+    color: #fff;
+    font-weight: bold;
+    width: 23px;
+    height: 23px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    transform: translate(17px, -7px);
+}
+
+.lootbox-image {
+    background-image: url(assets/general/lootbox-icon.png);
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+#top-bar-lb {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgb(255,159,25);
+    background: linear-gradient(180deg, rgba(255,159,25,1) 0%, rgba(255,111,18,1) 100%);
+
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+    width: 80%;
+    height: 60px;
 }
 
 #home-ui {
@@ -889,20 +990,6 @@ textarea:hover {
     width: 80vw;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 29px 0px;
-}
-
-#top-bar-lb {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    background: rgb(255,159,25);
-    background: linear-gradient(180deg, rgba(255,159,25,1) 0%, rgba(255,111,18,1) 100%);
-
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    width: 80%;
-    height: 60px;
 }
 
 #leaderboard-content h1 {

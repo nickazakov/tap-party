@@ -63,6 +63,13 @@ function updateTime() {
     let s = d.getSeconds();
     let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
 
+    if(document.getElementById("unopened-count")) {
+        var x = Number(document.getElementById("unopened-count").innerHTML);
+        console.log("Increment!" + x);
+        x++;
+        document.getElementById("unopened-count").innerHTML = x;
+    }
+
     // CALCULATE TIME TO NEXT GAME
     leftTime = (60 - m - 1) + "m " + (60 - s) + "s ";
     if(document.getElementById("time-left")) {
@@ -890,13 +897,42 @@ let home_HTMLSnippet = `
 
     <content id="home-ui">
         <div id="ui">
-            <div id="ui-top"></div>
+            <div id="ui-top">
+
+                <div id="event-info" class="ds-light">
+                    <div id="event-title" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">
+                        <h1>Spookstober</h1>
+                    </div>
+                    <div id="lootbox-button" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('lootbox')">
+                        <div class="lootbox-image">
+                            <p id="unopened-count">0</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div id="ui-bottom">
                 <div id="time-left-indicator">
                     <div id="time-left">0m 0s</div>
                     <button id="purple-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="setTimeout(play, 100)">Play</button>
                 </div>
                 <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">Leaderboard</button>
+            </div>
+        </div>
+    </content>
+`;
+
+let lootbox_HTMLSnippet = `
+    <content id="lootbox-content">
+        <div id="ui">
+            <div id="ui-top">
+            </div>
+            <div id="ui-bottom">
+                <div id="time-left-indicator">
+                    <div id="lootbox-count">1</div>
+                    <button id="purple-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="setTimeout(play, 100)">Open</button>
+                </div>
+                <button id="orange-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('home')">Back</button>
             </div>
         </div>
     </content>
@@ -1074,6 +1110,10 @@ function goTo(page) {
             loadScores();
             view = "leaderboard";
             break;
+        case "lootbox":
+            document.getElementById("absolute-body").innerHTML = lootbox_HTMLSnippet;
+            view = "lootbox";
+            break;
 
         // GAMES
         case "cornfall":
@@ -1102,23 +1142,44 @@ function loadPage(page) {
         case "welcome": 
             break;
         case "home":
-            // CUSTOM TRANSITION
-            document.getElementById("leaderboard-content").style.opacity = "0";
-            setTimeout(fadeInHome, 500);
-            function fadeInHome() {
-                document.getElementById("scores-container").innerHTML = "";
 
-                // CHANGE VIEW
-                goTo("home");
-                document.getElementById("absolute-mask").style.display = "block";
-                document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
-                document.getElementById("home-ui").style.opacity = "0";
-                setTimeout(fadeInHomeFollowUp, 500);
+            // CUSTOM TRANSITION
+            if(view == "leaderboard") {
+                document.getElementById("leaderboard-content").style.opacity = "0";
+                setTimeout(fadeInHome, 500);
+                function fadeInHome() {
+                    document.getElementById("scores-container").innerHTML = "";
+    
+                    // CHANGE VIEW
+                    goTo("home");
+                    document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
+                    document.getElementById("home-ui").style.opacity = "0";
+                    setTimeout(fadeInHomeFollowUp, 500);
+                }
+                function fadeInHomeFollowUp() {
+                    document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
+                    document.getElementById("home-ui").style.opacity = "1";
+                }
             }
-            function fadeInHomeFollowUp() {
-                document.getElementById("absolute-mask").style.display = "none";
-                document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
-                document.getElementById("home-ui").style.opacity = "1";
+            if(view == "lootbox") {
+                document.getElementById("lootbox-content").style.opacity = "0";
+                setTimeout(fadeInHome, 500);
+                function fadeInHome() {
+    
+                    // CHANGE VIEW
+                    goTo("home");
+                    document.getElementById("abg22-halloween").style.transform = "translateY(120vh)";
+                    document.getElementById("home-ui").style.opacity = "0";
+                    setTimeout(fadeInHomeFollowUp, 500);
+                }
+                function fadeInHomeFollowUp() {
+                    document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
+                    document.getElementById("home-ui").style.opacity = "1";
+                    setTimeout(fadeInHomeFollowUp2, 1500);
+                }
+                function fadeInHomeFollowUp2() {
+                    document.body.style.backgroundColor = "#020b0e";
+                }
             }
             break;
         case "leaderboard":
@@ -1183,7 +1244,22 @@ function loadPage(page) {
                 document.getElementById("absolute-profile").style.opacity = "1";
             }
             break;
-        // GAMES
+        case "lootbox":
+            document.body.style.backgroundColor = "#4f7492";
+            document.getElementById("home-ui").style.opacity = "0";
+            document.getElementById("abg22-halloween").style.transform = "translateY(120vh)";
+            document.getElementById("abg22-halloween-fore").style.transform = "translateY(5vh)";
+            setTimeout(lootboxFadeIn, 1500);
+            function lootboxFadeIn() {
+                goTo("lootbox");
+                setTimeout(lootboxFadeInFollowUp, 100);
+            }
+            function lootboxFadeInFollowUp() {
+                document.getElementById("lootbox-content").style.opacity = "1";
+            }
+            break;
+
+            // GAMES
         case "cornfall":
             break;
         case "graveguess":
