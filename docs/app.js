@@ -659,6 +659,19 @@ const setBanners = () => {
     }
 }
 
+const existingUserCheck = () => {
+    db.collection("globallb").doc(user)
+    .get()
+    .then((doc) => {
+        if (doc.exists) {
+            console.log("Existing user!");
+        } else {
+            console.log("New user!");
+            setTimeout(createScores, 100);
+        }
+    })
+}
+
 // #endregion
 
 /* CAT FACT GENERATOR
@@ -896,9 +909,11 @@ let leaderboard_HTMLSnippet = `
             <div id="abg22-halloween-bone"></div>
         </div>
 
+        <h1>Leaderboard</h1>
         <div id="top-bar-lb">
-            <button id="switch-lb" class="orange-button ds-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
-            <button id="reload-lb" class="blue-circle-button material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
+            <button id="switch-lb" class="scale-transition ds-even-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
+            <button id="faq-lb" class="scale-transition material-symbols-rounded ds-even-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">question_mark</button>
+            <button id="reload-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
         </div>
 
         <div id="board">
@@ -1083,6 +1098,27 @@ function goTo(page) {
     lodSet(currentLodState);
 }
 
+function loadPage(page) {
+    switch(page) {
+
+        // PAGES
+        case "landing":
+            break;
+        case "welcome": 
+            break;
+        case "home":
+            break;
+        case "leaderboard":
+            break;
+
+        // GAMES
+        case "cornfall":
+            break;
+        case "graveguess":
+            break;
+    }
+}
+
 function profileOpen() {
     console.log("Opening Profile!");
 
@@ -1229,6 +1265,9 @@ function touchStart(id) {
         case "self":
             document.getElementById(id).classList.replace("self", "self-touch");
             break;
+        case "scale-transition":
+            document.getElementById(id).classList.replace("scale-transition", "scale-transition-touch");
+            break;
     }
 }
 function touchEnd(id) {
@@ -1243,8 +1282,12 @@ function touchEnd(id) {
         case "blue-circle-button-touch":
             document.getElementById(id).classList.replace("blue-circle-button-touch", "blue-circle-button");
             break;
+
         case "self-touch":
             document.getElementById(id).classList.replace("self-touch", "self");
+            break;
+        case "scale-transition-touch":
+            document.getElementById(id).classList.replace("scale-transition-touch", "scale-transition");
             break;
     }
 }
@@ -1302,7 +1345,9 @@ function remember () {
     }
 
     goTo("home");
-    createScores();
+
+    existingUserCheck();
+
     getBanners();
 }
 

@@ -469,6 +469,15 @@ body {
     transform: scale(1.05);
 }
 
+.scale-transition {
+    transition: all 0.5s;
+}
+
+.scale-transition-touch {
+    transform: scale(1.05);
+    transition: all 0.5s;
+}
+
 /* BUTTON DROP SHADOW */
 .ds-light {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 7px 29px 0px;
@@ -606,9 +615,9 @@ body {
 
 #time-left {
     text-align: center;
-    width: fit-content;
+    width: 125px;
     background-color: #ff0042;
-    padding: 5px 35px 5px 35px;
+    padding: 5px 5px 5px 5px;
     border-radius: 10px 10px 0px 0px;
     font-size: 1.2rem;
     color: #fff;
@@ -887,7 +896,69 @@ textarea:hover {
 
 #top-bar-lb {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgb(255,159,25);
+    background: linear-gradient(180deg, rgba(255,159,25,1) 0%, rgba(255,111,18,1) 100%);
+
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+    width: 80%;
+    height: 60px;
+}
+
+#leaderboard-content h1 {
+    color: #FFF;
+    margin-bottom: 20px;
+    padding: 0px 30px 0px 30px;
+}
+
+#switch-lb {
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    height: 50px;
+    width: 200px;
+    padding: 10px;
+    font-size: 1.4rem;
+
+    display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+#faq-lb {
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#reload-lb {
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #board {
@@ -1058,10 +1129,6 @@ textarea:hover {
 #profile-popup {
     width: 100vw;
     text-align: center;
-}
-
-#profile-popup #orange-button {
-    margin-top: 20px;
 }
 
 #profile-popup h1, h2 {
