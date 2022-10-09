@@ -443,7 +443,6 @@ const loadScores = () => {
             let username = doc.id;
             let oldScore = doc.data().score;
             let banner = doc.data().banner;
-            console.log("banner: " + banner);
             
             let card;
             switch(medals){
@@ -453,7 +452,7 @@ const loadScores = () => {
                         // SELF
                         card = document.createElement('div');
                         card.classList.add("self");
-                        console.log("banner: " + banner);
+                        console.log(username + " is using banner: " + banner + " and is in Gold!");
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-gold-self");
@@ -486,7 +485,7 @@ const loadScores = () => {
                         // SELF
                         card = document.createElement('div');
                         card.classList.add("self");
-                        console.log("banner: " + banner);
+                        console.log(username + " is using banner: " + banner + " and is in Silver!");
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-silver-self");
@@ -519,7 +518,7 @@ const loadScores = () => {
                         // SELF
                         card = document.createElement('div');
                         card.classList.add("self");
-                        console.log("banner: " + banner);
+                        console.log(username + " is using banner: " + banner + " and is in Bronze!");
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-bronze-self");
@@ -552,7 +551,7 @@ const loadScores = () => {
                         // SELF
                         card = document.createElement('div');
                         card.classList.add("self");
-                        console.log("banner: " + banner);
+                        console.log(username + " is using banner: " + banner + " and is in Unranked!");
                         if(banner != 0) {
                             id = "banner-" + banner;
                             card.setAttribute("id", "entry-card-unranked-self");
@@ -604,22 +603,22 @@ const loadScores = () => {
 
         if(document.getElementById("entry-card-gold-self")) {
             document.getElementById("entry-card-gold-self").addEventListener('click', function (event) {
-                profileOpen();
+                loadPage("profile");
             });
         }
         if(document.getElementById("entry-card-silver-self")) {
             document.getElementById("entry-card-silver-self").addEventListener('click', function (event) {
-                profileOpen();
+                loadPage("profile");
             });
         }
         if(document.getElementById("entry-card-bronze-self")) {
             document.getElementById("entry-card-bronze-self").addEventListener('click', function (event) {
-                profileOpen();
+                loadPage("profile");
             });
         }
         if(document.getElementById("entry-card-unranked-self")) {
             document.getElementById("entry-card-unranked-self").addEventListener('click', function (event) {
-                profileOpen();
+                loadPage("profile");
             });
         }
     })
@@ -897,11 +896,18 @@ let home_HTMLSnippet = `
                     <div id="time-left">0m 0s</div>
                     <button id="purple-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="setTimeout(play, 100)">Play</button>
                 </div>
-                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="transitionHome()">Leaderboard</button>
+                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">Leaderboard</button>
             </div>
         </div>
     </content>
 `;
+
+/*
+    <div>
+        <div id="event-time-left">11d 12h 25s</div>
+        <div class="material-symbols-rounded">inventory_2</div>
+    </div>
+*/
 
 let leaderboard_HTMLSnippet = `
     <content id="leaderboard-content">
@@ -920,7 +926,7 @@ let leaderboard_HTMLSnippet = `
             <div id="scores-container">
             </div>
         </div>
-        <button id="purple-button" class="purple-button ds-heavy" onclick="back()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
+        <button id="purple-button" class="purple-button ds-heavy" onclick="loadPage('home')" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
 
         <div id="absolute-profile">
             <div id="profile-popup">
@@ -928,35 +934,35 @@ let leaderboard_HTMLSnippet = `
 
                 <div id="banner-collection">
 
-                    <div id="banner-card-option" class="banner-0" onclick="equipBanner(0)">
+                    <div id="banner-card-option" class="banner-0-preview" onclick="equipBanner(0)">
                         <div id="banner-equip-indicator">
                             <span id="equip-icon-0" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Default Banner</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-1" onclick="equipBanner(1)">
+                    <div id="banner-card-option" class="banner-1-preview" onclick="equipBanner(1)">
                         <div id="banner-equip-indicator">
                             <span id="equip-icon-1" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Halloween Exclusive</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-2" onclick="equipBanner(2)">
+                    <div id="banner-card-option" class="banner-2-preview" onclick="equipBanner(2)">
                         <div id="banner-equip-indicator">
                             <span id="equip-icon-2" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Halloween Exclusive</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-3" onclick="equipBanner(3)">
+                    <div id="banner-card-option" class="banner-3-preview" onclick="equipBanner(3)">
                         <div id="banner-equip-indicator">
                             <span id="equip-icon-3" class="material-symbols-rounded">circle</span>
                         </div>
                         <div id="banner-unlock-hint">Halloween Exclusive</div>
                     </div>
 
-                    <div id="banner-card-option" class="banner-4" onclick="equipBanner(4)">
+                    <div id="banner-card-option" class="banner-4-preview" onclick="equipBanner(4)">
                         <div id="banner-equip-indicator">
                             <span id="equip-icon-4" class="material-symbols-rounded">circle</span>
                         </div>
@@ -991,7 +997,7 @@ let leaderboard_HTMLSnippet = `
                         <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
                 </div>
-                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="profileClose()">Save</button>
+                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">Save</button>
             </div>
         </div>
     </content>
@@ -1040,33 +1046,25 @@ let graveguess_HTMLSnippet = `
 // GLOBAL GOTO FUNCTION
 function goTo(page) {
     document.getElementById("absolute-body").innerHTML = "";
+    document.body.style.backgroundImage = "";
 
     switch(page) {
 
         // PAGES
         case "landing":
             document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
-
             view = "landing";
             break;
         case "welcome": 
             document.getElementById("absolute-body").innerHTML = welcome_HTMLSnippet;
-
             view = "welcome";
             break;
         case "home":
-            document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
-            if(view == "leaderboard"){
-                transitionLeaderboard();
-            }
-
             view = "home";
             break;
         case "leaderboard":
             getBanners();
-
-            document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = leaderboard_HTMLSnippet;
             leaderBoardBack();
             categoryIndex = 0;
@@ -1074,21 +1072,18 @@ function goTo(page) {
             document.getElementById("switch-lb").innerHTML = categoriesPublic[categoryIndex];
             calcGlobal();
             loadScores();
-
             view = "leaderboard";
             break;
 
         // GAMES
         case "cornfall":
             document.body.style.backgroundImage = "";
-            veryQuickfakeLoad();
             document.getElementById("absolute-body").innerHTML = cornfall_HTMLSnippet;
 
             view = "game";
             break;
         case "graveguess":
             document.body.style.backgroundImage = "";
-            quickFakeLoad();
             document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
 
             view = "game";
@@ -1107,10 +1102,87 @@ function loadPage(page) {
         case "welcome": 
             break;
         case "home":
+            // CUSTOM TRANSITION
+            document.getElementById("leaderboard-content").style.opacity = "0";
+            setTimeout(fadeInHome, 500);
+            function fadeInHome() {
+                document.getElementById("scores-container").innerHTML = "";
+
+                // CHANGE VIEW
+                goTo("home");
+                document.getElementById("absolute-mask").style.display = "block";
+                document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
+                document.getElementById("home-ui").style.opacity = "0";
+                setTimeout(fadeInHomeFollowUp, 500);
+            }
+            function fadeInHomeFollowUp() {
+                document.getElementById("absolute-mask").style.display = "none";
+                document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
+                document.getElementById("home-ui").style.opacity = "1";
+            }
             break;
         case "leaderboard":
-            break;
+            // CUSTOM TRANSITION
+            if (view == "home") {
+                document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
+                document.getElementById("abg22-halloween-fore").style.transform = "translateY(5vh)";
+                document.getElementById("home-ui").style.opacity = "0";
 
+                setTimeout(fadeInLeaderboard, 1500);
+                function fadeInLeaderboard() {
+    
+                    // CHANGE VIEW
+                    goTo("leaderboard");
+                    document.getElementById("leaderboard-content").style.opacity = "0";
+                    setTimeout(fadeInLeaderboardFollowUp, 500);
+                }
+                function fadeInLeaderboardFollowUp() {
+                    document.getElementById("leaderboard-content").style.opacity = "1";
+                }
+            }
+            if (view == "profile") {
+                console.log("Exit Profile!");
+                document.getElementById("absolute-profile").style.opacity = "0";
+                setTimeout(profileFadeOut, 550);
+                function profileFadeOut() {
+                    document.getElementById("absolute-profile").style.display = "none";
+                }
+                loadScores();
+            }
+            break;
+        case "profile":
+            view = "profile"
+            document.getElementById("absolute-profile").style.display = "flex";
+            switch(bannerEquipped){
+                case 0:
+                    document.getElementById("equip-icon-0").style.display = "block";
+                    break;
+                case 1:
+                    document.getElementById("equip-icon-1").style.display = "block";
+                    break;
+                case 2:
+                    document.getElementById("equip-icon-2").style.display = "block";
+                    break;
+                case 3:
+                    document.getElementById("equip-icon-3").style.display = "block";
+                    break;
+                case 4:
+                    document.getElementById("equip-icon-4").style.display = "block";
+                    break;
+            }
+            for(i = 0; i < 5; i++){
+                if(!bannersUnlocked[i]) {
+                    className = "banner-"+i+"-preview";
+                    document.getElementsByClassName(className)[0].style.filter = "brightness(25%)";
+                }
+            }
+
+            // CUSTOM TRANSITION
+            setTimeout(profileFadeIn, 100);
+            function profileFadeIn() {
+                document.getElementById("absolute-profile").style.opacity = "1";
+            }
+            break;
         // GAMES
         case "cornfall":
             break;
@@ -1119,51 +1191,19 @@ function loadPage(page) {
     }
 }
 
-function profileOpen() {
-    console.log("Opening Profile!");
-
-    document.getElementById("absolute-profile").style.display = "flex";
-
-    switch(bannerEquipped){
-        case 0:
-            document.getElementById("equip-icon-0").style.display = "block";
-            break;
-        case 1:
-            document.getElementById("equip-icon-1").style.display = "block";
-            break;
-        case 2:
-            document.getElementById("equip-icon-2").style.display = "block";
-            break;
-        case 3:
-            document.getElementById("equip-icon-3").style.display = "block";
-            break;
-        case 4:
-            document.getElementById("equip-icon-4").style.display = "block";
-            break;
-    }
-
-    for(i = 0; i < 5; i++){
-        if(!bannersUnlocked[i]) {
-            className = "banner-"+i;
-            document.getElementsByClassName(className)[0].style.filter = "brightness(25%)";
-        }
-    }
-
-    setTimeout(profileFadeIn, 100);
+function fakeLoad(){
+    document.getElementById("loading-screen").style.display = "block";
+    setTimeout(fakeLoadFollowUp, 10);
 }
 
-function profileFadeIn() {
-    document.getElementById("absolute-profile").style.opacity = "1";
+function fakeLoadFollowUp() {
+    // document.getElementById("loading-screen").style.transform = "translateY(100vh)";
+    setTimeout(stopLoad, 125);
 }
 
-function profileClose() {
-    loadScores();
-    document.getElementById("absolute-profile").style.opacity = "0";
-    setTimeout(profileFadeOut, 550);
-}
-
-function profileFadeOut() {
-    document.getElementById("absolute-profile").style.display = "none";
+function stopLoad(){
+    document.getElementById("loading-screen").style.display = "none";
+    document.getElementById("loading-screen").style.transform = "translateY(0vh)";
 }
 
 
@@ -1183,38 +1223,6 @@ function leaderBoardBack() {
     }
 }
 
-function transitionHome() {
-    document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
-    document.getElementById("abg22-halloween-fore").style.transform = "translateY(5vh)";
-    document.getElementById("home-ui").style.opacity = "0";
-    setTimeout(transitionHome2, 1500);
-}
-function transitionHome2() {
-    goTo("leaderboard");
-    document.getElementById("leaderboard-content").style.opacity = "0";
-    setTimeout(transitionHome3, 500);
-}
-function transitionHome3() {
-    document.getElementById("leaderboard-content").style.opacity = "1";
-}
-
-function transitionLeaderboard() {
-    document.getElementById("absolute-mask").style.display = "block";
-    document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
-    document.getElementById("home-ui").style.opacity = "0";
-    setTimeout(transitionLeaderboard2, 500);
-}
-function transitionLeaderboard2() {
-    document.getElementById("absolute-mask").style.display = "none";
-    document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
-    document.getElementById("home-ui").style.opacity = "1";
-}
-
-function returnHome() {
-    document.getElementById("scores-container").innerHTML = "";
-    goTo("home");
-}
-
 function equipBanner(b) {
     if(bannersUnlocked[b]) {
         let id = "equip-icon-";
@@ -1229,7 +1237,7 @@ function equipBanner(b) {
             setBanners();
     } else {
         console.log("Locked Banner!");
-        className = "banner-"+b;
+        className = "banner-"+b+"-preview";
         document.getElementsByClassName(className)[0].classList.add("wobble");
         setTimeout(bannerAnimStop, 1000, className);
     }
@@ -1237,12 +1245,6 @@ function equipBanner(b) {
 
 function bannerAnimStop(className) {
     document.getElementsByClassName(className)[0].classList.remove("wobble");
-}
-
-// FUNCTION TO GO BACK TO THE HOME PAGE FROM THE LEADERBOARD
-function back() {
-    document.getElementById("leaderboard-content").style.opacity = "0";
-    setTimeout(returnHome, 500);
 }
 
 // GLOBAL BUTTON HOVER FUNCTIONS
@@ -1290,44 +1292,6 @@ function touchEnd(id) {
             document.getElementById(id).classList.replace("scale-transition-touch", "scale-transition");
             break;
     }
-}
-
-let loadingColors = [
-    "#15924d",
-    "#6495ed",
-    "#ffa135",
-    "#c374f0",
-
-]
-
-let loadingTips = [
-    "Players at the top of the leaderboard have a higher chance of winning.",
-    "There's a built-in cat fact generator inside this game.",
-    "If you score more than 7 on Grave Guess, you've officially beaten the dev high score.",
-    "Cornfall has a super rare orange level background",
-    "Love Cats.",
-    "Fun fact:<br>This is a fake loading screen.<br>There's nothing to load.",
-]
-
-function veryQuickfakeLoad(){
-    setTimeout(stopLoad, 100);
-    document.getElementById("loading-screen").style.display = "flex";
-}
-
-function quickFakeLoad(){
-    setTimeout(stopLoad, 250);
-    document.getElementById("loading-screen").style.display = "flex";
-}
-
-function fakeLoad(){
-    document.getElementById("loading-screen").style.backgroundColor = loadingColors[rng(0,3)];
-    document.getElementById("tip-content").innerHTML = loadingTips[rng(0,5)];
-    document.getElementById("loading-screen").style.display = "flex";
-    setTimeout(stopLoad, 500);
-}
-
-function stopLoad(){
-    document.getElementById("loading-screen").style.display = "none";
 }
 
 // FUNCTION TO SAVE USERNAME
