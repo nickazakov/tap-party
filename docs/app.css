@@ -191,12 +191,128 @@ body {
     opacity: 0;
 }
 
-#lootbox-back {
+#lootbox-page-background {
     position: absolute;
     height: 100vh;
     width: 100vw;
     background-color: #020b0e;
     z-index: -2;
+}
+
+#lootbox-reward-container {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform: translateY(-70px);
+    z-index: -1;
+
+    transition: all 0.5s;
+}
+
+#lootbox-reward-container h1 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+#lootbox-reward {
+    background-image: url(assets/general/banners/banner-default.png);
+    background-size: cover;
+    background-position: center;
+
+    width: 70%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: rgba(255, 145, 0, 1) 0px 0px 29px 0px;
+
+    transition: all 0.5s;
+}
+
+#lootbox-banner-spacer {
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0px 0px 20px rgba(0,0,0,1);
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 10px 15px 10px 15px;
+    border-radius: 50px;
+
+    display: flex;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+#lootbox-front {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(assets/general/seasonal/halloween22/lootbox/lootbox-front.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+
+    transition: all 1s;
+}
+
+#lootbox-glow {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(assets/general/seasonal/halloween22/lootbox/lootbox-glow.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0;
+
+    transition: all 1s;
+
+    animation: glow 4s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+#lootbox-back {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(assets/general/seasonal/halloween22/lootbox/lootbox-back.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+
+    transition: all 1s;
+}
+
+#lootbox-flash {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: #FFF;
+    display: none;
+    opacity: 0;
+
+    z-index: 1;
+
+    transition: all 0.5s cubic-bezier(1,.01,0,1);
 }
 
 #lootbox {

@@ -48,6 +48,10 @@ document.addEventListener("touchend", function(event){
 // VARIABLES RELATED TO TIME
 let game = "";
 
+let lootboxCount;
+
+let lootboxContentHalloween22 = [ 1, 2, 3 ];
+
 // GAME LIST ARRAY
 // 0 : CORNFALL
 // 1 : GRAVEGUESS
@@ -57,6 +61,7 @@ let game = "";
 updateTime();
 
 function updateTime() {
+
     const d = new Date();
     let h = d.getHours();
     let m = d.getMinutes();
@@ -350,7 +355,7 @@ let bannersUnlocked = [
     false,
     false,
     false,
-]
+];
 
 let bannerEquipped = 0;
 
@@ -375,7 +380,7 @@ const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category)
     .doc(user)
-    .set({ 
+    .update({ 
         score: Number(currentScore),
         banner: bannerEquipped
     });
@@ -649,20 +654,42 @@ const getBanners = () => {
 }
 
 const setBanners = () => {
-
-    db.collection("unlocks")
-    .doc(user)
-    .set({ 
-        banners: bannersUnlocked,
-        equipped: bannerEquipped
-    });
-
-    for(i = 0; i < categories.length; i++) {
-        db.collection(categories[i]).doc(user)
-        .update({ 
-            banner: bannerEquipped
-        });
-    }
+    console.log(bannersUnlocked);
+    
+    db.collection("unlocks").doc(user)
+    .get()
+    .then((doc) => {
+        if (doc.exists) {
+            db.collection("unlocks")
+            .doc(user)
+            .update({ 
+                banners: bannersUnlocked,
+                equipped: bannerEquipped
+            });
+        
+            for(i = 0; i < categories.length; i++) {
+                db.collection(categories[i]).doc(user)
+                .update({ 
+                    banner: bannerEquipped
+                });
+            }
+        } else {
+            db.collection("unlocks")
+            .doc(user)
+            .set({ 
+                banners: bannersUnlocked,
+                equipped: bannerEquipped,
+                lootboxes: 0
+            });
+        
+            for(i = 0; i < categories.length; i++) {
+                db.collection(categories[i]).doc(user)
+                .update({ 
+                    banner: bannerEquipped
+                });
+            }
+        }
+    })
 }
 
 const existingUserCheck = () => {
@@ -676,6 +703,38 @@ const existingUserCheck = () => {
             setTimeout(createScores, 100);
         }
     })
+}
+
+const lootbox = (arg) => {
+    console.log(user);
+    if(arg == "get") {
+        console.log("Getting Lootbox Data! " + user);
+        db.collection("unlocks").doc(user)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                console.log("Existing user!");
+                lootboxCount = doc.data().lootboxes;
+                console.log(lootboxCount);
+                if(document.getElementById("unopened-count")) {
+                    document.getElementById("unopened-count").innerHTML = lootboxCount;
+                }
+                if(document.getElementById("unopened-count-button-preview")) {
+                    document.getElementById("unopened-count-button-preview").innerHTML = lootboxCount;
+                }
+            } else {
+                console.log("New user!");
+                setTimeout(createScores, 100);
+            }
+        })
+    } else if(arg == "set") {
+        console.log("Setting Lootbox Data!");
+        db.collection("unlocks")
+        .doc(user)
+        .update({ 
+            lootboxes: lootboxCount
+        });
+    }
 }
 
 // #endregion
@@ -905,7 +964,7 @@ let home_HTMLSnippet = `
                     </div>
                     <div id="lootbox-button" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('lootbox')">
                         <div class="lootbox-image">
-                            <p id="unopened-count">0</p>
+                            <p id="unopened-count">-</p>
                         </div>
                     </div>
                 </div>
@@ -928,23 +987,28 @@ let home_HTMLSnippet = `
 
             <div id="ui-bottom">
                 <div id="time-left-indicator">
-                    <div id="unopened-count-button-preview">1</div>
+                    <div id="unopened-count-button-preview">-</div>
                     <button id="purple-button1" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="openLootbox()">Open</button>
                 </div>
                 <button id="orange-button1" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('home')">Back</button>
             </div>
         </div>
-        <div id="lootbox" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)"></div>
+
         <div id="lootbox-back"></div>
+        <div id="lootbox-glow"></div>
+        <div id="lootbox-front"></div>
+
+        <div id="lootbox-reward-container">
+            <h1>New Banner!</h1>
+            <div id="lootbox-reward">
+                <div id="lootbox-banner-spacer">.</div>
+            </div>
+        </div>
+
+        <div id="lootbox-flash"></div>
+        <div id="lootbox-page-background"></div>
     </content>
 `;
-
-/* onclick="openLootbox()"
-    <div>
-        <div id="event-time-left">11d 12h 25s</div>
-        <div class="material-symbols-rounded">inventory_2</div>
-    </div>
-*/
 
 let leaderboard_HTMLSnippet = `
     <content id="leaderboard-content">
@@ -1099,6 +1163,7 @@ function goTo(page) {
         case "home":
             document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
             view = "home";
+            setTimeout(lootbox, 100, "get");
             break;
         case "leaderboard":
             getBanners();
@@ -1139,7 +1204,7 @@ function loadPage(page) {
         case "welcome": 
             break;
         case "home":
-
+            lootbox("get");
             // CUSTOM TRANSITION
             if(view == "leaderboard") {
                 document.getElementById("leaderboard-content").style.opacity = "0";
@@ -1200,6 +1265,7 @@ function loadPage(page) {
                 }
                 loadScores();
             }
+            view = "leaderboard";
             break;
         case "profile":
             view = "profile"
@@ -1236,7 +1302,7 @@ function loadPage(page) {
             break;
         case "lootbox":
             view = "lootbox";
-            setTimeout(glowLootbox, 10);
+            lootbox("get");
 
             document.getElementById("home-ui").style.opacity = "0";
 
@@ -1245,7 +1311,6 @@ function loadPage(page) {
 
                 document.getElementById("lootbox-content").style.display = "flex";
                 document.getElementById("home-ui").style.display = "none";
-                console.log(document.getElementById("home-ui").style.display);
                 setTimeout(lootboxFadeInFollowUp, 100);
             }
             function lootboxFadeInFollowUp() {
@@ -1262,23 +1327,86 @@ function loadPage(page) {
     }
 }
 
-unopened = true;
-
 function openLootbox() {
-    document.getElementById("lootbox").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/opened.png)";
-    unopened = false;
-}
+    // FIRESTORE CHECKS
 
-function glowLootbox() {
-    if(unopened == true) {
-        document.getElementById("lootbox").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/closed-glow.png)";
-        setTimeout(stopGlowLootbox, 2500);
+    getBanners();
+
+    if(lootboxCount < 1) {
+        return;
     }
-}
 
-function stopGlowLootbox() {
-    document.getElementById("lootbox").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/closed.png)";
-    setTimeout(glowLootbox, 2500);
+    lootboxCount--;
+
+    console.log("Opening Halloween Lootbox...");
+
+    document.getElementById("lootbox-front").style.transform = "scale(0.5)";
+    document.getElementById("lootbox-glow").style.transform = "scale(0.5)";
+    document.getElementById("lootbox-back").style.transform = "scale(0.5)";
+
+    document.getElementById("lootbox-flash").style.display = "block";
+    setTimeout(flashFadeIn, 10);
+
+    function flashFadeIn() {
+        document.getElementById("lootbox-flash").style.opacity = "1";
+
+        document.getElementById("lootbox-reward-container").style.display = "flex";
+
+        setTimeout(flashFadeOut, 700);
+    }
+
+    function flashFadeOut() {
+        lootbox("get");
+
+        console.log(bannersUnlocked);
+
+        // PREVIEW BANNER
+        value = rng(1,100);
+        if(value <= 15) {
+            document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-3.png)"
+            bannersUnlocked[3] = true;
+        } else if (value <= 40) {
+            document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-2.png)"
+            bannersUnlocked[2] = true;
+        } else {
+            document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-1.png)"
+            bannersUnlocked[1] = true;
+        }
+
+        console.log(bannersUnlocked);
+
+        bannersUnlocked[4] = true;
+        setBanners();
+
+        document.getElementById("lootbox-reward-container").style.opacity = "1";
+
+
+        document.getElementById("lootbox-front").style.transform = "scale(1)";
+        document.getElementById("lootbox-glow").style.transform = "scale(1)";
+        document.getElementById("lootbox-back").style.transform = "scale(1)";
+
+        document.getElementById("lootbox-front").style.transition = "all 0s";
+        document.getElementById("lootbox-front").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/opened.png)";
+        document.getElementById("lootbox-front").style.filter = "brightness(50%)";
+
+        document.getElementById("lootbox-glow").style.display = "none";
+        document.getElementById("lootbox-back").style.display = "none";
+
+        document.getElementById("lootbox-flash").style.opacity = "0";
+
+        setTimeout(lootboxCycle, 3000);
+    }
+
+    function lootboxCycle() {
+        document.getElementById("lootbox-front").style.transition = "all 1s";
+        document.getElementById("lootbox-glow").style.display = "block";
+        document.getElementById("lootbox-back").style.display = "block";
+        document.getElementById("lootbox-front").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/lootbox-front.png)";
+        document.getElementById("lootbox-flash").style.display = "none";
+        document.getElementById("lootbox-reward-container").style.opacity = "0";
+    }
+
+    lootbox("set");
 }
 
 function fakeLoad(){
@@ -1409,6 +1537,7 @@ function remember () {
 
 // FUNCTION TO PLAY THE CURRENT GAME
 function play () {
+    getBanners();
     switch(game) {
         case "cornfall":
             cornfall();
@@ -1659,6 +1788,12 @@ function cornfall() {
         gameOver = true;
         var menu = document.getElementById("game-over-screen");
         menu.style.display = "flex";
+
+        if(score >= 50) {
+            bannersUnlocked[4] = true;
+            setBanners();
+            console.log("Unlocked Cornfall Banner!");
+        }
 
         // SAVE SCORE TO FIREBASE LEADERBOARD
         getHS();
