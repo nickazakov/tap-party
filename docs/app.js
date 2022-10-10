@@ -825,23 +825,32 @@ const adminCalcGlobal = () => {
             globalScore = globalScore + Number(table.rows[i].cells[y].innerHTML);
             console.log(globalScore + " | i:" + y);
         }
+
         table.rows[i].insertCell(categories.length).innerHTML = globalScore;
         switch(i){
             case 1:
-                table.rows[i].insertCell(categories.length + 1).innerHTML = 3;
+                temp = table.rows[i].insertCell(categories.length + 1);
+                temp.innerHTML = 3;
+                temp.setAttribute("contenteditable", "true");
                 break;
             case 2:
-                table.rows[i].insertCell(categories.length + 1).innerHTML = 2;
+                temp = table.rows[i].insertCell(categories.length + 1);
+                temp.innerHTML = 2;
+                temp.setAttribute("contenteditable", "true");
                 break;
             case 3:
-                table.rows[i].insertCell(categories.length + 1).innerHTML = 2;
+                temp = table.rows[i].insertCell(categories.length + 1);
+                temp.innerHTML = 2;
+                temp.setAttribute("contenteditable", "true");
                 break;
             default:
-                table.rows[i].insertCell(categories.length + 1).innerHTML = 1;
+                temp = table.rows[i].insertCell(categories.length + 1);
+                temp.innerHTML = 1;
+                temp.setAttribute("contenteditable", "true");
                 break;
         }
     }
-    
+
     calc = true;
 }
 
@@ -866,11 +875,17 @@ const adminWipeMonthly = () => {
 
         lb = Number(table.rows[i+1].cells[categories.length+1].innerHTML)
 
-        db.collection("unlocks")
-        .doc(userArray[i])
-        .update({ 
-            lootboxes: lb
-        });
+        db.collection("unlocks").doc(userArray[i])
+        .get()
+        .then((doc) => {
+            oldLb = doc.data().lootboxes;
+            newLb = oldLb + lb;
+            db.collection("unlocks")
+            .doc(userArray[i])
+            .update({ 
+                lootboxes: newLb
+            });
+        })
     }
 }
 
@@ -1256,7 +1271,7 @@ let admin_HTMLSnippet = `
         <div id="button-dashboard">
             <button id="admin-button1" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminLoadScores()">Load Scores</button>
             <button id="admin-button2" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminCalcGlobal()">Calculate</button>
-            <button id="admin-button3" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminClearTable()">Clear Table</button>
+            <button id="admin-button3" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminClearTable()">Clear List</button>
             <button id="admin-button4" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminWipeMonthly()">End Event</button>
         </div>
 

@@ -256,6 +256,13 @@ body {
     padding: 20px;
     overflow-x: scroll;
     overflow-y: scroll;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#userlist::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
 }
 
 #usertable th {
@@ -1495,9 +1502,14 @@ textarea:hover {
     -ms-overflow-style: none;
     scrollbar-width: none;
     overflow-y: scroll;
+
     -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     touch-action: pan-left, pan-right, pan-up, pan-down;
+}
+
+#banner-collection::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
 }
 
 #banner-card-option {
