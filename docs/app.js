@@ -439,6 +439,12 @@ const createScores = () => {
             banner: bannerEquipped
         });
     }
+
+    db.collection("globallb").doc(user)
+    .set({ 
+        score: 0,
+        banner: bannerEquipped
+    });
 }
 
 let totalScore = 0;
@@ -768,7 +774,8 @@ const adminLoadScores = () => {
     var table = document.getElementById("usertable");
     userArray = [];
 
-    db.collection("cornfalllb")
+    db.collection("globallb")
+    .orderBy("score", "desc")
     .get()
     .then((querySnapshot) => {
         
@@ -813,6 +820,20 @@ const adminCalcGlobal = () => {
             console.log(globalScore + " | i:" + y);
         }
         table.rows[i].insertCell(categories.length).innerHTML = globalScore;
+        switch(i){
+            case 1:
+                table.rows[i].insertCell(categories.length + 1).innerHTML = 3;
+                break;
+            case 2:
+                table.rows[i].insertCell(categories.length + 1).innerHTML = 2;
+                break;
+            case 3:
+                table.rows[i].insertCell(categories.length + 1).innerHTML = 2;
+                break;
+            default:
+                table.rows[i].insertCell(categories.length + 1).innerHTML = 1;
+                break;
+        }
     }
 }
 
@@ -821,24 +842,27 @@ const adminClearTable = () => {
     table.innerHTML = table.rows[0].innerHTML;
 }
 
-const adminSortByGlobal = () => {
+const adminWipeMonthly = () => {
     var table = document.getElementById("usertable");
-    let array = [];
-    for(let i = 1; i <= userArray.length; i++) {
-        let last = table.rows[i].cells[categories.length].innerHTML
-        console.log(table.rows[i].cells[categories.length].innerHTML);
-        // array.push(Number(table.rows[i].cells[categories.length].innerHTML));
-        if(table.rows[i+1].cells[categories.length].innerHTML > last) {
-            table.insertRow(-1).innerHTML = table.rows[i].innerHTML();
+    console.log("Wiping monthly scores... ");
+    for(let i = 0; i < userArray.length; i++) {
+        let lb = 0;
+        for(let c = 0; c < categories.length; c++) {
+            db.collection(categories[c])
+            .doc(userArray[i])
+            .update({ 
+                score: 0
+            });
         }
+
+        lb = Number(table.rows[i+1].cells[categories.length+1].innerHTML)
+
+        db.collection("unlocks")
+        .doc(userArray[i])
+        .update({ 
+            lootboxes: lb
+        });
     }
-
-
-    /* console.log(array);
-    array.sort(function(a, b) {
-        return a - b;
-    });
-    console.log(array); */
 }
 
 
@@ -1217,13 +1241,15 @@ let leaderboard_HTMLSnippet = `
 
 let admin_HTMLSnippet = `
     <div id="admin-panel">
-        <h1 id="admin-title">Logged in as admin!</h1>
+        <h1 id="admin-title">Admin Dashboard</h1>
         <h2 id="time-left-month">-</h2>
-        <button onclick="adminLoadScores()">Load Scores</button>
-        <button onclick="adminCalcGlobal()">Calculate Global</button>
-        <button onclick="adminClearTable()">Clear Table</button>
-        <button onclick="adminSortByGlobal()">Sort</button>
-        <button>Wipe Leaderboards</button>
+
+        <div id="button-dashboard">
+            <button id="admin-button1" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminLoadScores()">Load Scores</button>
+            <button id="admin-button2" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminCalcGlobal()">Calculate</button>
+            <button id="admin-button3" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminClearTable()">Clear Table</button>
+            <button id="admin-button4" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminWipeMonthly()">End Event</button>
+        </div>
 
         <div id="admin-userlist">
             <h2 id="admin-userlist-title">User List</h2>

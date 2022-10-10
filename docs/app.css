@@ -228,7 +228,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #020b0e;
+    background-color: #000;
 }
 
 #admin-title {
@@ -236,12 +236,13 @@ body {
 }
 
 #admin-userlist {
-    color: #FFF;
+    color: rgb(0, 0, 0);
     height: 50vh;
     width: 75vw;
+    font-weight: bold;
     border-radius: 15px;
     padding: 20px;
-    background-color: #062145;
+    background-color: #ffffff;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -258,24 +259,77 @@ body {
 }
 
 #usertable th {
-    border: 2px solid red;
+    border: 2px solid black;
+    border-radius: 50px;
     padding: 7px;
 }
 
 #usertable td {
-    border: 2px solid rgb(48, 122, 46);
-    border-radius: 10px;
-    text-align: center;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: #000;
+    color: #FFF;
+    font-weight: bold;
+    padding: 7px;
+    border-radius: 50px;
+    text-align: right;
 }
 
 #admin-userlist-title {
-    color: #FFF;
+    color: rgb(0, 0, 0);
 }
 
 #time-left-month {
     color: #FFF;
 }
 
+#button-dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+#admin-button1, 
+#admin-button2,
+#admin-button3
+{
+    /* Button Design */
+    border: none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 30px;
+    height: 45px;
+    width: 150px;
+
+    /* Text Design */
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    /* Other */
+    margin: 10px;
+    transition: all 0.5s;
+}
+
+#admin-button4 {
+    /* Button Design */
+    border: none;
+    background-color: rgb(255, 57, 57);
+    border-radius: 30px;
+    height: 45px;
+    width: 150px;
+
+    /* Text Design */
+    color: #fff;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    /* Other */
+    margin: 10px;
+    transition: all 0.5s;
+}
 
 #lootbox-reward {
     background-image: url(assets/general/banners/banner-default.png);
