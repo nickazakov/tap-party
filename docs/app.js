@@ -63,12 +63,12 @@ function updateTime() {
     let s = d.getSeconds();
     let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
 
-    if(document.getElementById("unopened-count")) {
+    /*if(document.getElementById("unopened-count")) {
         var x = Number(document.getElementById("unopened-count").innerHTML);
         console.log("Increment!" + x);
         x++;
         document.getElementById("unopened-count").innerHTML = x;
-    }
+    }*/
 
     // CALCULATE TIME TO NEXT GAME
     leftTime = (60 - m - 1) + "m " + (60 - s) + "s ";
@@ -920,25 +920,26 @@ let home_HTMLSnippet = `
             </div>
         </div>
     </content>
-`;
 
-let lootbox_HTMLSnippet = `
     <content id="lootbox-content">
         <div id="ui">
             <div id="ui-top">
             </div>
+
             <div id="ui-bottom">
                 <div id="time-left-indicator">
-                    <div id="lootbox-count">1</div>
-                    <button id="purple-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="setTimeout(play, 100)">Open</button>
+                    <div id="unopened-count-button-preview">1</div>
+                    <button id="purple-button1" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="openLootbox()">Open</button>
                 </div>
-                <button id="orange-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('home')">Back</button>
+                <button id="orange-button1" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('home')">Back</button>
             </div>
         </div>
+        <div id="lootbox" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)"></div>
+        <div id="lootbox-back"></div>
     </content>
 `;
 
-/*
+/* onclick="openLootbox()"
     <div>
         <div id="event-time-left">11d 12h 25s</div>
         <div class="material-symbols-rounded">inventory_2</div>
@@ -1110,10 +1111,6 @@ function goTo(page) {
             loadScores();
             view = "leaderboard";
             break;
-        case "lootbox":
-            document.getElementById("absolute-body").innerHTML = lootbox_HTMLSnippet;
-            view = "lootbox";
-            break;
 
         // GAMES
         case "cornfall":
@@ -1165,21 +1162,14 @@ function loadPage(page) {
                 document.getElementById("lootbox-content").style.opacity = "0";
                 setTimeout(fadeInHome, 500);
                 function fadeInHome() {
-    
-                    // CHANGE VIEW
-                    goTo("home");
-                    document.getElementById("abg22-halloween").style.transform = "translateY(120vh)";
-                    document.getElementById("home-ui").style.opacity = "0";
-                    setTimeout(fadeInHomeFollowUp, 500);
+                    document.getElementById("home-ui").style.display = "flex";
+                    setTimeout(fadeInHomeFollowUp, 10);
                 }
                 function fadeInHomeFollowUp() {
-                    document.getElementById("abg22-halloween").style.transform = "translateY(0vh)";
                     document.getElementById("home-ui").style.opacity = "1";
-                    setTimeout(fadeInHomeFollowUp2, 1500);
+                    document.getElementById("lootbox-content").style.display = "none";
                 }
-                function fadeInHomeFollowUp2() {
-                    document.body.style.backgroundColor = "#020b0e";
-                }
+                view = "home";
             }
             break;
         case "leaderboard":
@@ -1245,16 +1235,21 @@ function loadPage(page) {
             }
             break;
         case "lootbox":
-            document.body.style.backgroundColor = "#4f7492";
+            view = "lootbox";
+            setTimeout(glowLootbox, 10);
+
             document.getElementById("home-ui").style.opacity = "0";
-            document.getElementById("abg22-halloween").style.transform = "translateY(120vh)";
-            document.getElementById("abg22-halloween-fore").style.transform = "translateY(5vh)";
-            setTimeout(lootboxFadeIn, 1500);
+
+            setTimeout(lootboxFadeIn, 500);
             function lootboxFadeIn() {
-                goTo("lootbox");
+
+                document.getElementById("lootbox-content").style.display = "flex";
+                document.getElementById("home-ui").style.display = "none";
+                console.log(document.getElementById("home-ui").style.display);
                 setTimeout(lootboxFadeInFollowUp, 100);
             }
             function lootboxFadeInFollowUp() {
+
                 document.getElementById("lootbox-content").style.opacity = "1";
             }
             break;
@@ -1265,6 +1260,25 @@ function loadPage(page) {
         case "graveguess":
             break;
     }
+}
+
+unopened = true;
+
+function openLootbox() {
+    document.getElementById("lootbox").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/opened.png)";
+    unopened = false;
+}
+
+function glowLootbox() {
+    if(unopened == true) {
+        document.getElementById("lootbox").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/closed-glow.png)";
+        setTimeout(stopGlowLootbox, 2500);
+    }
+}
+
+function stopGlowLootbox() {
+    document.getElementById("lootbox").style.backgroundImage = "url(assets/general/seasonal/halloween22/lootbox/closed.png)";
+    setTimeout(glowLootbox, 2500);
 }
 
 function fakeLoad(){
@@ -1325,6 +1339,7 @@ function bannerAnimStop(className) {
 
 // GLOBAL BUTTON HOVER FUNCTIONS
 function touchStart(id) {
+    console.log(id);
     buttonType = document.getElementById(id).classList[0];
     switch(buttonType){
         case "purple-button":
@@ -1344,6 +1359,7 @@ function touchStart(id) {
             document.getElementById(id).classList.replace("self", "self-touch");
             break;
         case "scale-transition":
+            console.log(buttonType);
             document.getElementById(id).classList.replace("scale-transition", "scale-transition-touch");
             break;
     }

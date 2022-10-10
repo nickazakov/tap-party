@@ -186,9 +186,30 @@ body {
     height: 100vh;
     width: 100vw;
     z-index: 10;
-    display: none;
 
-    transition: all 1s;
+    display: none;
+    opacity: 0;
+}
+
+#lootbox-back {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: #020b0e;
+    z-index: -2;
+}
+
+#lootbox {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(assets/general/seasonal/halloween22/lootbox/closed.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+
+    transition: all 2s;
 }
 
 #loading-screen {
@@ -584,11 +605,6 @@ body {
     align-items: center;
 }
 
-#lootbox-content {
-    opacity: 0;
-    transition: all 0.5s;
-}
-
 #ui-top {
     width: 100vw;
     height: 50vh;
@@ -609,7 +625,7 @@ body {
 }
 
 #event-info {
-    margin-top: 35px;
+    margin-top: 45px;
     position: absolute;
     width: 80%;
     height: 60px;
@@ -622,12 +638,6 @@ body {
     align-items: center;
     padding: 10px 20px 10px 20px;
     border-radius: 20px;
-}
-
-#event-time-left {
-    position: absolute;
-    background-color: #ff0042;
-    margin-top: 100px;
 }
 
 #event-title {
@@ -697,8 +707,14 @@ body {
 
 #home-ui {
     position: absolute;
-
+    display: flex;
     transition: all 0.5s cubic-bezier(1,.01,0,1);
+}
+
+#lootbox-content {
+    display: none;
+    opacity: 0;
+    transition: all 0.5s;
 }
 
 .game-over-ui {
@@ -709,6 +725,21 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#unopened-count-button-preview {
+    text-align: center;
+    width: 50px;
+    background-color: #ff0042;
+    padding: 5px 5px 5px 5px;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+    
+    /* animation: float 3s infinite; */
+
+    transition: all 0.5s;
 }
 
 #time-left {
