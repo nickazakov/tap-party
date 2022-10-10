@@ -235,6 +235,48 @@ body {
     color: #FFF;
 }
 
+#admin-userlist {
+    color: #FFF;
+    height: 50vh;
+    width: 75vw;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #062145;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+#userlist {
+    width: 95%;
+    height: 100%;
+    border-radius: 15px;
+    padding: 20px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+#usertable th {
+    border: 2px solid red;
+    padding: 7px;
+}
+
+#usertable td {
+    border: 2px solid rgb(48, 122, 46);
+    border-radius: 10px;
+    text-align: center;
+}
+
+#admin-userlist-title {
+    color: #FFF;
+}
+
+#time-left-month {
+    color: #FFF;
+}
+
+
 #lootbox-reward {
     background-image: url(assets/general/banners/banner-default.png);
     background-size: cover;

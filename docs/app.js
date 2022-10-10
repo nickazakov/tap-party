@@ -48,6 +48,8 @@ document.addEventListener("touchend", function(event){
 // VARIABLES RELATED TO TIME
 let game = "";
 
+let admin = false;
+
 let lootboxCount;
 
 let lootboxContentHalloween22 = [ 1, 2, 3 ];
@@ -74,6 +76,29 @@ function updateTime() {
         x++;
         document.getElementById("unopened-count").innerHTML = x;
     }*/
+
+    if(admin) {
+        var firstDay = new Date(d.getFullYear(), d.getMonth()+1, 1);
+        // get total seconds between the times
+        var delta = Math.abs(firstDay - d) / 1000;
+
+        // calculate (and subtract) whole days
+        var days = Math.floor(delta / 86400);
+        delta -= days * 86400;
+
+        // calculate (and subtract) whole hours
+        var hours = Math.floor(delta / 3600) % 24;
+        delta -= hours * 3600;
+
+        // calculate (and subtract) whole minutes
+        var minutes = Math.floor(delta / 60) % 60;
+        delta -= minutes * 60;
+
+        // what's left is seconds
+        var seconds = delta % 60;  // in theory the modulus is not required
+
+        document.getElementById("time-left-month").innerHTML = days + " : " +hours+ " : " +minutes + " : " +Math.ceil(seconds);
+    }
 
     // CALCULATE TIME TO NEXT GAME
     leftTime = (60 - m - 1) + "m " + (60 - s) + "s ";
@@ -737,6 +762,86 @@ const lootbox = (arg) => {
     }
 }
 
+let userArray = [];
+
+const adminLoadScores = () => {
+    var table = document.getElementById("usertable");
+    userArray = [];
+
+    db.collection("cornfalllb")
+    .get()
+    .then((querySnapshot) => {
+        
+        // POPULATE USER ARRAY
+        querySnapshot.forEach((doc) => {
+            userArray.push(doc.id);
+            console.log(userArray);
+        });
+
+        // GET SCORES
+        for(let i = 0; i < userArray.length; i++) {
+
+            let userRow = table.insertRow(-1);
+            var usernameCell = userRow.insertCell(-1);
+            usernameCell.innerHTML = userArray[i];
+
+            for(let y = 1; y < categories.length; y++) {
+                db.collection(categories[y]).doc(userArray[i])
+                .get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        console.log("Document exists!");
+                        var scoreCell = userRow.insertCell(-1);
+                        scoreCell.innerHTML = doc.data().score;
+                    } else {
+                        var scoreCell = userRow.insertCell(-1);
+                        scoreCell.innerHTML = 0;
+                    }
+                })
+            }
+        }
+    })
+}
+
+const adminCalcGlobal = () => {
+    var table = document.getElementById("usertable");
+    for(let i = 1; i <= userArray.length; i++) {
+        let globalScore = 0;
+        console.log("----");
+        for(let y = 1; y < categories.length; y++) {
+            globalScore = globalScore + Number(table.rows[i].cells[y].innerHTML);
+            console.log(globalScore + " | i:" + y);
+        }
+        table.rows[i].insertCell(categories.length).innerHTML = globalScore;
+    }
+}
+
+const adminClearTable = () => {
+    var table = document.getElementById("usertable");
+    table.innerHTML = table.rows[0].innerHTML;
+}
+
+const adminSortByGlobal = () => {
+    var table = document.getElementById("usertable");
+    let array = [];
+    for(let i = 1; i <= userArray.length; i++) {
+        let last = table.rows[i].cells[categories.length].innerHTML
+        console.log(table.rows[i].cells[categories.length].innerHTML);
+        // array.push(Number(table.rows[i].cells[categories.length].innerHTML));
+        if(table.rows[i+1].cells[categories.length].innerHTML > last) {
+            table.insertRow(-1).innerHTML = table.rows[i].innerHTML();
+        }
+    }
+
+
+    /* console.log(array);
+    array.sort(function(a, b) {
+        return a - b;
+    });
+    console.log(array); */
+}
+
+
 // #endregion
 
 /* CAT FACT GENERATOR
@@ -846,6 +951,7 @@ request.onsuccess = function () {
             console.log("Username found!");
             user = idQuery.result.unstring;
             if(user == "SedemOsem78Admin") {
+                admin = true;
                 console.log("User is admin!");
                 goTo("admin-dash");
             } else {
@@ -1112,6 +1218,30 @@ let leaderboard_HTMLSnippet = `
 let admin_HTMLSnippet = `
     <div id="admin-panel">
         <h1 id="admin-title">Logged in as admin!</h1>
+        <h2 id="time-left-month">-</h2>
+        <button onclick="adminLoadScores()">Load Scores</button>
+        <button onclick="adminCalcGlobal()">Calculate Global</button>
+        <button onclick="adminClearTable()">Clear Table</button>
+        <button onclick="adminSortByGlobal()">Sort</button>
+        <button>Wipe Leaderboards</button>
+
+        <div id="admin-userlist">
+            <h2 id="admin-userlist-title">User List</h2>
+            <div id="userlist">
+
+                <table id="usertable">
+                    <tr>
+                        <th>User</th>
+                        <th>Cornfall</th>
+                        <th>Graveguess</th>
+                        <th>Potioncraft</th>
+                        <th>Global</th>
+                        <th>Reward</th>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
     </div>
 `;
 
@@ -1542,6 +1672,7 @@ function remember () {
     }
 
     if(user == "SedemOsem78Admin") {
+        admin = true;
         goTo("admin-dash");
         return;
     }
