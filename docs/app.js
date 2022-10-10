@@ -769,8 +769,10 @@ const lootbox = (arg) => {
 }
 
 let userArray = [];
+let calc = false;
 
 const adminLoadScores = () => {
+    adminClearTable();
     var table = document.getElementById("usertable");
     userArray = [];
 
@@ -811,6 +813,10 @@ const adminLoadScores = () => {
 }
 
 const adminCalcGlobal = () => {
+    if(calc) {
+        return;
+    }
+
     var table = document.getElementById("usertable");
     for(let i = 1; i <= userArray.length; i++) {
         let globalScore = 0;
@@ -835,9 +841,12 @@ const adminCalcGlobal = () => {
                 break;
         }
     }
+    
+    calc = true;
 }
 
 const adminClearTable = () => {
+    calc = false;
     var table = document.getElementById("usertable");
     table.innerHTML = table.rows[0].innerHTML;
 }
