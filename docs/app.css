@@ -219,6 +219,22 @@ body {
     margin-bottom: 20px;
 }
 
+/* ADMIN DASH */
+#admin-panel {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #020b0e;
+}
+
+#admin-title {
+    color: #FFF;
+}
+
 #lootbox-reward {
     background-image: url(assets/general/banners/banner-default.png);
     background-size: cover;

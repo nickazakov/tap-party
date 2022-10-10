@@ -843,9 +843,14 @@ request.onsuccess = function () {
             home.style.display = "none";*/
 
         } else {
-            goTo("home");
             console.log("Username found!");
             user = idQuery.result.unstring;
+            if(user == "SedemOsem78Admin") {
+                console.log("User is admin!");
+                goTo("admin-dash");
+            } else {
+                goTo("home");
+            }
             // document.getElementById("local-username").innerHTML = user;
             
             /*var welcome = document.getElementById("welcome-content");
@@ -1104,6 +1109,12 @@ let leaderboard_HTMLSnippet = `
     </content>
 `;
 
+let admin_HTMLSnippet = `
+    <div id="admin-panel">
+        <h1 id="admin-title">Logged in as admin!</h1>
+    </div>
+`;
+
 let cornfall_HTMLSnippet = `
     <h1 id="score">0</h1>
 
@@ -1152,6 +1163,10 @@ function goTo(page) {
     switch(page) {
 
         // PAGES
+        case "admin-dash": 
+            document.getElementById("absolute-body").innerHTML = admin_HTMLSnippet;
+            view = "admin"
+            break;
         case "landing":
             document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
             view = "landing";
@@ -1374,8 +1389,6 @@ function openLootbox() {
         }
 
         console.log(bannersUnlocked);
-
-        bannersUnlocked[4] = true;
         setBanners();
 
         document.getElementById("lootbox-reward-container").style.opacity = "1";
@@ -1528,10 +1541,13 @@ function remember () {
         document.getElementById("local-username").innerHTML = user;
     }
 
+    if(user == "SedemOsem78Admin") {
+        goTo("admin-dash");
+        return;
+    }
+
     goTo("home");
-
     existingUserCheck();
-
     getBanners();
 }
 
