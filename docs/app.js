@@ -156,7 +156,7 @@ let leaderboard_HTMLSnippet = `
                 <h1>Event Leaderboard</h1>
 
                 <h2 id="faq-description">
-                Collect lootboxs by scoring on the monthly leaderboard! <br>
+                Collect lootboxes by scoring on the monthly leaderboard! <br>
                 <br>
                 Your highscore in all minigames adds up to your total monthly score. <br>
             </h2>
