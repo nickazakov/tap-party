@@ -60,7 +60,7 @@ let home_HTMLSnippet = `
 
                 <div id="event-info" class="ds-light">
                     <div id="event-title" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">
-                        <h1>Spookstober</h1>
+                        <h1 id="event-title-string"></h1>
                     </div>
                     <div id="lootbox-button" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('lootbox')">
                         <div class="lootbox-image">
@@ -85,6 +85,7 @@ let home_HTMLSnippet = `
             <div id="ui-top">
             </div>
 
+            <div id="lootbox-self-button" onclick="openLootbox()"></div>
             <div id="ui-bottom">
                 <div id="time-left-indicator">
                     <div id="unopened-count-button-preview">-</div>
@@ -109,6 +110,11 @@ let home_HTMLSnippet = `
         <div id="lootbox-page-background"></div>
     </content>
 `;
+
+// ADD EVENT NAME HERE
+// PREVIOUS NAMES:
+// HALLOWEEN 22 - SPOOKSTOBER
+let currentEventTitle = "Spookstober"
 
 // EDIT CURRENT LOOTBOX
 let currentLootbox = "halloween22";
@@ -135,7 +141,7 @@ let leaderboard_HTMLSnippet = `
         <h1>Leaderboard</h1>
         <div id="top-bar-lb">
             <button id="switch-lb" class="scale-transition ds-even-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
-            <button id="faq-lb" class="scale-transition material-symbols-rounded ds-even-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">question_mark</button>
+            <button id="faq-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="faq('open')" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">question_mark</button>
             <button id="reload-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
         </div>
 
@@ -144,6 +150,29 @@ let leaderboard_HTMLSnippet = `
             </div>
         </div>
         <button id="purple-button" class="purple-button ds-heavy" onclick="loadPage('home')" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Back</button>
+
+        <div id="absolute-faq">
+            <div id="faq-popup">
+                <h1>Event Leaderboard</h1>
+
+                <h2 id="faq-description">
+                Collect lootboxs by scoring on the monthly leaderboard! <br>
+                <br>
+                Your highscore in all minigames adds up to your total monthly score. <br>
+            </h2>
+        
+            <h2 id="faq-alert">
+                Gold, Silver and Bronze competitors receive extra rewards.
+            </h2>
+
+                <image id="faq-image" src="assets/general/faq.png">
+                <h2 id="faq-description">
+                    Everyone else gets only 1x lootbox.
+                </h2>
+
+                <button id="sure-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="faq('close')">Sure!</button>
+            </div>
+        </div>
 
         <div id="absolute-profile">
             <div id="profile-popup">
@@ -228,6 +257,18 @@ let leaderboard_HTMLSnippet = `
         </div>
     </content>
 `;
+
+/*
+    <h2 id="faq-description">
+        Collect lootboxs by scoring on the monthly leaderboard! <br>
+        <br>
+        Your highscore in all minigames adds up to your total monthly score. <br>
+    </h2>
+
+    <h2 id="faq-alert">
+        Gold, Silver and Bronze competitors receive extra rewards.
+    </h2>
+*/
 
 // ADD NEW GAME LEADERBOARDS HERE
 let categoriesPublic = [
@@ -494,6 +535,7 @@ function goTo(page) {
         case "home":
             document.getElementById("absolute-body").innerHTML = home_HTMLSnippet;
             view = "home";
+            document.getElementById("event-title-string").innerHTML = currentEventTitle;
             setTimeout(lootbox, 100, "get");
             break;
         case "leaderboard":
@@ -897,7 +939,6 @@ function cornfall() {
     }
     animate(0);
 }
-
 function graveGuess() {
     goTo("graveguess");
     backdrop(1);
@@ -1073,17 +1114,6 @@ function graveGuess() {
 
 // #region GLOBAL VARIABLES
 let view = "welcome";
-let leaderBoardBones = [
-    "url(assets/general/seasonal/halloween22/abg/Bone-1.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-2.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-3.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-4.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-5.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-6.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-7.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-8.png)",
-    "url(assets/general/seasonal/halloween22/abg/Bone-9.png)",
-];
 // #endregion
 
 // #region GESTURE BLOCK
@@ -1792,6 +1822,26 @@ function lodSet(lod) {
 
 // #region NAVIGATION
 
+function faq(state) {
+    if(state == "open") {
+        document.getElementById("absolute-faq").style.display = "flex";
+
+        // CUSTOM TRANSITION
+        setTimeout(faqFadeIn, 100);
+        function faqFadeIn() {
+            document.getElementById("absolute-faq").style.opacity = "1";
+        }
+    } else if (state == "close") {
+        document.getElementById("absolute-faq").style.opacity = "0";
+
+        // CUSTOM TRANSITION
+        setTimeout(faqFadeOut, 100);
+        function faqFadeOut() {
+            document.getElementById("absolute-faq").style.display = "none";
+        }
+    }
+}
+
 function openLootbox() {
     // FIRESTORE CHECKS
 
@@ -1862,18 +1912,20 @@ function openLootbox() {
 }
 
 function leaderBoardBack() {
+    console.log("hh");
     if(document.getElementById("abg22-halloween-bone")){
         document.getElementById("abg22-halloween-bone").style.opacity = "0";
     }
 
-    if(rng(1,10) < 7) {
+    if(document.getElementById("abg22-halloween-bone")){
+        setTimeout(leaderBoardBackFollowUp, 2000);
+    }
+
+    function leaderBoardBackFollowUp() {
         if(document.getElementById("abg22-halloween-bone")){
             document.getElementById("abg22-halloween-bone").style.opacity = "1";
-            document.getElementById("abg22-halloween-bone").style.backgroundImage = leaderBoardBones[rng(0,8)];
+            setTimeout(leaderBoardBack, 2000);
         }
-    }
-    if(document.getElementById("abg22-halloween-bone")){
-        setTimeout(leaderBoardBack, 1500);
     }
 }
 
