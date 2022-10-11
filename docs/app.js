@@ -709,10 +709,10 @@ function lootboxLoot(event) {
             value = rng(1,100);
 
             if(value <= 15) {
-                document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-3.png)"
+                document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-3.gif)"
                 bannersUnlocked[3] = true;
             } else if (value <= 40) {
-                document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-2.png)"
+                document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-2.gif)"
                 bannersUnlocked[2] = true;
             } else {
                 document.getElementById("lootbox-reward").style.backgroundImage = "url(assets/general/banners/banner-halloween22-1.png)"
