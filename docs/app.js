@@ -267,18 +267,6 @@ let leaderboard_HTMLSnippet = `
     </content>
 `;
 
-/*
-    <h2 id="faq-description">
-        Collect lootboxs by scoring on the monthly leaderboard! <br>
-        <br>
-        Your highscore in all minigames adds up to your total monthly score. <br>
-    </h2>
-
-    <h2 id="faq-alert">
-        Gold, Silver and Bronze competitors receive extra rewards.
-    </h2>
-*/
-
 // ADD NEW GAME LEADERBOARDS HERE
 let categoriesPublic = [
     "Monthly",
@@ -662,26 +650,10 @@ function loadPage(page) {
         case "profile":
             view = "profile"
             document.getElementById("absolute-profile").style.display = "flex";
-            switch(bannerEquipped){
-                case 0:
-                    document.getElementById("equip-icon-0").style.display = "block";
-                    break;
-                case 1:
-                    document.getElementById("equip-icon-1").style.display = "block";
-                    break;
-                case 2:
-                    document.getElementById("equip-icon-2").style.display = "block";
-                    break;
-                case 3:
-                    document.getElementById("equip-icon-3").style.display = "block";
-                    break;
-                case 4:
-                    document.getElementById("equip-icon-4").style.display = "block";
-                    break;
-                case 5:
-                    document.getElementById("equip-icon-5").style.display = "block";
-                    break;
-            }
+
+            id = "equip-icon-"
+            newId = id+bannerEquipped
+            document.getElementById(newId).style.display = "block";
 
             for(i = 0; i < bannersUnlocked.length; i++){
                 if(!bannersUnlocked[i]) {
