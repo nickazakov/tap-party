@@ -10,7 +10,12 @@ let admin_HTMLSnippet = `
             <button id="admin-button2" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminCalcGlobal()">Calculate</button>
             <button id="admin-button3" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminClearTable()">Clear List</button>
             <button id="admin-button4" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminWipeMonthly()">End Event</button>
+
+            <button id="admin-button5" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminAddNewBanner()">Add Banner</button>
+            <button id="admin-button6" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminAddGameScore()">Add Game</button>
         </div>
+
+        <input type="text" placeholder="Collection Name" id="admin-game-lb-input">
 
         <div id="admin-userlist">
             <h2 id="admin-userlist-title">User List</h2>
@@ -1452,7 +1457,7 @@ const loadScores = () => {
 }
 
 const getBanners = () => {
-    db.collection("unlocks").doc(user)
+    db.collection("_unlocks").doc(user)
     .get()
     .then((doc) => {
         if (doc.exists) {
@@ -1471,11 +1476,11 @@ const getBanners = () => {
 const setBanners = () => {
     console.log(bannersUnlocked);
     
-    db.collection("unlocks").doc(user)
+    db.collection("_unlocks").doc(user)
     .get()
     .then((doc) => {
         if (doc.exists) {
-            db.collection("unlocks")
+            db.collection("_unlocks")
             .doc(user)
             .update({ 
                 banners: bannersUnlocked,
@@ -1489,7 +1494,7 @@ const setBanners = () => {
                 });
             }
         } else {
-            db.collection("unlocks")
+            db.collection("_unlocks")
             .doc(user)
             .set({ 
                 banners: bannersUnlocked,
@@ -1524,7 +1529,7 @@ const lootbox = (arg) => {
     console.log(user);
     if(arg == "get") {
         console.log("Getting Lootbox Data! " + user);
-        db.collection("unlocks").doc(user)
+        db.collection("_unlocks").doc(user)
         .get()
         .then((doc) => {
             if (doc.exists) {
@@ -1544,7 +1549,7 @@ const lootbox = (arg) => {
         })
     } else if(arg == "set") {
         console.log("Setting Lootbox Data!");
-        db.collection("unlocks")
+        db.collection("_unlocks")
         .doc(user)
         .update({ 
             lootboxes: lootboxCount
@@ -1660,16 +1665,69 @@ const adminWipeMonthly = () => {
 
         lb = Number(table.rows[i+1].cells[categories.length+1].innerHTML)
 
-        db.collection("unlocks").doc(userArray[i])
+        db.collection("_unlocks").doc(userArray[i])
         .get()
         .then((doc) => {
             oldLb = doc.data().lootboxes;
             newLb = oldLb + lb;
-            db.collection("unlocks")
+            db.collection("_unlocks")
             .doc(userArray[i])
             .update({ 
                 lootboxes: newLb
             });
+        })
+    }
+
+    console.log("DB || CLEARED MONTHLY!");
+}
+
+const adminAddNewBanner = () => {
+    for(let i = 0; i < userArray.length; i++) {
+        let bannersArray = [];
+        let statement = false;
+
+        db.collection("_unlocks").doc(userArray[i])
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                console.log("Unlocks Document exists!");
+
+                bannersArray = doc.data().banners;
+                bannersArray.push(statement);
+
+                db.collection("_unlocks")
+                .doc(userArray[i])
+                .update({ 
+                    banners: bannersArray
+                })
+
+            } else {
+                console.log("No Unlocks Document!");
+            }
+        })
+    }
+}
+
+const adminAddGameScore = () => {
+    let newGame = document.getElementById("admin-game-lb-input").value;
+    for(let i = 0; i < userArray.length; i++) {
+
+        let bannerE = 0;
+        db.collection("globallb").doc(userArray[i])
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                console.log("Document exists!");
+                bannerE = doc.data().banner;
+                
+                db.collection(newGame).doc(userArray[i])
+                .set({ 
+                    score: 0,
+                    banner: bannerE
+                });
+            } else {
+                console.log("Document doesn't exist!");
+            }
         })
     }
 }
