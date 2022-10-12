@@ -52,6 +52,7 @@ let home_HTMLSnippet = `
         <div id="abg22-halloween-witch"></div>
         <div id="abg22-halloween-flame"></div>
         <div id="abg22-halloween-fore"></div>
+        <div id="abg22-halloween-cat"></div>
     </div>
 
     <content id="home-ui">
@@ -70,6 +71,7 @@ let home_HTMLSnippet = `
                 </div>
 
             </div>
+            <div id="secret-hitbox" onclick="unlockSecret()"></div>
             <div id="ui-bottom">
                 <div id="time-left-indicator">
                     <div id="time-left">0m 0s</div>
@@ -108,6 +110,7 @@ let home_HTMLSnippet = `
 
         <div id="lootbox-flash"></div>
         <div id="lootbox-page-background"></div>
+
     </content>
 `;
 
@@ -126,7 +129,8 @@ let bannersUnlocked = [
     false, // 2 : LOCKED, HALLOWEEN22 2
     false, // 3 : LOCKED, HALLOWEEN22 3
     false, // 4 : LOCKED, CORNFALL
-    false  // 5: LOCKED, GRAVE GUESS
+    false, // 5: LOCKED, GRAVE GUESS
+    false  // 6: LOCKED, SECRET CAT BANNER
 ];
 
 // ADD NEW BANNERS HERE
@@ -222,7 +226,12 @@ let leaderboard_HTMLSnippet = `
                         <div id="banner-unlock-hint">Reach 10 in Grave Guess</div>
                     </div>
 
-
+                    <div id="banner-card-option" class="banner-6-preview" onclick="equipBanner(6)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-6" class="material-symbols-rounded">circle</span>
+                        </div>
+                        <div id="banner-unlock-hint">Secret</div>
+                    </div>
 
                     <div id="banner-card-option" class="banner-coming-soon">
                         <div id="banner-equip-indicator">
@@ -577,6 +586,14 @@ function loadPage(page) {
         case "welcome": 
             break;
         case "home":
+            getBanners();
+            if(bannersUnlocked[6] == false) {
+                console.log("Started Secret Timer!");
+                setTimeout(secret, 60000);
+            } else {
+                console.log("Secret Banner already owned!");
+            }
+
             lootbox("get");
             // CUSTOM TRANSITION
             if(view == "leaderboard") {
@@ -1109,6 +1126,28 @@ function graveGuess() {
     };
 }
 // #endregion
+
+function secret() {
+    if(view == "home") {
+        console.log("Enabled Cat Secret!");
+        document.getElementById("secret-hitbox").style.display = "block";
+        document.getElementById("abg22-halloween-cat").style.display = "block";
+        setTimeout(secretFadeIn, 100);
+        function secretFadeIn() {
+            document.getElementById("abg22-halloween-cat").style.opacity = "1";
+        }
+    } else {
+        console.log("Not in home!");
+    }
+}
+
+function unlockSecret() {
+    bannersUnlocked[6] = true;
+    setBanners();
+    console.log("Unlocked Secret Cat Banner!");
+}
+
+setTimeout(secret, 60000);
 
 // #endregion
 
