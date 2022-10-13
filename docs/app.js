@@ -148,10 +148,13 @@ let leaderboard_HTMLSnippet = `
         </div>
 
         <h1>Leaderboard</h1>
-        <div id="top-bar-lb">
-            <button id="switch-lb" class="scale-transition ds-even-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
-            <button id="faq-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="faq('open')" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">question_mark</button>
-            <button id="reload-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
+        <div id="time-left-event-indicator">
+            <div id="time-left-event">0d 0h 0m 0s</div>
+            <div id="top-bar-lb">
+                <button id="switch-lb" class="scale-transition ds-even-heavy" onclick="switchlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Cornfall</button>
+                <button id="faq-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="faq('open')" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">question_mark</button>
+                <button id="reload-lb" class="scale-transition material-symbols-rounded ds-even-heavy" onclick="refreshlb()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">sync</button>
+            </div>
         </div>
 
         <div id="board">
@@ -169,7 +172,7 @@ let leaderboard_HTMLSnippet = `
                 <br>
                 Your highscore in all minigames adds up to your total monthly score. <br>
             </h2>
-        
+
             <h2 id="faq-alert">
                 Gold, Silver and Bronze competitors receive extra rewards.
             </h2>
@@ -184,8 +187,65 @@ let leaderboard_HTMLSnippet = `
         </div>
 
         <div id="absolute-profile">
-            <div id="profile-popup">
+            <div id="profile-page">
+                <div id="ui">
+                    <div id="ui-top-profile">
+                        <div id="profile-top-bar">
+                            <h3 id="change-banner-hint">Tap to change your banner!</h3>
+                            <div id="profile-user-preview" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="bannerLibrary()">
+                                <h3 id="profile-username">-</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ui-bottom-profile">
+                    <h3>Statistics</h3>
+                    <div id="stats">
+
+                        <div id="stat-card">
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Total Score: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Games Played: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Banners Collected: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Lootboxes Opened: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                        </div>
+
+                        <div id="stat-card2">
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Cornfall: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Grave Guess: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                            <div id="stat-panel">
+                                <h4 id="stat-name">Potioncraft: </h4>
+                                <h4 id="stat-score">0</h4>
+                            </div>
+                        </div>
+
+                        <div id="leaderboard-fix"></div>
+
+                    </div>
+                        <button id="back-button" class="purple-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="banner-library-popup">
                 <h1>Banner Library</h1>
+                <p>Get more banners from lootboxes!</p>
 
                 <div id="banner-collection">
 
@@ -266,7 +326,7 @@ let leaderboard_HTMLSnippet = `
                         <div id="banner-unlock-hint">Coming Soon!</div>
                     </div>
                 </div>
-                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="loadPage('leaderboard')">Save</button>
+                <button id="orange-button" class="orange-button ds-heavy" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="saveBanner()">Save</button>
             </div>
         </div>
     </content>
@@ -353,27 +413,31 @@ function updateTime() {
     let m = d.getMinutes();
     let s = d.getSeconds();
 
+    var firstDay = new Date(d.getFullYear(), d.getMonth()+1, 1);
+    // get total seconds between the times
+    var delta = Math.abs(firstDay - d) / 1000;
+
+    // calculate (and subtract) whole days
+    var days = Math.floor(delta / 86400);
+    delta -= days * 86400;
+
+    // calculate (and subtract) whole hours
+    var hours = Math.floor(delta / 3600) % 24;
+    delta -= hours * 3600;
+
+    // calculate (and subtract) whole minutes
+    var minutes = Math.floor(delta / 60) % 60;
+    delta -= minutes * 60;
+
+    // what's left is seconds
+    var seconds = delta % 60;  // in theory the modulus is not required
+
     if(admin) {
-        var firstDay = new Date(d.getFullYear(), d.getMonth()+1, 1);
-        // get total seconds between the times
-        var delta = Math.abs(firstDay - d) / 1000;
-
-        // calculate (and subtract) whole days
-        var days = Math.floor(delta / 86400);
-        delta -= days * 86400;
-
-        // calculate (and subtract) whole hours
-        var hours = Math.floor(delta / 3600) % 24;
-        delta -= hours * 3600;
-
-        // calculate (and subtract) whole minutes
-        var minutes = Math.floor(delta / 60) % 60;
-        delta -= minutes * 60;
-
-        // what's left is seconds
-        var seconds = delta % 60;  // in theory the modulus is not required
-
         document.getElementById("time-left-month").innerHTML = days + " : " +hours+ " : " +minutes + " : " +Math.ceil(seconds);
+    }
+
+    if(document.getElementById("time-left-event")) {
+        document.getElementById("time-left-event").innerHTML = days + "d " +hours+ "h " +minutes + "m " +Math.ceil(seconds) + "s";
     }
 
     // CALCULATE TIME TO NEXT GAME
@@ -522,7 +586,7 @@ function goTo(page) {
     switch(page) {
 
         // PAGES
-        case "admin-dash": 
+        case "admin-dash":
             document.getElementById("absolute-body").innerHTML = admin_HTMLSnippet;
             view = "admin"
             break;
@@ -530,7 +594,7 @@ function goTo(page) {
             document.getElementById("absolute-body").innerHTML = landing_HTMLSnippet;
             view = "landing";
             break;
-        case "welcome": 
+        case "welcome":
             document.getElementById("absolute-body").innerHTML = welcome_HTMLSnippet;
             view = "welcome";
             break;
@@ -576,7 +640,7 @@ function loadPage(page) {
         // PAGES
         case "landing":
             break;
-        case "welcome": 
+        case "welcome":
             break;
         case "home":
             getBanners();
@@ -594,7 +658,7 @@ function loadPage(page) {
                 setTimeout(fadeInHome, 500);
                 function fadeInHome() {
                     document.getElementById("scores-container").innerHTML = "";
-    
+
                     // CHANGE VIEW
                     goTo("home");
                     document.getElementById("abg22-halloween").style.transform = "translateY(-120vh)";
@@ -629,7 +693,7 @@ function loadPage(page) {
 
                 setTimeout(fadeInLeaderboard, 1500);
                 function fadeInLeaderboard() {
-    
+
                     // CHANGE VIEW
                     goTo("leaderboard");
                     document.getElementById("leaderboard-content").style.opacity = "0";
@@ -650,11 +714,13 @@ function loadPage(page) {
             }
             view = "leaderboard";
             break;
-        
+
         // ADD BANNER EQUIP ICON HERE
         case "profile":
             view = "profile"
             document.getElementById("absolute-profile").style.display = "flex";
+
+
 
             id = "equip-icon-"
             newId = id+bannerEquipped
@@ -666,6 +732,11 @@ function loadPage(page) {
                     document.getElementsByClassName(className)[0].style.filter = "brightness(25%)";
                 }
             }
+
+            newClassName = "banner-"+bannerEquipped+"-preview";
+            document.getElementById("profile-user-preview").classList.add(newClassName);
+
+            document.getElementById("profile-username").innerHTML = user;
 
             // CUSTOM TRANSITION
             setTimeout(profileFadeIn, 100);
@@ -815,7 +886,7 @@ function cornfall() {
                         candyLock = true;
 
                         candy.markedForDeletion = true;
-                        
+
                         console.log("Collected Candy!");
 
                         score++;
@@ -882,7 +953,7 @@ function cornfall() {
             if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
         }
     }
-    
+
     function lerp (start, end, amt) {
         return (1-amt)*start+amt*end
     }
@@ -1194,7 +1265,7 @@ const saveScore = () => {
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category)
     .doc(user)
-    .update({ 
+    .update({
         score: Number(currentScore),
         banner: bannerEquipped
     });
@@ -1212,7 +1283,7 @@ const calcGlobal = () => {
 
             db.collection("globallb")
             .doc(user)
-            .update({ 
+            .update({
                 score:  totalScore
             });
             console.log("New Total Score: " + totalScore);
@@ -1223,14 +1294,14 @@ const calcGlobal = () => {
 const createScores = () => {
     for(i = 0; i < categories.length; i++) {
         db.collection(categories[i]).doc(user)
-        .set({ 
+        .set({
             score: 0,
             banner: bannerEquipped
         });
     }
 
     db.collection("globallb").doc(user)
-    .set({ 
+    .set({
         score: 0,
         banner: bannerEquipped
     });
@@ -1275,7 +1346,7 @@ const loadScores = () => {
             let username = doc.id;
             let oldScore = doc.data().score;
             let banner = doc.data().banner;
-            
+
             let card;
             switch(medals){
                 case 0:
@@ -1475,36 +1546,36 @@ const getBanners = () => {
 
 const setBanners = () => {
     console.log(bannersUnlocked);
-    
+
     db.collection("_unlocks").doc(user)
     .get()
     .then((doc) => {
         if (doc.exists) {
             db.collection("_unlocks")
             .doc(user)
-            .update({ 
+            .update({
                 banners: bannersUnlocked,
                 equipped: bannerEquipped
             });
-        
+
             for(i = 0; i < categories.length; i++) {
                 db.collection(categories[i]).doc(user)
-                .update({ 
+                .update({
                     banner: bannerEquipped
                 });
             }
         } else {
             db.collection("_unlocks")
             .doc(user)
-            .set({ 
+            .set({
                 banners: bannersUnlocked,
                 equipped: bannerEquipped,
                 lootboxes: 0
             });
-        
+
             for(i = 0; i < categories.length; i++) {
                 db.collection(categories[i]).doc(user)
-                .update({ 
+                .update({
                     banner: bannerEquipped
                 });
             }
@@ -1551,7 +1622,7 @@ const lootbox = (arg) => {
         console.log("Setting Lootbox Data!");
         db.collection("_unlocks")
         .doc(user)
-        .update({ 
+        .update({
             lootboxes: lootboxCount
         });
     }
@@ -1570,7 +1641,7 @@ const adminLoadScores = () => {
     .orderBy("score", "desc")
     .get()
     .then((querySnapshot) => {
-        
+
         // POPULATE USER ARRAY
         querySnapshot.forEach((doc) => {
             userArray.push(doc.id);
@@ -1658,7 +1729,7 @@ const adminWipeMonthly = () => {
         for(let c = 0; c < categories.length; c++) {
             db.collection(categories[c])
             .doc(userArray[i])
-            .update({ 
+            .update({
                 score: 0
             });
         }
@@ -1672,7 +1743,7 @@ const adminWipeMonthly = () => {
             newLb = oldLb + lb;
             db.collection("_unlocks")
             .doc(userArray[i])
-            .update({ 
+            .update({
                 lootboxes: newLb
             });
         })
@@ -1697,7 +1768,7 @@ const adminAddNewBanner = () => {
 
                 db.collection("_unlocks")
                 .doc(userArray[i])
-                .update({ 
+                .update({
                     banners: bannersArray
                 })
 
@@ -1719,9 +1790,9 @@ const adminAddGameScore = () => {
             if (doc.exists) {
                 console.log("Document exists!");
                 bannerE = doc.data().banner;
-                
+
                 db.collection(newGame).doc(userArray[i])
-                .set({ 
+                .set({
                     score: 0,
                     banner: bannerE
                 });
@@ -1807,7 +1878,7 @@ request.onsuccess = function () {
                 goTo("home");
             }
             // document.getElementById("local-username").innerHTML = user;
-            
+
             /*var welcome = document.getElementById("welcome-content");
             var home = document.getElementById("home-content");
             welcome.style.display = "none";
@@ -2020,6 +2091,37 @@ function equipBanner(b) {
 
 function bannerAnimStop(className) {
     document.getElementsByClassName(className)[0].classList.remove("wobble");
+}
+
+function saveBanner() {
+    setBanners();
+
+    document.getElementById("profile-user-preview").classList[1] = "";
+
+    document.getElementById("banner-library-popup").style.opacity = "0";
+    document.getElementById("profile-page").style.display = "block";
+
+    setTimeout(saveBannerFollowUp, 500);
+
+    function saveBannerFollowUp() {
+        newClassName = "banner-"+bannerEquipped+"-preview";
+        document.getElementById("profile-user-preview").classList.add(newClassName);
+
+        document.getElementById("banner-library-popup").style.display = "none";
+        document.getElementById("profile-page").style.opacity = "1";
+    }
+}
+
+function bannerLibrary() {
+    document.getElementById("banner-library-popup").style.display = "block";
+    document.getElementById("profile-page").style.opacity = "0";
+
+    setTimeout(bannerLibraryFollowUp, 500);
+
+    function bannerLibraryFollowUp() {
+        document.getElementById("banner-library-popup").style.opacity = "1";
+        document.getElementById("profile-page").style.display = "none";
+    }
 }
 
 // GLOBAL BUTTON HOVER FUNCTIONS
