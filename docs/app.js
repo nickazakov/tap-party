@@ -1309,14 +1309,19 @@ const createScores = () => {
         banner: bannerEquipped
     });
 
+    let blankHighscores = [];
+    for(i = 1; i < categories.length; i++) {
+        blankHighscores.push(0);
+    }
+
     for(i = 1; i < categories.length; i++) {
         db.collection("_profiles").doc(user)
         .set({
             _bannersCollectedStat: 0,
-            _gameHighscores: 0,
             _gamesPlayedStat: 0,
             _lootboxStat: 0,
-            _totalScoreStat: 0
+            _totalScoreStat: 0,
+            _gameHighscores: blankHighscores
         });
     }
 }
