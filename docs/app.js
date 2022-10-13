@@ -13,9 +13,10 @@ let admin_HTMLSnippet = `
 
             <button id="admin-button5" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminAddNewBanner()">Add Banner</button>
             <button id="admin-button6" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminAddGameScore()">Add Game</button>
+            <button id="admin-button7" class="scale-transition" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)" onclick="adminDeleteUser()">Remove User</button>
         </div>
 
-        <input type="text" placeholder="Collection Name" id="admin-game-lb-input">
+        <input type="text" placeholder="String" id="admin-game-lb-input">
 
         <div id="admin-userlist">
             <h2 id="admin-userlist-title">User List</h2>
@@ -204,35 +205,23 @@ let leaderboard_HTMLSnippet = `
                         <div id="stat-card">
                             <div id="stat-panel">
                                 <h4 id="stat-name">Total Score: </h4>
-                                <h4 id="stat-score">0</h4>
+                                <h4 id="totalScore" class="stat-score">0</h4>
                             </div>
                             <div id="stat-panel">
                                 <h4 id="stat-name">Games Played: </h4>
-                                <h4 id="stat-score">0</h4>
+                                <h4 id="gamesPlayed" class="stat-score">0</h4>
                             </div>
                             <div id="stat-panel">
                                 <h4 id="stat-name">Banners Collected: </h4>
-                                <h4 id="stat-score">0</h4>
+                                <h4 id="bannersCollected" class="stat-score">0</h4>
                             </div>
                             <div id="stat-panel">
                                 <h4 id="stat-name">Lootboxes Opened: </h4>
-                                <h4 id="stat-score">0</h4>
+                                <h4 id="lootboxesOpened" class="stat-score">0</h4>
                             </div>
                         </div>
 
                         <div id="stat-card2">
-                            <div id="stat-panel">
-                                <h4 id="stat-name">Cornfall: </h4>
-                                <h4 id="stat-score">0</h4>
-                            </div>
-                            <div id="stat-panel">
-                                <h4 id="stat-name">Grave Guess: </h4>
-                                <h4 id="stat-score">0</h4>
-                            </div>
-                            <div id="stat-panel">
-                                <h4 id="stat-name">Potioncraft: </h4>
-                                <h4 id="stat-score">0</h4>
-                            </div>
                         </div>
 
                         <div id="leaderboard-fix"></div>
@@ -544,6 +533,7 @@ function updateTime() {
 // EDIT TO ADD NEW GAMES
 function play () {
     getBanners();
+    incrementGamesPlayed();
     switch(game) {
         case "cornfall":
             cornfall();
@@ -720,7 +710,7 @@ function loadPage(page) {
             view = "profile"
             document.getElementById("absolute-profile").style.display = "flex";
 
-
+            profileLoad();
 
             id = "equip-icon-"
             newId = id+bannerEquipped
@@ -1261,7 +1251,6 @@ let categoryIndex = 0;
 // SET/UPDATE SCORE
 const saveScore = () => {
 
-    console.log("-");
     currentScore = document.getElementById("score").innerHTML;
     db.collection(category)
     .doc(user)
@@ -1269,6 +1258,20 @@ const saveScore = () => {
         score: Number(currentScore),
         banner: bannerEquipped
     });
+
+    db.collection("_profiles").doc(user)
+    .get()
+    .then((doc) => {
+
+        let highscoresArray = doc.data()._gameHighscores;
+
+        highscoresArray[categoryIndex - 1] = Number(currentScore);
+
+        db.collection("_profiles").doc(user)
+        .update({
+            _gameHighscores: highscoresArray
+        });
+    })
 
     calcGlobal();
 }
@@ -1305,6 +1308,17 @@ const createScores = () => {
         score: 0,
         banner: bannerEquipped
     });
+
+    for(i = 1; i < categories.length; i++) {
+        db.collection("_profiles").doc(user)
+        .set({
+            _bannersCollectedStat: 0,
+            _gameHighscores: 0,
+            _gamesPlayedStat: 0,
+            _lootboxStat: 0,
+            _totalScoreStat: 0
+        });
+    }
 }
 
 let totalScore = 0;
@@ -1312,6 +1326,18 @@ let totalScore = 0;
 // PERFORM CHECK TO SEE IF UPDATING SCORE IS NEEDED
 const getHS = () => {
     currentScore = document.getElementById("score").innerHTML;
+
+    db.collection("_profiles").doc(user)
+    .get()
+    .then((doc) => {
+        let currentTotalScore = Number(doc.data()._totalScoreStat);
+        let newTotalScore = currentTotalScore +  Number(currentScore);
+        db.collection("_profiles").doc(user)
+        .update({
+            _totalScoreStat: newTotalScore
+        });
+    })
+
     db.collection(category).doc(user)
     .get()
     .then((doc) => {
@@ -1564,6 +1590,14 @@ const setBanners = () => {
                     banner: bannerEquipped
                 });
             }
+
+            let bannerCount = Number(bannersUnlocked.filter(value => value === true).length) - 1;
+            console.log(bannerCount);
+            db.collection("_profiles").doc(user)
+            .update({
+                _bannersCollectedStat: bannerCount
+            });
+
         } else {
             db.collection("_unlocks")
             .doc(user)
@@ -1796,6 +1830,20 @@ const adminAddGameScore = () => {
                     score: 0,
                     banner: bannerE
                 });
+
+                db.collection("_profiles").doc(user)
+                .get()
+                .then((doc) => {
+            
+                    let highscoresArray = doc.data()._gameHighscores;
+                    highscoresArray.push(0);
+            
+                    db.collection("_profiles").doc(user)
+                    .update({
+                        _gameHighscores: highscoresArray
+                    });
+                })
+
             } else {
                 console.log("Document doesn't exist!");
             }
@@ -1803,6 +1851,100 @@ const adminAddGameScore = () => {
     }
 }
 
+const adminDeleteUser = () => {
+    let userTag = document.getElementById("admin-game-lb-input").value;
+
+    db.collection("_profiles").doc(userTag).delete().then(() => {
+        console.log("Document successfully deleted!");
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
+
+    db.collection("_unlocks").doc(userTag).delete().then(() => {
+        console.log("Document successfully deleted!");
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
+
+    for(let i = 0; i < categories.length; i++) {
+        db.collection(categories[i]).doc(userTag).delete();
+    }
+}
+
+const profileLoad = () => {
+    db.collection("_profiles").doc(user)
+    .get()
+    .then((doc) => {
+        if (doc.exists) {
+            console.log("Profile exists!");
+
+            // LOAD DEFAULT STATS
+            totalScoreStat = doc.data()._totalScoreStat;
+            gamesPlayedStat = doc.data()._gamesPlayedStat;
+            bannersCollectedStat = doc.data()._bannersCollectedStat;
+            lootboxStat = doc.data()._lootboxStat;
+
+            document.getElementById("totalScore").innerHTML = totalScoreStat;
+            document.getElementById("gamesPlayed").innerHTML = gamesPlayedStat;
+            document.getElementById("bannersCollected").innerHTML = bannersCollectedStat;
+            document.getElementById("lootboxesOpened").innerHTML = lootboxStat;
+
+            // LOAD HIGH SCORES
+            let par = document.getElementById("stat-card2");
+            par.innerHTML = "";
+
+            for(let i = 1; i < categories.length; i++) {
+
+                statPanel = document.createElement('div');
+                statPanel.id = "stat-panel";
+
+                statName = document.createElement('h4');
+                statName.id = "stat-name";
+                statName.innerHTML = categoriesPublic[i] + ":";
+                statPanel.appendChild(statName);
+    
+                statScore = document.createElement('h4');
+                statScore.classList.add("stat-score");
+
+                statScore.innerHTML = doc.get("_gameHighscores")[i-1];
+
+                statPanel.appendChild(statScore);
+    
+                par.appendChild(statPanel);
+            }
+
+        } else {
+            console.log("Profile doesn't exist!");
+        }
+    })
+}
+
+const incrementGamesPlayed = () => {
+    db.collection("_profiles").doc(user)
+    .get()
+    .then((doc) => {
+        let currentGamesPlayed = Number(doc.data()._gamesPlayedStat);
+        let newGamesPlayed = currentGamesPlayed +  1;
+        db.collection("_profiles").doc(user)
+        .update({
+            _gamesPlayedStat: newGamesPlayed
+        });
+    })
+}
+
+const incrementLootboxesOpened = () => {
+    db.collection("_profiles").doc(user)
+    .get()
+    .then((doc) => {
+        let currentLootboxesOpened = Number(doc.data()._lootboxStat);
+        let newLootboxesOpened = currentLootboxesOpened +  1;
+        db.collection("_profiles").doc(user)
+        .update({
+            _lootboxStat: newLootboxesOpened
+        });
+    })
+}
+ 
 // #endregion
 
 // #region INDEXEDDB
@@ -1987,6 +2129,8 @@ function openLootbox() {
 
     getBanners();
 
+    incrementLootboxesOpened();
+
     if(lootboxCount < 1) {
         return;
     }
@@ -2093,10 +2237,15 @@ function bannerAnimStop(className) {
     document.getElementsByClassName(className)[0].classList.remove("wobble");
 }
 
+let newClassName;
+
 function saveBanner() {
+
     setBanners();
 
-    document.getElementById("profile-user-preview").classList[1] = "";
+    document.getElementById("profile-user-preview").classList.remove(newClassName);
+
+    newClassName = null;
 
     document.getElementById("banner-library-popup").style.opacity = "0";
     document.getElementById("profile-page").style.display = "block";

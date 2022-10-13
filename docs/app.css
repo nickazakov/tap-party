@@ -375,6 +375,25 @@ body {
     transition: all 0.5s;
 }
 
+#admin-button7 {
+    /* Button Design */
+    border: none;
+    background-color: rgb(255, 57, 57);
+    border-radius: 30px;
+    height: 45px;
+    width: 150px;
+
+    /* Text Design */
+    color: #fff;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    /* Other */
+    margin: 10px;
+    transition: all 0.5s;
+}
+
 #admin-game-lb-input {
     border-radius: 20px;
     border: none;
@@ -1676,7 +1695,7 @@ textarea:hover {
 }
 
 #profile-username {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
     background-color: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(10px);
@@ -1725,7 +1744,7 @@ textarea:hover {
     white-space: nowrap;
 }
 
-#stat-panel #stat-score {
+#stat-panel .stat-score {
     color: #FFF;
     width: 80%;
     font-size: 1.1rem;
