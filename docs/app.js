@@ -27,7 +27,7 @@ let admin_HTMLSnippet = `
                         <th>User</th>
                         <th>Cornfall</th>
                         <th>Graveguess</th>
-                        <th>Potioncraft</th>
+                        <th>Veggie Dodge</th>
                         <th>Global</th>
                         <th>Reward</th>
                     </tr>
@@ -326,7 +326,7 @@ let categoriesPublic = [
     "Monthly",
     "Cornfall",
     "Grave Guess",
-    "Potioncraft"
+    "Veggie Dodge"
 ];
 
 // ADD NEW FIRESTORE COLLECTIONS FOR THE LEADERBOARDS HERE
@@ -334,15 +334,14 @@ let categories = [
     "globallb",
     "cornfalllb",
     "graveguesslb",
-    "potioncraftlb"
+    "veggiedodgelb"
 ];
 
 // CHENGE GAME AVAILABILITY HERE
 // 0 - CORNFALL
 // 1 - GRAVE GUESS
-// 2 - POTIONCRAFT
-// 3 - CANDY SKEWER
-let gameList = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
+// 2 - VEGGIE DODGE
+let gameList = [0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2];
 
 
 let cornfall_HTMLSnippet = `
@@ -380,6 +379,33 @@ let graveguess_HTMLSnippet = `
             <button id="retry-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
             <button id="home-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
         </div>
+    </content>
+`;
+
+let veggiedodge_HTMLSnippet = `
+    <h1 id="score">0</h1>
+
+    <content id="veggie-dodge-game">
+
+        <div id="game-over-screen-veggie-dodge">
+            <button id="retry-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
+            <button id="home-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
+        </div>
+
+        <canvas id="game-canvas"></canvas>
+        <img id="candy" src="candy.png" style="display: none;">
+
+        <img id="green" src="green.png" style="display: none;">
+
+        <img id="skewer" src="Skewer.png" style="display: none;">
+
+        <div id="heart-container">
+            <img class="heart" src="heart.png" width="90px">
+            <img class="heart" src="heart.png" width="90px">
+            <img class="heart" src="heart.png" width="90px">
+        </div>
+
+        <div id="segment-fix"></div>
     </content>
 `;
 
@@ -459,16 +485,16 @@ function updateTime() {
             game = "graveguess";
             break;
         case 2:
-            game = "cornfall";
+            game = "veggiedodge";
             break;
         case 3:
-            game = "graveguess";
-            break;
-        case 4:
             game = "cornfall";
             break;
-        case 5:
+        case 4:
             game = "graveguess";
+            break;
+        case 5:
+            game = "veggiedodge";
             break;
         case 6:
             game = "cornfall";
@@ -477,16 +503,16 @@ function updateTime() {
             game = "graveguess";
             break;
         case 8:
-            game = "cornfall";
+            game = "veggiedodge";
             break;
         case 9:
-            game = "graveguess";
-            break;
-        case 10:
             game = "cornfall";
             break;
-        case 11:
+        case 10:
             game = "graveguess";
+            break;
+        case 11:
+            game = "veggiedodge";
             break;
         case 12:
             game = "cornfall";
@@ -495,16 +521,16 @@ function updateTime() {
             game = "graveguess";
             break;
         case 14:
-            game = "cornfall";
+            game = "veggiedodge";
             break;
         case 15:
-            game = "graveguess";
-            break;
-        case 16:
             game = "cornfall";
             break;
-        case 17:
+        case 16:
             game = "graveguess";
+            break;
+        case 17:
+            game = "veggiedodge";
             break;
         case 18:
             game = "cornfall";
@@ -513,16 +539,16 @@ function updateTime() {
             game = "graveguess";
             break;
         case 20:
-            game = "cornfall";
+            game = "veggiedodge";
             break;
         case 21:
-            game = "graveguess";
-            break;
-        case 22:
             game = "cornfall";
             break;
-        case 23:
+        case 22:
             game = "graveguess";
+            break;
+        case 23:
+            game = "veggiedodge";
             break;
     }
 }
@@ -534,12 +560,16 @@ function updateTime() {
 function play () {
     getBanners();
     incrementGamesPlayed();
+    
     switch(game) {
         case "cornfall":
             cornfall();
             break;
         case "graveguess":
             graveGuess();
+            break;
+        case "veggiedodge":
+            veggieDodge();
             break;
     }
 }
@@ -563,6 +593,12 @@ function backdrop(n){
 
             // SET WALLPAPER
             document.body.style.backgroundImage = "url('assets/graveguess/background-grave.png')";
+            break;
+        case 2:
+            console.log("Set Veggie Dodge back!");
+    
+            // SET WALLPAPER
+            document.body.style.backgroundImage = "url('background-veggie.png')";
             break;
     }
 }
@@ -617,6 +653,12 @@ function goTo(page) {
             document.body.style.backgroundImage = "";
             document.getElementById("absolute-body").innerHTML = graveguess_HTMLSnippet;
 
+            view = "game";
+            break;
+        case "veggiedodge":
+            document.body.style.backgroundImage = "";
+            document.getElementById("absolute-body").innerHTML = veggiedodge_HTMLSnippet;
+    
             view = "game";
             break;
     }
@@ -852,7 +894,7 @@ function cornfall() {
         }
         draw(context){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            //context.fillRect(this.x, this.y, this.width, this.height);
+            // context.fillRect(this.x, this.y, this.width, this.height);
         }
         update(){
             this.checkCollision(candies, bones);
@@ -892,10 +934,10 @@ function cornfall() {
             });
 
             bones.forEach(bone => {
-                const dx = bone.x - this.x;
-                const dy = bone.y - this.y;
+                const dx = bone.x-25 - this.x;
+                const dy = bone.y-25 - this.y;
                 const distance = Math.sqrt(dx*dx + dy*dy);
-                if(distance < bone.width/2 + this.width/2){
+                if(distance < bone.hitboxWidth/2 + this.width/2){
                     console.log("Collected Bone!");
                     gameover();
                 }
@@ -933,10 +975,15 @@ function cornfall() {
             this.y = -100;
             this.markedForDeletion = false;
             this.image = document.getElementById("bone");
+
+            this.hitboxWidth = 20;
+            this.hitboxHeight = 20;
         }
         draw(context){
 
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            // context.fillRect(this.x + 25, this.y + 25, this.hitboxWidth, this.hitboxHeight);
+            // context.fillRect(this.x, this.y, this.width, this.height);
         }
         update(){
             this.y = lerp (this.y, 1500, 0.005);
@@ -1163,6 +1210,237 @@ function graveGuess() {
         setTimeout(goTo, 100, "home");
     };
 }
+function veggieDodge() {
+    goTo("veggiedodge");
+    backdrop(2);
+    switchlb("3");
+
+    var skewerTap = false;
+    var lives = 3;
+
+    var liveEl = document.getElementsByClassName("heart");
+
+    const canvas = this.document.getElementById("game-canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let candies = [];
+    let veggies = [];
+
+    class Player {
+        constructor(gameWidth, gameHeight){
+            this.gameWidth = gameWidth;
+            this.gameHeight = gameHeight;
+            this.width = 250;
+            this.height = 30;
+            this.x = -250;
+            this.y = gameHeight/1.5;
+            this.image = document.getElementById("skewer");
+        }
+        draw(context){
+            // context.fillStyle = "red";
+            // context.fillRect(this.x, this.y, this.width, this.height);
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+        update(){
+            this.checkCollision(candies, veggies);
+            if(skewerTap == true) {
+                this.x = lerp (this.x, 0, 0.1);
+            } else {
+                this.x = lerp (this.x, -250, 0.1);
+            }
+        }
+        checkCollision(candies, veggies){
+            // CANDIES, BONES
+            candies.forEach(candy => {
+                const dx = candy.x - this.x;
+                const dy = candy.y - this.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                if(distance < candy.width/2 + this.width/2){
+                    // COLLISION
+                    if(candyLock == false){
+                        candyLock = true;
+
+                        candy.markedForDeletion = true;
+
+                        gameScore++;
+
+                        document.getElementById("score").innerHTML = gameScore;
+
+                        console.log("Collected Candy!" + gameScore);
+
+                        candyObjTimer = rng(2500, 5000);
+                    }
+                } else {
+                    // NO COLLISION
+                    candyLock = false;
+                }
+            });
+
+            veggies.forEach(veggie => {
+                const dx = veggie.x - this.x;
+                const dy = veggie.y - this.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                if(distance < veggie.width/2 + this.width/2){
+                    if(liveLock == false){
+                        liveLock = true;
+                        console.log("Collected Bone!");
+                        gameover();
+                    }
+                } else {
+                    // NO COLLISION
+                    liveLock = false;
+                }
+            });
+        }
+    }
+
+    class Candy {
+        constructor(gameWidth, gameHeight){
+            this.gameWidth = gameWidth;
+            this.gameHeight = gameHeight;
+            this.width = 120;
+            this.height = 120;
+            this.x = (gameWidth-120)/2;
+            this.y = 0;
+            this.markedForDeletion = false;
+            this.image = document.getElementById("candy");
+        }
+        draw(context){
+            // context.fillStyle = "red";
+            // context.fillRect(this.x, this.y, this.width, this.height);
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+        update(){
+            if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
+            this.y = lerp (this.y, 1500, 0.01);
+        }
+    }
+
+    class Veggie {
+        constructor(gameWidth, gameHeight){
+            this.gameWidth = gameWidth;
+            this.gameHeight = gameHeight;
+            this.width = 120;
+            this.height = 120;
+            this.x = (gameWidth-120)/2;
+            this.y = 0;
+            this.markedForDeletion = false;
+            this.image = document.getElementById("green");
+        }
+        draw(context){
+            // context.fillStyle = "green";
+            // context.fillRect(this.x, this.y, this.width, this.height);
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+        update(){
+            if(this.y > this.gameHeight + 100) this.markedForDeletion = true;
+            this.y = lerp (this.y, 1500, 0.01);
+        }
+    }
+
+    function handleObjects (deltaTime) {
+        if(candyObjTimer > candyInterval) {
+            candies.push(new Candy(canvas.width, canvas.height));
+            candyObjTimer = 0;
+        } else {
+            candyObjTimer = candyObjTimer + deltaTime;
+        }
+        candies.forEach(candy => {
+            candy.draw(ctx);
+            candy.update();
+        })
+        candies = candies.filter(candy => !candy.markedForDeletion);
+
+        if(veggieObjTimer > veggieInterval) {
+            veggies.push(new Veggie(canvas.width, canvas.height));
+            veggieObjTimer = 0;
+        } else {
+            veggieObjTimer = veggieObjTimer + deltaTime;
+        }
+        veggies.forEach(veggie => {
+            veggie.draw(ctx);
+            veggie.update();
+        })
+        veggies = veggies.filter(veggie => !veggie.markedForDeletion);
+    }
+
+    function gameover() {
+        lives--;
+        console.log(lives);
+        liveEl[lives].style.display = "none";
+
+        if(lives == 0) {
+            // REAL GAME OVER
+            gameOver = true;
+
+            var menu = document.getElementById("game-over-screen-veggie-dodge");
+            menu.style.display = "flex";
+
+            // SAVE SCORE TO FIREBASE LEADERBOARD
+            getHS();
+        }
+    }
+
+    document.getElementById('retry-button').onclick = function() {
+        setTimeout(play, 100);
+    };
+
+    document.getElementById('home-button').onclick = function() {
+        document.getElementById("score").innerHTML = "0";
+        setTimeout(goTo, 100, "home");
+    };
+
+    const player = new Player(canvas.width, canvas.height);
+
+    // Delta Time Calculation
+    let lastTime = 0;
+    let candyObjTimer = 0;
+    let candyInterval = 2500;
+
+    let veggieObjTimer = 0;
+    let veggieInterval = 1000;
+
+    let gameScore = 0;
+    let candyLock = false;
+    let liveLock = false;
+    let gameOver = false;
+
+    function animate(timeStamp){
+
+        const deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        handleObjects(deltaTime);
+        player.draw(ctx);
+        player.update();
+
+        var image = document.getElementById("heart");
+
+        if (!gameOver) requestAnimationFrame(animate);
+    }
+    animate(0);
+
+    function lerp (start, end, amt) {
+        return (1-amt)*start+amt*end
+    }
+
+    function rng(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    document.addEventListener('touchstart', function(e) {
+        skewerTap = true;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+        skewerTap = false;
+    });
+};
+
 // #endregion
 
 function secret() {
@@ -2134,11 +2412,11 @@ function openLootbox() {
 
     getBanners();
 
-    incrementLootboxesOpened();
-
     if(lootboxCount < 1) {
         return;
     }
+
+    incrementLootboxesOpened();
 
     lootboxCount--;
 
