@@ -47,8 +47,9 @@ let welcome_HTMLSnippet = `
     </div>
 
     <content id="welcome-content">
+        <img class="welcome-logo" src="assets/general/logo.png" width="250px" style="margin-bottom: 100px;">
         <input id="username-input" class="ds-light" type="text" placeholder="Marilyn Monrock">
-        <button id="enter-button" class="purple-long-button ds-light" onclick="remember()">Remember me!</button>
+        <button id="enter-button" class="purple-button ds-light" onclick="remember()" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Remember me!</button>
     </content>
 `;
 
@@ -134,9 +135,10 @@ let bannersUnlocked = [
     false, // 1 : LOCKED, HALLOWEEN22 1
     false, // 2 : LOCKED, HALLOWEEN22 2
     false, // 3 : LOCKED, HALLOWEEN22 3
-    false, // 4 : LOCKED, CORNFALL
+    false, // 4 : LOCKED, CORNFALL 50
     false, // 5: LOCKED, GRAVE GUESS
-    false  // 6: LOCKED, SECRET CAT BANNER
+    false,  // 6: LOCKED, SECRET CAT BANNER
+    false  // 7: LOCKED, CORNFALL 100
 ];
 
 // ADD NEW BANNERS HERE
@@ -287,6 +289,13 @@ let leaderboard_HTMLSnippet = `
                         <div id="banner-unlock-hint">Secret</div>
                     </div>
 
+                    <div id="banner-card-option" class="banner-7-preview" onclick="equipBanner(7)">
+                        <div id="banner-equip-indicator">
+                            <span id="equip-icon-7" class="material-symbols-rounded">circle</span>
+                        </div>
+                        <div id="banner-unlock-hint">Reach 100 in Cornfall</div>
+                    </div>
+
                     <div id="banner-card-option" class="banner-coming-soon">
                         <div id="banner-equip-indicator">
                             <span id="equip-icon-1" class="material-symbols-rounded">circle</span>
@@ -391,6 +400,8 @@ let veggiedodge_HTMLSnippet = `
             <button id="retry-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Retry</button>
             <button id="home-button" class="purple-button ds-light game-over-ui" ontouchstart="touchStart(this.id)" ontouchend="touchEnd(this.id)">Home</button>
         </div>
+
+        <div id="hurt-id" class="hurt-indicator"></div>
 
         <canvas id="game-canvas"></canvas>
         <img id="candy" src="candy.png" style="display: none;">
@@ -1003,7 +1014,13 @@ function cornfall() {
         if(score >= 50) {
             bannersUnlocked[4] = true;
             setBanners();
-            console.log("Unlocked Cornfall Banner!");
+            console.log("Unlocked Cornfall 50 Banner!");
+        }
+
+        if(score >= 100) {
+            bannersUnlocked[7] = true;
+            setBanners();
+            console.log("Unlocked Cornfall 100 Banner!");
         }
 
         // SAVE SCORE TO FIREBASE LEADERBOARD
@@ -1367,10 +1384,15 @@ function veggieDodge() {
         veggies = veggies.filter(veggie => !veggie.markedForDeletion);
     }
 
+
+    var hurtDiv = document.getElementById("hurt-id");
+
     function gameover() {
         lives--;
         console.log(lives);
         liveEl[lives].style.display = "none";
+        hurtDiv.style.opacity = "0.2";
+        setTimeout(hurtOp, 500);
 
         if(lives == 0) {
             // REAL GAME OVER
@@ -1382,6 +1404,10 @@ function veggieDodge() {
             // SAVE SCORE TO FIREBASE LEADERBOARD
             getHS();
         }
+    }
+
+    function hurtOp() {
+        hurtDiv.style.opacity = "0";
     }
 
     document.getElementById('retry-button').onclick = function() {
